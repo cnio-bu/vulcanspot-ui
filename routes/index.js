@@ -6,6 +6,8 @@ var db = require('../queries');
 /* GET home page. */
 router.get('/drugs', db.getAllDrugs);
 
+router.get('/genes', db.getAllGenes);
+
 /*
 router.get('/api/puppies/:id', db.getSinglePuppy);
 router.post('/api/puppies', db.createPuppy);

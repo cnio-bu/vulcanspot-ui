@@ -16,7 +16,10 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './listItems';
 import Drugs from './Drugs';
+import GenesSelect from './GenesSelect';
 import TextField from '@material-ui/core/TextField';
+
+import logo from './img/logo.png';
 
 const drawerWidth = 240;
 
@@ -58,6 +61,7 @@ const styles = theme => ({
   },
   title: {
     flexGrow: 1,
+    paddingLeft: 10
   },
   drawerPaper: {
     position: 'relative',
@@ -137,8 +141,9 @@ class Dashboard extends React.Component {
               >
                 <MenuIcon />
               </IconButton>
+              <img alt="" src={logo} />
               <Typography variant="title" color="inherit" noWrap className={classes.title}>
-                Dashboard
+                VulcanSpot
               </Typography>
               <IconButton color="inherit">
                 <Badge badgeContent={4} color="secondary">
@@ -170,7 +175,7 @@ class Dashboard extends React.Component {
               Orders
             </Typography>
             <Typography component="div" className={classes.heyContainer}>
-                Hey
+               <GenesSelect /> 
             </Typography>
             <Typography variant="display1" gutterBottom>
               Drugs
