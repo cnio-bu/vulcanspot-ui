@@ -15,8 +15,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './listItems';
-import Drugs from './Drugs';
-import GenesSelect from './GenesSelect';
+import Therapies from './Therapies';
+import GeneSelect from './GeneSelect';
 import TextField from '@material-ui/core/TextField';
 
 import logo from './img/logo.png';
@@ -175,14 +175,14 @@ class Dashboard extends React.Component {
               Orders
             </Typography>
             <Typography component="div" className={classes.heyContainer}>
-               <GenesSelect /> 
+               <GeneSelect /> 
             </Typography>
             <Typography variant="display1" gutterBottom>
-              Drugs
+              Therapies
             </Typography>
             <TextField onChange={ this.handleTextFieldChange } />
             <div className={classes.tableContainer}>
-              <Drugs id={this.state.drugid} />
+              <Therapies id={this.state.whaahahahah} />
             </div>
           </main>
         </div>

@@ -42,8 +42,8 @@ class Drugs extends Component {
             .then(res => res.json())
             .then(json => {
                  this.setState({ drugs: json.data });
-            });
-            console.log(this.props.id);
+                 console.log(this.state.drugs);
+            })
     }
 
     render() {

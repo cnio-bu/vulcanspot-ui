@@ -177,7 +177,7 @@ class GenesSelect extends React.Component {
                  this.setState({ genes: 
                      json.data.map(gene => ({
                         value: gene.id,
-                        label: gene.name
+                        label: gene.symbol
                     }))
                  });
             });
