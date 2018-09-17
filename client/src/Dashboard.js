@@ -90,8 +90,8 @@ const styles = theme => ({
     height: '100vh',
     overflow: 'auto',
   },
-  heyContainer: {
-    marginLeft: -22,
+  selectContainer: {
+      marginBottom:20,
   },
   tableContainer: {
     height: 320,
@@ -111,12 +111,6 @@ class Dashboard extends React.Component {
   handleDrawerClose = () => {
     this.setState({ open: false });
   };
-
-  handleTextFieldChange = (e) => {
-    this.setState({
-        drugid: e.target.value
-    });
-  }
 
   render() {
     const { classes } = this.props;
@@ -171,16 +165,12 @@ class Dashboard extends React.Component {
           </Drawer>
           <main className={classes.content}>
             <div className={classes.appBarSpacer} />
-            <Typography variant="display1" gutterBottom>
-              Orders
-            </Typography>
-            <Typography component="div" className={classes.heyContainer}>
+            <Typography component="div" className={classes.selectContainer}>
                <GeneSelect /> 
             </Typography>
             <Typography variant="display1" gutterBottom>
               Therapies
             </Typography>
-            <TextField onChange={ this.handleTextFieldChange } />
             <div className={classes.tableContainer}>
               <Therapies id={this.state.whaahahahah} />
             </div>
