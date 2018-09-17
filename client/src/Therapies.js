@@ -15,6 +15,8 @@ import FirstPageIcon from '@material-ui/icons/FirstPage';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 
 const actionsStyles = theme => ({
       root: {
@@ -109,6 +111,29 @@ const styles = theme => ({
             },
 });
 
+const spinnerStyles = theme => ({
+      progress: {
+              margin: theme.spacing.unit * 2,
+            },
+});
+
+function Spinner(props) {
+      const { classes } = props;
+      return (
+            <TableRow>
+                <TableCell rowSpan={10} colSpan={10}>
+                    LOADING <CircularProgress className={classes.progress} size={100} />
+                </TableCell>
+            </TableRow>
+            );
+}
+
+Spinner.propTypes = {
+      classes: PropTypes.object.isRequired,
+};
+
+const SpinnerWrapper = withStyles(spinnerStyles)(Spinner);
+
 class Therapies extends React.Component {
     constructor(props) {
         super(props);
@@ -124,18 +149,16 @@ class Therapies extends React.Component {
         this.loadData();
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        if (prevProps.id !== this.props.id){
-            this.loadData();
+    loadData = async () => {
+        let rows = [];
+        for(var i=0;i<this.props.genes.length;i++){
+            const res = await fetch('/genes/'+this.props.genes[i]+'/therapies');
+            const json = await res.json();
+            rows = rows.concat(json.data);
         }
-    }
+        console.log(rows);
+        this.setState({ rows: rows });
 
-    loadData(){
-        fetch('/genes/BCL2/therapies')
-            .then(res => res.json())
-            .then(json => {
-                 this.setState({ rows: json.data });
-            })
     }
 
       handleChangePage = (event, page) => {
@@ -170,6 +193,11 @@ class Therapies extends React.Component {
                               </TableRow>
                             </TableHead>
                               <TableBody>
+                              {
+                                this.state.rows.length > 0
+                                  ? null
+                                  : <SpinnerWrapper />
+                              }
                                 {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
                                                     return (
                                                           <TableRow key={row.id}>

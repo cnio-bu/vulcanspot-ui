@@ -100,8 +100,8 @@ const styles = theme => ({
 
 class Dashboard extends React.Component {
   state = {
-    open: true,
-    drugid: 'hola'
+    open: false,
+    selectedGenes: ['BCL2','TP53']
   };
 
   handleDrawerOpen = () => {
@@ -172,7 +172,7 @@ class Dashboard extends React.Component {
               Therapies
             </Typography>
             <div className={classes.tableContainer}>
-              <Therapies id={this.state.whaahahahah} />
+              <Therapies genes={this.state.selectedGenes} />
             </div>
           </main>
         </div>
