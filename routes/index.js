@@ -8,11 +8,8 @@ router.get('/drugs', db.getAllDrugs);
 
 router.get('/genes', db.getAllGenes);
 
-/*
-router.get('/api/puppies/:id', db.getSinglePuppy);
-router.post('/api/puppies', db.createPuppy);
-router.put('/api/puppies/:id', db.updatePuppy);
-router.delete('/api/puppies/:id', db.removePuppy);
-*/
+router.get('/genes/:gene', db.getGene);
+
+router.get('/genes/:gene/therapies', db.getTherapies);
 
 module.exports = router;
