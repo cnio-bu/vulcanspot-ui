@@ -16,7 +16,7 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import CircularProgress from '@material-ui/core/CircularProgress';
-
+import Chip from '@material-ui/core/Chip';
 
 const actionsStyles = theme => ({
       root: {
@@ -97,7 +97,6 @@ const TablePaginationActionsWrapped = withStyles(actionsStyles, { withTheme: tru
       TablePaginationActions,
 );
 
-let counter = 0;
 const styles = theme => ({
       root: {
               width: '100%',
@@ -221,8 +220,11 @@ class Therapies extends React.Component {
                                                                 <TableCell>{row.gene_a_alteration}</TableCell>
                                                                 <TableCell>{row.context}</TableCell>
                                                                 <TableCell>{row.gene_b}</TableCell>
-                                                                <TableCell>{row.gene_b_role}</TableCell>
-                                                                <TableCell>{row.evidence}</TableCell>
+                                                                <TableCell>{row.gene_b_role.replace("unknown","-")}</TableCell>
+                                                                <TableCell style={{whiteSpace:'nowrap'}}>
+                                                                    <Chip label="RNAi" style={row.evidence.includes("RNAi") ? {background:"lightgreen", fontSize:'10px'} : {background:"gray", fontSize:'10px'}}/>
+                                                                    <Chip label="CRISPR" style={row.evidence.includes("CRISPR") ? {background:"lightgreen", fontSize:'10px'} : {background:"gray", fontSize:'10px'}}/>
+                                                                </TableCell>
                                                                 <TableCell numeric>{row.rscore}</TableCell>
                                                                 <TableCell>{row.drug_name}</TableCell>
                                                                 <TableCell numeric>{row.score_pandrugs}</TableCell>

@@ -5,7 +5,7 @@ SELECT
    
    gb.symbol AS gene_b,
    gb.role AS gene_b_role,
-   array_to_string( array_agg(ds.name ), ', ' ) AS evidence,
+   array_to_string( array_agg(ds.name ), ',' ) AS evidence,
    count(ds.name) AS evidencen,
    max(r.score) as rscore,
    d.name AS drug_name,
