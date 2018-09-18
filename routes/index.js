@@ -6,7 +6,9 @@ var db = require('../queries');
 /* GET home page. */
 router.get('/drugs', db.getAllDrugs);
 
-router.get('/genes', db.getAllGenes);
+router.get('/genes', db.getGenes);
+
+router.get('/contexts', db.getContexts);
 
 router.get('/genes/:gene', db.getGene);
 
