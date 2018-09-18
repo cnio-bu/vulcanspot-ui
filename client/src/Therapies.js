@@ -141,6 +141,7 @@ class Therapies extends React.Component {
         this.state = {
               rows: [],
               genes: [],
+              contexts: [],
               page: 0,
               rowsPerPage: 10,
         };
@@ -153,7 +154,11 @@ class Therapies extends React.Component {
     loadData = async () => {
         let rows = [];
         for(var i=0;i<this.state.genes.length;i++){
-            const res = await fetch('/genes/'+this.props.genes[i]+'/therapies');
+            let contexts = this.state.contexts.join(",");
+            if(contexts){
+                contexts = "?ctx=" + contexts;    
+            }
+            const res = await fetch('/genes/'+this.state.genes[i]+'/therapies' + contexts);
             const json = await res.json();
             rows = rows.concat(json.data);
         }
@@ -163,10 +168,13 @@ class Therapies extends React.Component {
     }
 
     componentWillReceiveProps(newProps){
-        if(newProps != this.props){
+        if(newProps.genes != this.props.genes){
             this.setState({genes: newProps.genes});
-            this.loadData();
         }
+        if(newProps.contexts != this.props.contexts){
+            this.setState({contexts: newProps.contexts});
+        }
+        this.loadData();
     }
 
       handleChangePage = (event, page) => {
@@ -209,7 +217,7 @@ class Therapies extends React.Component {
                                 {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
                                                     return (
                                                           <TableRow key={row.id}>
-                                                                <TableCell>{row.gene_a}</TableCell>
+                                                                <TableCell>{row.gene_a} </TableCell>
                                                                 <TableCell>{row.gene_a_alteration}</TableCell>
                                                                 <TableCell>{row.context}</TableCell>
                                                                 <TableCell>{row.gene_b}</TableCell>

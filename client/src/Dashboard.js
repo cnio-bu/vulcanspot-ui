@@ -17,6 +17,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './listItems';
 import Therapies from './Therapies';
 import GeneSelect from './GeneSelect';
+import ContextSelect from './ContextSelect';
 import TextField from '@material-ui/core/TextField';
 
 import logo from './img/logo.png';
@@ -101,12 +102,17 @@ const styles = theme => ({
 class Dashboard extends React.Component {
   state = {
     open: false,
-    selectedGenes: []
+    selectedGenes: [],
+    selectedContexts: []
   };
 
   handleGenes = (selectedGenes) => {
     this.setState({ selectedGenes: selectedGenes });
       console.log(selectedGenes)
+  };
+
+  handleContexts = (selectedContexts) => {
+    this.setState({ selectedContexts: selectedContexts });
   };
 
   handleDrawerOpen = () => {
@@ -173,11 +179,14 @@ class Dashboard extends React.Component {
             <Typography component="div" className={classes.selectContainer}>
                <GeneSelect onGenesChange={this.handleGenes} />
             </Typography>
+            <Typography component="div" className={classes.selectContainer}>
+               <ContextSelect onContextChange={this.handleContexts} />
+            </Typography>
             <Typography variant="display1" gutterBottom>
               Therapies
             </Typography>
             <div className={classes.tableContainer}>
-              <Therapies genes={this.state.selectedGenes} />
+              <Therapies contexts={this.state.selectedContexts} genes={this.state.selectedGenes} />
             </div>
           </main>
         </div>
