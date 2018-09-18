@@ -122,7 +122,7 @@ function Spinner(props) {
       return (
             <TableRow>
                 <TableCell rowSpan={10} colSpan={10}>
-                    LOADING <CircularProgress className={classes.progress} size={100} />
+                    <CircularProgress className={classes.progress} size={100} /> LOADING
                 </TableCell>
             </TableRow>
             );
@@ -140,6 +140,7 @@ class Therapies extends React.Component {
         this.loadData = debounce(500, this.loadData);
         this.state = {
               rows: [],
+              genes: [],
               page: 0,
               rowsPerPage: 10,
         };
@@ -151,7 +152,7 @@ class Therapies extends React.Component {
 
     loadData = async () => {
         let rows = [];
-        for(var i=0;i<this.props.genes.length;i++){
+        for(var i=0;i<this.state.genes.length;i++){
             const res = await fetch('/genes/'+this.props.genes[i]+'/therapies');
             const json = await res.json();
             rows = rows.concat(json.data);
@@ -159,6 +160,13 @@ class Therapies extends React.Component {
         console.log(rows);
         this.setState({ rows: rows });
 
+    }
+
+    componentWillReceiveProps(newProps){
+        if(newProps != this.props){
+            this.setState({genes: newProps.genes});
+            this.loadData();
+        }
     }
 
       handleChangePage = (event, page) => {

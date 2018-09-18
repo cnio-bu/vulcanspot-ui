@@ -11,43 +11,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Chip from '@material-ui/core/Chip';
 import axios from 'axios';
 
-const suggestions = [
-  { label: 'Afghanistan' },
-  { label: 'Aland Islands' },
-  { label: 'Albania' },
-  { label: 'Algeria' },
-  { label: 'American Samoa' },
-  { label: 'Andorra' },
-  { label: 'Angola' },
-  { label: 'Anguilla' },
-  { label: 'Antarctica' },
-  { label: 'Antigua and Barbuda' },
-  { label: 'Argentina' },
-  { label: 'Armenia' },
-  { label: 'Aruba' },
-  { label: 'Australia' },
-  { label: 'Austria' },
-  { label: 'Azerbaijan' },
-  { label: 'Bahamas' },
-  { label: 'Bahrain' },
-  { label: 'Bangladesh' },
-  { label: 'Barbados' },
-  { label: 'Belarus' },
-  { label: 'Belgium' },
-  { label: 'Belize' },
-  { label: 'Benin' },
-  { label: 'Bermuda' },
-  { label: 'Bhutan' },
-  { label: 'Bolivia, Plurinational State of' },
-  { label: 'Bonaire, Sint Eustatius and Saba' },
-  { label: 'Bosnia and Herzegovina' },
-  { label: 'Botswana' },
-  { label: 'Bouvet Island' },
-  { label: 'Brazil' },
-  { label: 'British Indian Ocean Territory' },
-  { label: 'Brunei Darussalam' },
-];
-
 function renderInput(inputProps) {
   const { InputProps, classes, ref, ...other } = inputProps;
 
@@ -102,7 +65,6 @@ class GeneSelector extends React.Component {
   getSuggestions = hint =>{
     axios.get('/genes?hint='+hint.toUpperCase()+'&limit=10')
     .then(({ data }) => {
-        console.log(data);
         this.setState({
           suggestions: data.data
         });
@@ -140,17 +102,18 @@ class GeneSelector extends React.Component {
       inputValue: '',
       selectedItems,
     });
+
+    this.props.onGenesChange(selectedItems);
   };
 
   handleDelete = item => () => {
     this.setState(state => {
       const selectedItems = [...state.selectedItems];
       selectedItems.splice(selectedItems.indexOf(item), 1);
+      this.props.onGenesChange(selectedItems);
       return { selectedItems };
     });
   };
-
-
 
   render() {
     const { classes } = this.props;

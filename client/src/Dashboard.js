@@ -101,7 +101,12 @@ const styles = theme => ({
 class Dashboard extends React.Component {
   state = {
     open: false,
-    selectedGenes: ['BCL2','TP53']
+    selectedGenes: []
+  };
+
+  handleGenes = (selectedGenes) => {
+    this.setState({ selectedGenes: selectedGenes });
+      console.log(selectedGenes)
   };
 
   handleDrawerOpen = () => {
@@ -166,7 +171,7 @@ class Dashboard extends React.Component {
           <main className={classes.content}>
             <div className={classes.appBarSpacer} />
             <Typography component="div" className={classes.selectContainer}>
-               <GeneSelect /> 
+               <GeneSelect onGenesChange={this.handleGenes} />
             </Typography>
             <Typography variant="display1" gutterBottom>
               Therapies
