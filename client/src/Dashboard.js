@@ -147,7 +147,7 @@ class Dashboard extends React.Component {
             </Toolbar>
           </AppBar>
           <Drawer
-            variant="permanent"
+            variant="temporary"
             classes={{
               paper: classNames(classes.drawerPaper, !this.state.open && classes.drawerPaperClose),
             }}
