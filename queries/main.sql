@@ -5,6 +5,7 @@ SELECT
    
    gb.symbol AS gene_b,
    gb.role AS gene_b_role,
+   gb.driver AS gene_b_driver,
    array_to_string( array_agg(ds.name ), ',' ) AS evidence,
    count(ds.name) AS evidencen,
    max(r.score) as rscore,
