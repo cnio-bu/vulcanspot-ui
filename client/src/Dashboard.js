@@ -18,7 +18,18 @@ import { mainListItems, secondaryListItems } from './listItems';
 import Therapies from './Therapies';
 import GeneSelect from './GeneSelect';
 import ContextSelect from './ContextSelect';
-import TextField from '@material-ui/core/TextField';
+import ScoreSlider from './ScoreSlider';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControl from '@material-ui/core/FormControl';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import logo from './img/logo.png';
 
@@ -103,16 +114,22 @@ class Dashboard extends React.Component {
   state = {
     open: false,
     selectedGenes: [],
-    selectedContexts: []
+    selectedContexts: [],
+    gdcancer: true,
+    order: 'order1',
+    rscore: 0.0
   };
 
   handleGenes = (selectedGenes) => {
     this.setState({ selectedGenes: selectedGenes });
-      console.log(selectedGenes)
   };
 
   handleContexts = (selectedContexts) => {
     this.setState({ selectedContexts: selectedContexts });
+  };
+
+  handleGDScore = (score) => {
+    this.setState({ rscore: score });
   };
 
   handleDrawerOpen = () => {
@@ -121,6 +138,14 @@ class Dashboard extends React.Component {
 
   handleDrawerClose = () => {
     this.setState({ open: false });
+  };
+
+  handleChkChange = name => event => {
+      this.setState({ [name]: event.target.checked });
+  };
+
+  handleOrderChange = event => {
+    this.setState({ order: event.target.value });
   };
 
   render() {
@@ -176,17 +201,71 @@ class Dashboard extends React.Component {
           </Drawer>
           <main className={classes.content}>
             <div className={classes.appBarSpacer} />
-            <Typography component="div" className={classes.selectContainer}>
-               <GeneSelect onGenesChange={this.handleGenes} />
-            </Typography>
-            <Typography component="div" className={classes.selectContainer}>
-               <ContextSelect onContextChange={this.handleContexts} />
-            </Typography>
-            <Typography variant="display1" gutterBottom>
-              Therapies
-            </Typography>
+            <Grid container spacing={8}>
+                <Grid item xs={8}>
+                    <Paper style={{padding:10}} square={true}>
+                        <Typography component="div" className={classes.selectContainer}>
+                           <GeneSelect onGenesChange={this.handleGenes} />
+                        </Typography>
+                        <Typography component="div" className={classes.selectContainer}>
+                           <ContextSelect onContextChange={this.handleContexts} />
+                        </Typography>
+                    </Paper>
+                </Grid>
+                <Grid item xs={4}>
+                    <ExpansionPanel>
+                        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                            <Typography variant="body1" component="h3">
+                                Advanced filters
+                            </Typography>
+                        </ExpansionPanelSummary>
+                        <ExpansionPanelDetails>
+                            <Grid container spacing={0}>
+                                <Grid item xs={6}>
+                                    <ScoreSlider onScoreChange={this.handleGDScore} />
+                                    <ScoreSlider onScoreChange={this.handleGDScore} />
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <ScoreSlider onScoreChange={this.handleGDScore} />
+                                    <ScoreSlider onScoreChange={this.handleGDScore} />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <FormControlLabel
+                                        control={
+                                            <Checkbox checked={this.state.gdcancer} onChange={this.handleChkChange('gdcancer')} value="gdcancer" color="primary" />
+                                        }
+                                        label="GDs on cancer genes"
+                                    />
+                                </Grid>
+                            </Grid>
+                        </ExpansionPanelDetails>
+                    </ExpansionPanel>
+                    <ExpansionPanel>
+                        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                            <Typography variant="body1" component="h3">
+                                Order
+                            </Typography>
+                        </ExpansionPanelSummary>
+                        <ExpansionPanelDetails>
+                            <FormControl component="fieldset" className={classes.formControl}>
+                                <RadioGroup
+                                    aria-label="Gender"
+                                    name="gender1"
+                                    className={classes.group}
+                                    value={this.state.order}
+                                    onChange={this.handleOrderChange}
+                                >
+                                    <FormControlLabel value="order1" control={<Radio />} label="Order1" />
+                                    <FormControlLabel value="order2" control={<Radio />} label="Order2" />
+                                    <FormControlLabel value="order3" control={<Radio />} label="Order3" />
+                                </RadioGroup>
+                            </FormControl>
+                        </ExpansionPanelDetails>
+                    </ExpansionPanel>
+                </Grid>
+            </Grid>
             <div className={classes.tableContainer}>
-              <Therapies contexts={this.state.selectedContexts} genes={this.state.selectedGenes} />
+              <Therapies rscore={this.state.rscore} contexts={this.state.selectedContexts} genes={this.state.selectedGenes} />
             </div>
           </main>
         </div>

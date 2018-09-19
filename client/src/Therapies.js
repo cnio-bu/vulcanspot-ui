@@ -17,6 +17,7 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Chip from '@material-ui/core/Chip';
+import Tooltip from '@material-ui/core/Tooltip';
 
 const actionsStyles = theme => ({
       root: {
@@ -108,6 +109,9 @@ const styles = theme => ({
       tableWrapper: {
               overflowX: 'auto',
             },
+      tooltipWidth:{
+        maxWidth: 70 
+      }
 });
 
 const spinnerStyles = theme => ({
@@ -164,7 +168,7 @@ class Therapies extends React.Component {
               page: 0,
               rowsPerPage: 10,
               loading: false,
-              rscore: [0,100]
+              rscore: 0.3
         };
     }
 
@@ -188,14 +192,16 @@ class Therapies extends React.Component {
     }
 
     componentWillReceiveProps(newProps){
-        if(newProps.genes != this.props.genes){
+        if(newProps.genes !== this.props.genes || newProps.contexts !== this.props.contexts){
+            this.setState({loading: true});
             this.setState({genes: newProps.genes});
-        }
-        if(newProps.contexts != this.props.contexts){
             this.setState({contexts: newProps.contexts});
+            this.loadData();
         }
-        this.setState({loading: true});
-        this.loadData();
+
+        if(newProps.rscore !== this.props.rscore){
+            this.setState({rscore:newProps.rscore});
+        }
     }
 
       handleChangePage = (event, page) => {
@@ -210,7 +216,7 @@ class Therapies extends React.Component {
               const { classes } = this.props;
               var { rows, rowsPerPage, page } = this.state;
               var filterRow = (row) => {
-                  return row.rscore >= this.state.rscore[0] && row.rscore <= this.state.rscore[1];
+                  return row.rscore >= this.state.rscore;
               };
               rows = rows.filter(filterRow);
               const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
@@ -221,9 +227,9 @@ class Therapies extends React.Component {
                             <Table className={classes.table}>
                             <TableHead>
                               <TableRow style={{whiteSpace: 'nowrap'}}>
-                                <HeaderTableCellA component="th" scope="row" colsPan={3}>GROUP1</HeaderTableCellA>
-                                <HeaderTableCellB component="th" scope="row" colsPan={4}>GROUP2</HeaderTableCellB>
-                                <HeaderTableCellA component="th" scope="row" colsPan={3}>GROUP3</HeaderTableCellA>
+                                <HeaderTableCellA component="th" scope="row" colSpan={3}>GENETIC ALTERATION</HeaderTableCellA>
+                                <HeaderTableCellB component="th" scope="row" colSpan={4}>CANCER GENETIC DEPENDENCY</HeaderTableCellB>
+                                <HeaderTableCellA component="th" scope="row" colSpan={3}>THERAPIES</HeaderTableCellA>
                               </TableRow>
                               <TableRow style={{whiteSpace: 'nowrap'}}>
                                 <HeaderTableCellA component="th" scope="row">gene A</HeaderTableCellA>
@@ -232,7 +238,7 @@ class Therapies extends React.Component {
                                 <HeaderTableCellB component="th" scope="row">gene B</HeaderTableCellB>
                                 <HeaderTableCellB component="th" scope="row">gene B role (driver)</HeaderTableCellB>
                                 <HeaderTableCellB component="th" scope="row">evidence</HeaderTableCellB>
-                                <HeaderTableCellB component="th" scope="row">score</HeaderTableCellB>
+                                <HeaderTableCellB component="th" scope="row">GD score</HeaderTableCellB>
                                 <HeaderTableCellA component="th" scope="row">drug</HeaderTableCellA>
                                 <HeaderTableCellA component="th" scope="row">pandrugs</HeaderTableCellA>
                                 <HeaderTableCellA component="th" scope="row">lincs</HeaderTableCellA>
@@ -242,17 +248,21 @@ class Therapies extends React.Component {
                               {
                                 this.state.loading
                                   ? <SpinnerWrapper />
-                                  : rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
+                                  : rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row,index) => {
                                                     return (
-                                                          <TableRow key={row.id}>
-                                                                <TableCell>{row.gene_a}</TableCell>
+                                                          <TableRow key={index}>
+                                                                <TableCell>{index} {row.gene_a} {index === 0 || row.gene_a !== rows[index-1].gene_a ? row.gene_a : null}</TableCell>
                                                                 <TableCell>{row.gene_a_alteration}</TableCell>
                                                                 <TableCell>{row.context}</TableCell>
                                                                 <TableCell>{row.gene_b}</TableCell>
                                                                 <TableCell>{row.gene_b_role.replace("unknown","-") + " ("+row.gene_b_driver+")"}</TableCell>
                                                                 <TableCell style={{whiteSpace:'nowrap'}}>
-                                                                    <Chip label="RNAi" style={row.evidence.includes("RNAi") ? {background:"lightgreen", fontSize:'10px'} : {background:"gray", fontSize:'10px'}}/>
-                                                                    <Chip label="CRISPR" style={row.evidence.includes("CRISPR") ? {background:"lightgreen", fontSize:'10px'} : {background:"gray", fontSize:'10px'}}/>
+                                                                    <Tooltip placement='left' title="FDR: 0.75 PVAL: 0.01 NES: 0.05" classes={{tooltip: classes.tooltipWidth}}>
+                                                                        <Chip label="RNAi" style={row.evidence.includes("RNAi") ? {background:"lightgreen", fontSize:'10px'} : {background:"gray", fontSize:'10px'}}/>
+                                                                    </Tooltip>
+                                                                    <Tooltip placement='right' title="FDR: 0.75 PVAL: 0.01 NES: 0.05" classes={{tooltip: classes.tooltipWidth}}>
+                                                                        <Chip label="CRISPR" style={row.evidence.includes("CRISPR") ? {background:"lightgreen", fontSize:'10px'} : {background:"gray", fontSize:'10px'}}/>
+                                                                    </Tooltip>
                                                                 </TableCell>
                                                                 <TableCell numeric>{row.rscore? row.rscore.toFixed(3) : "-"}</TableCell>
                                                                 <TableCell>{row.drug_name}</TableCell>
@@ -261,9 +271,9 @@ class Therapies extends React.Component {
                                                           </TableRow>
                                                         );
                                                   })}
-                                {emptyRows > 0 && (
+                                {emptyRows > 0 && !this.state.loading && (
                                                     <TableRow style={{ height: 48 * emptyRows }}>
-                                                      <TableCell colSpan={6} />
+                                                      <TableCell colSpan={10} style={{textAlign: 'center'}}>No results available with current filters</TableCell>
                                                     </TableRow>
                                                   )}
                               </TableBody>

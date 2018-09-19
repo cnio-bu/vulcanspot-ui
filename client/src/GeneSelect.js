@@ -1,11 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import deburr from 'lodash/deburr';
 import keycode from 'keycode';
 import Downshift from 'downshift';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import Popper from '@material-ui/core/Popper';
 import Paper from '@material-ui/core/Paper';
 import MenuItem from '@material-ui/core/MenuItem';
 import Chip from '@material-ui/core/Chip';
@@ -205,7 +203,5 @@ const styles = theme => ({
     height: theme.spacing.unit * 2,
   },
 });
-
-let popperNode;
 
 export default withStyles(styles)(GeneSelector);
