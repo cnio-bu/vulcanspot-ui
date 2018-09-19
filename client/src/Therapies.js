@@ -163,6 +163,8 @@ class Therapies extends React.Component {
               contexts: [],
               page: 0,
               rowsPerPage: 10,
+              loading: false,
+              rscore: [0,100]
         };
     }
 
@@ -181,8 +183,7 @@ class Therapies extends React.Component {
             const json = await res.json();
             rows = rows.concat(json.data);
         }
-        console.log(rows);
-        this.setState({ rows: rows });
+        this.setState({ rows: rows, loading: false });
 
     }
 
@@ -193,6 +194,7 @@ class Therapies extends React.Component {
         if(newProps.contexts != this.props.contexts){
             this.setState({contexts: newProps.contexts});
         }
+        this.setState({loading: true});
         this.loadData();
     }
 
@@ -206,7 +208,11 @@ class Therapies extends React.Component {
 
       render() {
               const { classes } = this.props;
-              const { rows, rowsPerPage, page } = this.state;
+              var { rows, rowsPerPage, page } = this.state;
+              var filterRow = (row) => {
+                  return row.rscore >= this.state.rscore[0] && row.rscore <= this.state.rscore[1];
+              };
+              rows = rows.filter(filterRow);
               const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
               return (
@@ -234,14 +240,12 @@ class Therapies extends React.Component {
                             </TableHead>
                               <TableBody>
                               {
-                                this.state.rows.length > 0
-                                  ? null
-                                  : <SpinnerWrapper />
-                              }
-                                {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
+                                this.state.loading
+                                  ? <SpinnerWrapper />
+                                  : rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
                                                     return (
                                                           <TableRow key={row.id}>
-                                                                <TableCell>{row.gene_a} </TableCell>
+                                                                <TableCell>{row.gene_a}</TableCell>
                                                                 <TableCell>{row.gene_a_alteration}</TableCell>
                                                                 <TableCell>{row.context}</TableCell>
                                                                 <TableCell>{row.gene_b}</TableCell>
