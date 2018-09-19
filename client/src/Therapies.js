@@ -133,6 +133,26 @@ Spinner.propTypes = {
 
 const SpinnerWrapper = withStyles(spinnerStyles)(Spinner);
 
+const HeaderTableCellB = withStyles(theme => ({
+      head: {
+              backgroundColor: 'lightgray',
+              color: theme.palette.common.black,
+            },
+      body: {
+              fontSize: 14,
+            },
+}))(TableCell);
+
+const HeaderTableCellA = withStyles(theme => ({
+      head: {
+              backgroundColor: 'gray',
+              color: theme.palette.common.white,
+            },
+      body: {
+              fontSize: 14,
+            },
+}))(TableCell);
+
 class Therapies extends React.Component {
     constructor(props) {
         super(props);
@@ -195,16 +215,21 @@ class Therapies extends React.Component {
                             <Table className={classes.table}>
                             <TableHead>
                               <TableRow style={{whiteSpace: 'nowrap'}}>
-                                <TableCell component="th" scope="row">gene A</TableCell>
-                                <TableCell component="th" scope="row">alteration</TableCell>
-                                <TableCell component="th" scope="row">context</TableCell>
-                                <TableCell component="th" scope="row">gene B</TableCell>
-                                <TableCell component="th" scope="row">gene B role</TableCell>
-                                <TableCell component="th" scope="row">evidence</TableCell>
-                                <TableCell component="th" scope="row">score</TableCell>
-                                <TableCell component="th" scope="row">drug</TableCell>
-                                <TableCell component="th" scope="row">pandrugs</TableCell>
-                                <TableCell component="th" scope="row">lincs</TableCell>
+                                <HeaderTableCellA component="th" scope="row" colsPan={3}>GROUP1</HeaderTableCellA>
+                                <HeaderTableCellB component="th" scope="row" colsPan={4}>GROUP2</HeaderTableCellB>
+                                <HeaderTableCellA component="th" scope="row" colsPan={3}>GROUP3</HeaderTableCellA>
+                              </TableRow>
+                              <TableRow style={{whiteSpace: 'nowrap'}}>
+                                <HeaderTableCellA component="th" scope="row">gene A</HeaderTableCellA>
+                                <HeaderTableCellA component="th" scope="row">alteration</HeaderTableCellA>
+                                <HeaderTableCellA component="th" scope="row">context</HeaderTableCellA>
+                                <HeaderTableCellB component="th" scope="row">gene B</HeaderTableCellB>
+                                <HeaderTableCellB component="th" scope="row">gene B role (driver)</HeaderTableCellB>
+                                <HeaderTableCellB component="th" scope="row">evidence</HeaderTableCellB>
+                                <HeaderTableCellB component="th" scope="row">score</HeaderTableCellB>
+                                <HeaderTableCellA component="th" scope="row">drug</HeaderTableCellA>
+                                <HeaderTableCellA component="th" scope="row">pandrugs</HeaderTableCellA>
+                                <HeaderTableCellA component="th" scope="row">lincs</HeaderTableCellA>
                               </TableRow>
                             </TableHead>
                               <TableBody>
@@ -220,15 +245,15 @@ class Therapies extends React.Component {
                                                                 <TableCell>{row.gene_a_alteration}</TableCell>
                                                                 <TableCell>{row.context}</TableCell>
                                                                 <TableCell>{row.gene_b}</TableCell>
-                                                                <TableCell>{row.gene_b_role.replace("unknown","-")}</TableCell>
+                                                                <TableCell>{row.gene_b_role.replace("unknown","-") + " ("+row.gene_b_driver+")"}</TableCell>
                                                                 <TableCell style={{whiteSpace:'nowrap'}}>
                                                                     <Chip label="RNAi" style={row.evidence.includes("RNAi") ? {background:"lightgreen", fontSize:'10px'} : {background:"gray", fontSize:'10px'}}/>
                                                                     <Chip label="CRISPR" style={row.evidence.includes("CRISPR") ? {background:"lightgreen", fontSize:'10px'} : {background:"gray", fontSize:'10px'}}/>
                                                                 </TableCell>
-                                                                <TableCell numeric>{row.rscore}</TableCell>
+                                                                <TableCell numeric>{row.rscore? row.rscore.toFixed(3) : "-"}</TableCell>
                                                                 <TableCell>{row.drug_name}</TableCell>
-                                                                <TableCell numeric>{row.score_pandrugs}</TableCell>
-                                                                <TableCell numeric>{row.score_lincs}</TableCell>
+                                                                <TableCell numeric>{row.score_pandrugs ? row.score_pandrugs.toFixed(3) : "-"}</TableCell>
+                                                                <TableCell numeric>{row.score_lincs ? row.score_lincs.toFixed(3) : "-"}</TableCell>
                                                           </TableRow>
                                                         );
                                                   })}
