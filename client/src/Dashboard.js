@@ -118,8 +118,8 @@ class Dashboard extends React.Component {
     gdcancer: true,
     order: 'order1',
     rscore: 0.3,
-    fdr: 0.01,
-    skew: 0.0
+    fdr: 0.05,
+    skew: -5
   };
 
   handleGenes = (selectedGenes) => {

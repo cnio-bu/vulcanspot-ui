@@ -1,4 +1,5 @@
 import React from 'react';
+import {debounce} from 'throttle-debounce';
 import PropTypes from 'prop-types';
 import keycode from 'keycode';
 import Downshift from 'downshift';
@@ -54,11 +55,15 @@ renderSuggestion.propTypes = {
 
 
 class GeneSelector extends React.Component {
-  state = {
-    inputValue: '',
-    suggestions: [],
-    selectedItems: [],
-  };
+    constructor(props) {
+        super(props);
+        this.getSuggestions = debounce(500, this.getSuggestions);
+        this.state = {
+            inputValue: '',
+            suggestions: [],
+            selectedItems: [],
+        };
+    }
 
   getSuggestions = hint =>{
     axios.get('/genes?hint='+hint.toUpperCase()+'&limit=10')
