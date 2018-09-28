@@ -216,7 +216,7 @@ class Dashboard extends React.Component {
                     <ExpansionPanel>
                         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                             <Typography variant="body1" component="h3">
-                                Advanced filters
+                                Advanced filters (not implemented)
                             </Typography>
                         </ExpansionPanelSummary>
                         <ExpansionPanelDetails>
@@ -243,7 +243,7 @@ class Dashboard extends React.Component {
                     <ExpansionPanel>
                         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                             <Typography variant="body1" component="h3">
-                                Order
+                                Order (not implemented)
                             </Typography>
                         </ExpansionPanelSummary>
                         <ExpansionPanelDetails>

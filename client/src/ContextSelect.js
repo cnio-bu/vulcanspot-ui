@@ -148,7 +148,7 @@ class ContextSelector extends React.Component {
                 )),
                 onChange: this.handleInputChange,
                 onKeyDown: this.handleKeyDown,
-                placeholder: 'Select contexts',
+                placeholder: 'Add contexts',
               }),
               label: 'Contexts',
             })}

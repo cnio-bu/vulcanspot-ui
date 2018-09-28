@@ -148,7 +148,7 @@ class GeneSelector extends React.Component {
                 )),
                 onChange: this.handleInputChange,
                 onKeyDown: this.handleKeyDown,
-                placeholder: 'Select genes',
+                placeholder: 'Add genes',
               }),
               label: 'Genes',
             })}
