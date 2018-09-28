@@ -168,7 +168,9 @@ class Therapies extends React.Component {
               page: 0,
               rowsPerPage: 10,
               loading: false,
-              rscore: 0.3
+              rscore: this.props.rscore,
+              fdr: this.props.fdr,
+              skew: this.props.skew
         };
     }
 
@@ -202,6 +204,12 @@ class Therapies extends React.Component {
         if(newProps.rscore !== this.props.rscore){
             this.setState({rscore:newProps.rscore});
         }
+        if(newProps.fdr !== this.props.fdr){
+            this.setState({fdr:newProps.fdr});
+        }
+        if(newProps.skew !== this.props.skew){
+            this.setState({skew:newProps.skew});
+        }
     }
 
       handleChangePage = (event, page) => {
@@ -216,7 +224,7 @@ class Therapies extends React.Component {
               const { classes } = this.props;
               var { rows, rowsPerPage, page } = this.state;
               var filterRow = (row) => {
-                  return row.rscore >= this.state.rscore;
+                  return row.rscore >= this.state.rscore && row.skewness >= this.state.skew && row.fdr <= this.state.fdr;
               };
               rows = rows.filter(filterRow);
               const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);

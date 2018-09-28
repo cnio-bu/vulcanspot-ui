@@ -117,7 +117,9 @@ class Dashboard extends React.Component {
     selectedContexts: [],
     gdcancer: true,
     order: 'order1',
-    rscore: 0.0
+    rscore: 0.3,
+    fdr: 0.01,
+    skew: 0.0
   };
 
   handleGenes = (selectedGenes) => {
@@ -127,9 +129,16 @@ class Dashboard extends React.Component {
   handleContexts = (selectedContexts) => {
     this.setState({ selectedContexts: selectedContexts });
   };
-
   handleGDScore = (score) => {
     this.setState({ rscore: score });
+  };
+
+  handleFDR = (fdr) => {
+    this.setState({ fdr: fdr });
+  };
+
+  handleSkewness = (skew) => {
+    this.setState({ skew: skew });
   };
 
   handleDrawerOpen = () => {
@@ -216,18 +225,17 @@ class Dashboard extends React.Component {
                     <ExpansionPanel>
                         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                             <Typography variant="body1" component="h3">
-                                Advanced filters (not implemented)
+                                Advanced filters
                             </Typography>
                         </ExpansionPanelSummary>
                         <ExpansionPanelDetails>
                             <Grid container spacing={0}>
                                 <Grid item xs={6}>
-                                    <ScoreSlider onScoreChange={this.handleGDScore} />
-                                    <ScoreSlider onScoreChange={this.handleGDScore} />
+                                    <ScoreSlider initVal={this.state.rscore} label="Min. GD Score" onScoreChange={this.handleGDScore} />
+                                    <ScoreSlider initVal={this.state.skew} min={-7} max={7} step={0.5} label="Min. skewness" onScoreChange={this.handleSkewness} />
                                 </Grid>
                                 <Grid item xs={6}>
-                                    <ScoreSlider onScoreChange={this.handleGDScore} />
-                                    <ScoreSlider onScoreChange={this.handleGDScore} />
+                                    <ScoreSlider initVal={this.state.fdr} label="Max. FDR" step={0.01} onScoreChange={this.handleFDR} />
                                 </Grid>
                                 <Grid item xs={12}>
                                     <FormControlLabel
@@ -265,7 +273,7 @@ class Dashboard extends React.Component {
                 </Grid>
             </Grid>
             <div className={classes.tableContainer}>
-              <Therapies rscore={this.state.rscore} contexts={this.state.selectedContexts} genes={this.state.selectedGenes} />
+              <Therapies skew={this.state.skew} fdr={this.state.fdr} rscore={this.state.rscore} contexts={this.state.selectedContexts} genes={this.state.selectedGenes} />
             </div>
           </main>
         </div>

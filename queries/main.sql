@@ -10,6 +10,8 @@ SELECT
    count(DISTINCT ds.name) AS evidencen,
    max(r.score) as rscore,
    d.name AS drug_name,
+   r.fdr,
+   ge.skewness,
    (select il.score from lnk_genes_drugs il where il.id_drugs = d.id and il.id_genes = gb.id and il.id_contexts = c.id and il.id_sources = 1) as score_pandrugs,
    (select il.score from lnk_genes_drugs il where il.id_drugs = d.id and il.id_genes = gb.id and il.id_contexts = c.id and il.id_sources = 2) as score_lincs
 
@@ -21,7 +23,8 @@ FROM
     contexts c,
     lnk_genes_drugs l,
     datasets ds,
-    drugs d
+    drugs d,
+    gene_essentiality ge
 
 WHERE true
     AND ga.id = a.id_genes
@@ -32,6 +35,8 @@ WHERE true
     AND gb.id = l.id_genes
     AND ds.id = r.id_datasets
     AND l.id_drugs = d.id
+    AND ds.id = ge.id_datasets
+    AND gb.id = ge.id_genes
     
     AND (
             (l.id_sources = 1 AND l.score >= 0.6)
@@ -48,6 +53,8 @@ GROUP BY
     gb.symbol,
     gb.role,
     d.name,
+    r.fdr,
+    ge.skewness,
     
     d.id,
     gb.id,

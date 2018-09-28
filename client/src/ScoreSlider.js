@@ -5,8 +5,12 @@ import Slider from '@material-ui/lab/Slider';
 import Typography from '@material-ui/core/Typography';
 
 class ScoreSlider extends React.Component {
+    checkProp = (p,d) => {
+        return p == 0 || p  ? p : d;
+    };
+
     state = {
-        value: 0.3,
+        value: this.checkProp(this.props.initVal,0.4)
     };
 
     handleChange = (event, value) => {
@@ -14,15 +18,14 @@ class ScoreSlider extends React.Component {
         this.props.onScoreChange(value);
     };
 
-
     render() {
         const { classes } = this.props;
         const { value } = this.state;
 
         return (
             <div className={classes.container}>
-                        <Typography id="label" variant="caption">GD score: {value.toFixed(1)}</Typography>
-                        <Slider aria-labelledby="label" value={value} min={0} max={1} step={0.1} onChange={this.handleChange} />
+                        <Typography id="label" variant="caption">{this.props.label}: {value.toFixed(2)}</Typography>
+                        <Slider aria-labelledby="label" value={value} min={this.checkProp(this.props.min,0)} max={this.checkProp(this.props.max,1)} step={this.checkProp(this.props.step,0.05)} onChange={this.handleChange} />
             </div>
         );
     }
