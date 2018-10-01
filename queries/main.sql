@@ -1,3 +1,4 @@
+
 SELECT
    ga.symbol AS gene_a,
    a.alteration as gene_a_alteration,
@@ -6,25 +7,25 @@ SELECT
    gb.symbol AS gene_b,
    gb.role AS gene_b_role,
    gb.driver AS gene_b_driver,
-   array_to_string( array_agg(DISTINCT ds.name ), ',' ) AS evidence,
-   count(DISTINCT ds.name) AS evidencen,
-   max(r.score) as rscore,
+   ds.name AS evidence,
+   r.score as rscore,
    d.name AS drug_name,
    r.fdr,
    ge.skewness,
-   (select il.score from lnk_genes_drugs il where il.id_drugs = d.id and il.id_genes = gb.id and il.id_contexts = c.id and il.id_sources = 1) as score_pandrugs,
-   (select il.score from lnk_genes_drugs il where il.id_drugs = d.id and il.id_genes = gb.id and il.id_contexts = c.id and il.id_sources = 2) as score_lincs
+   l.score as dscore,
+   s.name as source
 
 FROM 
-    genes ga,
-    genes gb,
+    genes ga, 
+    genes gb, 
     genetic_alterations a,
     relationships r,
     contexts c,
     lnk_genes_drugs l,
-    datasets ds,
+    datasets ds, 
     drugs d,
-    gene_essentiality ge
+    gene_essentiality ge,
+    sources s
 
 WHERE true
     AND ga.id = a.id_genes
@@ -37,34 +38,14 @@ WHERE true
     AND l.id_drugs = d.id
     AND ds.id = ge.id_datasets
     AND gb.id = ge.id_genes
+    AND l.id_sources = s.id
+    
     
     AND (
             (l.id_sources = 1 AND l.score >= 0.6)
-        or
+        or  
             (l.id_sources = 2 AND l.score >= 0.95)
-        )
-        
+        )   
+    
     ##FILTERS##
-
-GROUP BY
-    ga.symbol,
-    a.alteration,
-    c.name,
-    gb.symbol,
-    gb.role,
-    d.name,
-    r.fdr,
-    ge.skewness,
-    
-    d.id,
-    gb.id,
-    c.id
-    
-ORDER BY
-    ga.symbol,
-    a.alteration,
-    gb.symbol,
-    c.name,
-    d.name,
-    evidencen DESC
 ;
