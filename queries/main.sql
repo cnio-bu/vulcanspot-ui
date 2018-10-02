@@ -11,6 +11,8 @@ SELECT
    r.score as rscore,
    d.name AS drug_name,
    r.fdr,
+   r.pval,
+   r.nes,
    ge.skewness,
    l.score as dscore,
    s.name as source
