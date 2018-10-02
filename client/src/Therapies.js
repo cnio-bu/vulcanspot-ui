@@ -111,7 +111,10 @@ const styles = theme => ({
             },
       tooltipWidth:{
         maxWidth: 70 
-      }
+      },
+    chipOn: {background:"lightgreen", fontSize:'10px', width:60, height:20},
+    chipOff: {background:"lightgray", fontSize:'10px', width:60, height:20}
+    
 });
 
 const spinnerStyles = theme => ({
@@ -260,7 +263,7 @@ class Therapies extends React.Component {
                                 <HeaderTableCellB component="th" scope="row">gene B</HeaderTableCellB>
                                 <HeaderTableCellB component="th" scope="row">gene B role (driver)</HeaderTableCellB>
                                 <HeaderTableCellB component="th" scope="row">evidence</HeaderTableCellB>
-                                <HeaderTableCellB component="th" scope="row">GD score</HeaderTableCellB>
+                                <HeaderTableCellB component="th" scope="row">scores</HeaderTableCellB>
                                 <HeaderTableCellA component="th" scope="row">drug</HeaderTableCellA>
                                 <HeaderTableCellA component="th" scope="row">pandrugs</HeaderTableCellA>
                                 <HeaderTableCellA component="th" scope="row">lincs</HeaderTableCellA>
@@ -271,23 +274,20 @@ class Therapies extends React.Component {
                                 this.state.loading
                                   ? <SpinnerWrapper />
                                   : rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row,index) => {
-                                      let createChip = (row,evidence) => {
-                                          let chip;
+                                      let createScores = (row,evidence) => {
+                                          let scores;
                                           if(row.evidence[evidence]){
                                               let fdr = row.evidence[evidence].fdr.toExponential(2); 
                                               let pval = row.evidence[evidence].pval.toExponential(2); 
                                               let nes = row.evidence[evidence].nes.toExponential(2); 
-                                              chip = <Tooltip placement='left' title={"FDR: "+fdr+" | PVAL: "+pval+" | NES: "+nes} >
-                                                                <Chip label={evidence} style={{background:"lightgreen", fontSize:'10px', width:60}} />
-                                                           </Tooltip>;
-                                          }else{
-                                               chip = <Chip label={evidence} style={{background:"gray", fontSize:'10px', width:60}}/>;
-                                          }
-                                          return chip;
-                                      };
+                                              let gdscore = row.evidence[evidence].rscore.toExponential(2); 
 
-                                      let RNAiChip = createChip(row,"RNAi");
-                                      let CRISPRChip = createChip(row,"CRISPR");
+                                              scores = <Chip className={row.evidence[evidence] ? classes.chipOn : classes.chipOff} style={{width:310}} label={"GD Score: "+gdscore+" FDR: "+fdr+" PVAL: "+pval+" NES: " + nes} />;
+                                          }else{
+                                              scores = <Chip className={row.evidence[evidence] ? classes.chipOn : classes.chipOff} style={{width:310}} label="-" />;
+                                          }
+                                          return scores;
+                                      };
 
                                       return (
                                           <TableRow key={index}>
@@ -297,13 +297,18 @@ class Therapies extends React.Component {
                                                 <TableCell>{row.gene_b}</TableCell>
                                                 <TableCell>{row.gene_b_role.replace("unknown","-") + " ("+row.gene_b_driver+")"}</TableCell>
                                                 <TableCell style={{whiteSpace:'nowrap'}}>
-                                                    {RNAiChip}
-                                                    {CRISPRChip}
+                                                    <Chip label="RNAi" className={row.evidence.RNAi ? classes.chipOn : classes.chipOff}/>
+                                                    <br />
+                                                    <Chip label="CRISPR" className={row.evidence.CRISPR ? classes.chipOn : classes.chipOff}/>
                                                 </TableCell>
-                                                <TableCell numeric>{row.rscore? row.rscore.toFixed(3) : "-"}</TableCell>
+                                                <TableCell>
+                                                    {createScores(row,"RNAi")}
+                                                    <br /> 
+                                                    {createScores(row,"CRISPR")}
+                                                </TableCell>
                                                 <TableCell>{row.drug_name}</TableCell>
-                                                <TableCell numeric>{row.score_pandrugs ? row.score_pandrugs.toFixed(3) : "-"}</TableCell>
-                                                <TableCell numeric>{row.score_lincs ? row.score_lincs.toFixed(3) : "-"}</TableCell>
+                                                <TableCell numeric>{row.sources.PANDRUGS ? row.sources.PANDRUGS.dscore.toFixed(3) : "-"}</TableCell>
+                                                <TableCell numeric>{row.sources.LINCS ? row.sources.LINCS.dscore.toFixed(3) : "-"}</TableCell>
                                           </TableRow>
                                       );
                                 })}
