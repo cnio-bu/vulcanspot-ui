@@ -115,7 +115,7 @@ class Dashboard extends React.Component {
     open: false,
     selectedGenes: [],
     selectedContexts: [],
-    gdcancer: true,
+    gdcancer: false,
     order: 'order1',
     rscore: 0.3,
     fdr: 0.05,
@@ -273,7 +273,7 @@ class Dashboard extends React.Component {
                 </Grid>
             </Grid>
             <div className={classes.tableContainer}>
-              <Therapies skew={this.state.skew} fdr={this.state.fdr} rscore={this.state.rscore} contexts={this.state.selectedContexts} genes={this.state.selectedGenes} />
+              <Therapies gdcancer={this.state.gdcancer} skew={this.state.skew} fdr={this.state.fdr} rscore={this.state.rscore} contexts={this.state.selectedContexts} genes={this.state.selectedGenes} />
             </div>
           </main>
         </div>

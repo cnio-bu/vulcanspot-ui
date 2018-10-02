@@ -170,7 +170,8 @@ class Therapies extends React.Component {
               loading: false,
               rscore: this.props.rscore,
               fdr: this.props.fdr,
-              skew: this.props.skew
+              skew: this.props.skew,
+              gdcancer: this.props.gdcancer
         };
     }
 
@@ -210,6 +211,9 @@ class Therapies extends React.Component {
         if(newProps.skew !== this.props.skew){
             this.setState({skew:newProps.skew});
         }
+        if(newProps.gdcancer !== this.props.gdcancer){
+            this.setState({gdcancer:newProps.gdcancer});
+        }
     }
 
       handleChangePage = (event, page) => {
@@ -224,7 +228,17 @@ class Therapies extends React.Component {
               const { classes } = this.props;
               var { rows, rowsPerPage, page } = this.state;
               var filterRow = (row) => {
-                  return row.rscore >= this.state.rscore && row.skewness >= this.state.skew && row.fdr <= this.state.fdr;
+                  let CRISPRfilter = true;
+                  let RNAifilter = true;
+                  let GDfilter = !this.state.gdcancer || (row.gene_b_driver !== 'ND' && row.gene_b_role !== 'unknown') ? true : false;
+
+                  if(row.evidence.CRISPR){
+                      CRISPRfilter = row.evidence.CRISPR.rscore >= this.state.rscore && row.evidence.CRISPR.fdr <= this.state.fdr;
+                  }
+                  if(row.evidence.RNAi){
+                      RNAifilter = row.evidence.RNAi.rscore >= this.state.rscore && row.evidence.RNAi.fdr <= this.state.fdr;
+                  }
+                  return row.skewness >= this.state.skew && CRISPRfilter && RNAifilter && GDfilter;
               };
               rows = rows.filter(filterRow);
               const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
@@ -257,28 +271,42 @@ class Therapies extends React.Component {
                                 this.state.loading
                                   ? <SpinnerWrapper />
                                   : rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row,index) => {
-                                                    return (
-                                                          <TableRow key={index}>
-                                                                <TableCell>{index} {row.gene_a} {index === 0 || row.gene_a !== rows[index-1].gene_a ? row.gene_a : null}</TableCell>
-                                                                <TableCell>{row.gene_a_alteration}</TableCell>
-                                                                <TableCell>{row.context}</TableCell>
-                                                                <TableCell>{row.gene_b}</TableCell>
-                                                                <TableCell>{row.gene_b_role.replace("unknown","-") + " ("+row.gene_b_driver+")"}</TableCell>
-                                                                <TableCell style={{whiteSpace:'nowrap'}}>
-                                                                    <Tooltip placement='left' title="FDR: 0.75 PVAL: 0.01 NES: 0.05" classes={{tooltip: classes.tooltipWidth}}>
-                                                                        <Chip label="RNAi" style={row.evidence.includes("RNAi") ? {background:"lightgreen", fontSize:'10px'} : {background:"gray", fontSize:'10px'}}/>
-                                                                    </Tooltip>
-                                                                    <Tooltip placement='right' title="FDR: 0.75 PVAL: 0.01 NES: 0.05" classes={{tooltip: classes.tooltipWidth}}>
-                                                                        <Chip label="CRISPR" style={row.evidence.includes("CRISPR") ? {background:"lightgreen", fontSize:'10px'} : {background:"gray", fontSize:'10px'}}/>
-                                                                    </Tooltip>
-                                                                </TableCell>
-                                                                <TableCell numeric>{row.rscore? row.rscore.toFixed(3) : "-"}</TableCell>
-                                                                <TableCell>{row.drug_name}</TableCell>
-                                                                <TableCell numeric>{row.score_pandrugs ? row.score_pandrugs.toFixed(3) : "-"}</TableCell>
-                                                                <TableCell numeric>{row.score_lincs ? row.score_lincs.toFixed(3) : "-"}</TableCell>
-                                                          </TableRow>
-                                                        );
-                                                  })}
+                                      let createChip = (row,evidence) => {
+                                          let chip;
+                                          if(row.evidence[evidence]){
+                                              let fdr = row.evidence[evidence].fdr.toExponential(2); 
+                                              let pval = row.evidence[evidence].pval.toExponential(2); 
+                                              let nes = row.evidence[evidence].nes.toExponential(2); 
+                                              chip = <Tooltip placement='left' title={"FDR: "+fdr+" | PVAL: "+pval+" | NES: "+nes} >
+                                                                <Chip label={evidence} style={{background:"lightgreen", fontSize:'10px', width:60}} />
+                                                           </Tooltip>;
+                                          }else{
+                                               chip = <Chip label={evidence} style={{background:"gray", fontSize:'10px', width:60}}/>;
+                                          }
+                                          return chip;
+                                      };
+
+                                      let RNAiChip = createChip(row,"RNAi");
+                                      let CRISPRChip = createChip(row,"CRISPR");
+
+                                      return (
+                                          <TableRow key={index}>
+                                                <TableCell>{index} {row.gene_a} {index === 0 || row.gene_a !== rows[index-1].gene_a ? row.gene_a : null}</TableCell>
+                                                <TableCell>{row.gene_a_alteration}</TableCell>
+                                                <TableCell>{row.context}</TableCell>
+                                                <TableCell>{row.gene_b}</TableCell>
+                                                <TableCell>{row.gene_b_role.replace("unknown","-") + " ("+row.gene_b_driver+")"}</TableCell>
+                                                <TableCell style={{whiteSpace:'nowrap'}}>
+                                                    {RNAiChip}
+                                                    {CRISPRChip}
+                                                </TableCell>
+                                                <TableCell numeric>{row.rscore? row.rscore.toFixed(3) : "-"}</TableCell>
+                                                <TableCell>{row.drug_name}</TableCell>
+                                                <TableCell numeric>{row.score_pandrugs ? row.score_pandrugs.toFixed(3) : "-"}</TableCell>
+                                                <TableCell numeric>{row.score_lincs ? row.score_lincs.toFixed(3) : "-"}</TableCell>
+                                          </TableRow>
+                                      );
+                                })}
                                 {emptyRows > 0 && !this.state.loading && (
                                                     <TableRow style={{ height: 48 * emptyRows }}>
                                                       <TableCell colSpan={10} style={{textAlign: 'center'}}>No results available with current filters</TableCell>

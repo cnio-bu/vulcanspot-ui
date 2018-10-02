@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 
 class ScoreSlider extends React.Component {
     checkProp = (p,d) => {
-        return p == 0 || p  ? p : d;
+        return p === 0 || p  ? p : d;
     };
 
     state = {
