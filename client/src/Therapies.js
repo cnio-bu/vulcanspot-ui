@@ -241,7 +241,7 @@ class Therapies extends React.Component {
                   if(row.evidence.RNAi){
                       RNAifilter = row.evidence.RNAi.rscore >= this.state.rscore && row.evidence.RNAi.fdr <= this.state.fdr;
                   }
-                  return row.skewness >= this.state.skew && CRISPRfilter && RNAifilter && GDfilter;
+                  return row.skewness <= this.state.skew && CRISPRfilter && RNAifilter && GDfilter;
               };
               rows = rows.filter(filterRow);
               const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);

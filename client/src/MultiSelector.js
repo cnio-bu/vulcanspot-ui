@@ -29,19 +29,19 @@ function renderInput(inputProps) {
 
 function renderSuggestion({ suggestion, index, itemProps, highlightedIndex, selectedItems }) {
   const isHighlighted = highlightedIndex === index;
-  const isSelected = (selectedItems || '').indexOf(suggestion.symbol) > -1;
+  const isSelected = (selectedItems || '').indexOf(suggestion.key) > -1;
 
   return (
     <MenuItem
       {...itemProps}
-      key={suggestion.symbol}
+      key={suggestion.key}
       selected={isHighlighted}
       component="div"
       style={{
         fontWeight: isSelected ? 500 : 400,
       }}
     >
-      {suggestion.symbol}
+      {suggestion.key}
     </MenuItem>
   );
 }
@@ -54,7 +54,7 @@ renderSuggestion.propTypes = {
 };
 
 
-class GeneSelector extends React.Component {
+class MultiSelector extends React.Component {
     constructor(props) {
         super(props);
         this.getSuggestions = debounce(500, this.getSuggestions);
@@ -66,7 +66,7 @@ class GeneSelector extends React.Component {
     }
 
   getSuggestions = hint =>{
-    axios.get('/genes?hint='+hint.toUpperCase()+'&limit=10')
+    axios.get('/'+this.props.label+'?hint='+hint.toUpperCase()+'&limit=10')
     .then(({ data }) => {
         this.setState({
           suggestions: data.data
@@ -106,14 +106,14 @@ class GeneSelector extends React.Component {
       selectedItems,
     });
 
-    this.props.onGenesChange(selectedItems);
+    this.props.onChange(selectedItems);
   };
 
   handleDelete = item => () => {
     this.setState(state => {
       const selectedItems = [...state.selectedItems];
       selectedItems.splice(selectedItems.indexOf(item), 1);
-      this.props.onGenesChange(selectedItems);
+      this.props.onChange(selectedItems);
       return { selectedItems };
     });
   };
@@ -153,9 +153,9 @@ class GeneSelector extends React.Component {
                 )),
                 onChange: this.handleInputChange,
                 onKeyDown: this.handleKeyDown,
-                placeholder: 'Add genes',
+                placeholder: 'Add '+this.props.label,
               }),
-              label: 'Genes',
+              label: this.props.label,
             })}
             {isOpen ? (
               <Paper className={classes.paper} square>
@@ -163,7 +163,7 @@ class GeneSelector extends React.Component {
                   renderSuggestion({
                     suggestion,
                     index,
-                    itemProps: getItemProps({ item: suggestion.symbol }),
+                    itemProps: getItemProps({ item: suggestion.key }),
                     highlightedIndex,
                     selectedItems: selectedItems2,
                   }),
@@ -178,7 +178,7 @@ class GeneSelector extends React.Component {
   }
 }
 
-GeneSelector.propTypes = {
+MultiSelector.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
@@ -209,4 +209,4 @@ const styles = theme => ({
   },
 });
 
-export default withStyles(styles)(GeneSelector);
+export default withStyles(styles)(MultiSelector);

@@ -16,8 +16,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './listItems';
 import Therapies from './Therapies';
-import GeneSelect from './GeneSelect';
-import ContextSelect from './ContextSelect';
+import MultiSelector from './MultiSelector';
 import ScoreSlider from './ScoreSlider';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -117,9 +116,9 @@ class Dashboard extends React.Component {
     selectedContexts: [],
     gdcancer: false,
     order: 'order1',
-    rscore: 0.3,
-    fdr: 0.05,
-    skew: -5
+    rscore: 0.0,
+    fdr: 0.25,
+    skew: -0.5
   };
 
   handleGenes = (selectedGenes) => {
@@ -214,10 +213,10 @@ class Dashboard extends React.Component {
                 <Grid item xs={8}>
                     <Paper style={{padding:10}} square={true}>
                         <Typography component="div" className={classes.selectContainer}>
-                           <GeneSelect onGenesChange={this.handleGenes} />
+                           <MultiSelector label='genes' onChange={this.handleGenes} />
                         </Typography>
                         <Typography component="div" className={classes.selectContainer}>
-                           <ContextSelect onContextChange={this.handleContexts} />
+                           <MultiSelector label='contexts' onChange={this.handleContexts} />
                         </Typography>
                     </Paper>
                 </Grid>
