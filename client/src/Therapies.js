@@ -166,7 +166,8 @@ class Therapies extends React.Component {
         this.loadData = debounce(500, this.loadData);
         this.state = {
               rows: [],
-              genes: [],
+              genesA: [],
+              genesB: [],
               contexts: [],
               page: 0,
               rowsPerPage: 10,
@@ -184,12 +185,12 @@ class Therapies extends React.Component {
 
     loadData = async () => {
         let rows = [];
-        for(var i=0;i<this.state.genes.length;i++){
+        for(var i=0;i<this.state.genesA.length;i++){
             let contexts = this.state.contexts.join(",");
             if(contexts){
                 contexts = "?ctx=" + contexts;    
             }
-            const res = await fetch('/genes/'+this.state.genes[i]+'/therapies' + contexts);
+            const res = await fetch('/genes/'+this.state.genesA[i]+'/therapies' + contexts);
             const json = await res.json();
             rows = rows.concat(json.data);
         }
@@ -198,11 +199,15 @@ class Therapies extends React.Component {
     }
 
     componentWillReceiveProps(newProps){
-        if(newProps.genes !== this.props.genes || newProps.contexts !== this.props.contexts){
+        if(newProps.genesA !== this.props.genesA || newProps.contexts !== this.props.contexts){
             this.setState({loading: true});
-            this.setState({genes: newProps.genes});
+            this.setState({genesA: newProps.genesA});
             this.setState({contexts: newProps.contexts});
             this.loadData();
+        }
+
+        if(newProps.genesB !== this.props.genesB){
+            this.setState({genesB:newProps.genesB});
         }
 
         if(newProps.rscore !== this.props.rscore){
@@ -241,7 +246,8 @@ class Therapies extends React.Component {
                   if(row.evidence.RNAi){
                       RNAifilter = row.evidence.RNAi.rscore >= this.state.rscore && row.evidence.RNAi.fdr <= this.state.fdr;
                   }
-                  return row.skewness <= this.state.skew && CRISPRfilter && RNAifilter && GDfilter;
+
+                  return row.skewness <= this.state.skew && CRISPRfilter && RNAifilter && GDfilter && (this.state.genesB.length == 0 || this.state.genesB.includes(row.gene_b));
               };
               rows = rows.filter(filterRow);
               const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);

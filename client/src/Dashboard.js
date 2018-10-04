@@ -112,7 +112,8 @@ const styles = theme => ({
 class Dashboard extends React.Component {
   state = {
     open: false,
-    selectedGenes: [],
+    selectedGenesA: [],
+    selectedGenesB: [],
     selectedContexts: [],
     gdcancer: false,
     order: 'order1',
@@ -121,8 +122,12 @@ class Dashboard extends React.Component {
     skew: -0.5
   };
 
-  handleGenes = (selectedGenes) => {
-    this.setState({ selectedGenes: selectedGenes });
+  handleGenesA = (selectedGenesA) => {
+    this.setState({ selectedGenesA: selectedGenesA });
+  };
+
+  handleGenesB = (selectedGenesB) => {
+    this.setState({ selectedGenesB: selectedGenesB });
   };
 
   handleContexts = (selectedContexts) => {
@@ -213,7 +218,7 @@ class Dashboard extends React.Component {
                 <Grid item xs={8}>
                     <Paper style={{padding:10}} square={true}>
                         <Typography component="div" className={classes.selectContainer}>
-                           <MultiSelector label='genes' onChange={this.handleGenes} />
+                           <MultiSelector label='genes' onChange={this.handleGenesA} />
                         </Typography>
                         <Typography component="div" className={classes.selectContainer}>
                            <MultiSelector label='contexts' onChange={this.handleContexts} />
@@ -229,6 +234,10 @@ class Dashboard extends React.Component {
                         </ExpansionPanelSummary>
                         <ExpansionPanelDetails>
                             <Grid container spacing={0}>
+                                <Grid item xs={12}>
+                                    <MultiSelector label='genes' onChange={this.handleGenesB} />
+                                    <br/>
+                                </Grid>
                                 <Grid item xs={6}>
                                     <ScoreSlider initVal={this.state.rscore} label="Min. GD Score" onScoreChange={this.handleGDScore} />
                                     <ScoreSlider initVal={this.state.skew} min={-7} max={7} step={0.5} label="Min. skewness" onScoreChange={this.handleSkewness} />
@@ -272,7 +281,7 @@ class Dashboard extends React.Component {
                 </Grid>
             </Grid>
             <div className={classes.tableContainer}>
-              <Therapies gdcancer={this.state.gdcancer} skew={this.state.skew} fdr={this.state.fdr} rscore={this.state.rscore} contexts={this.state.selectedContexts} genes={this.state.selectedGenes} />
+              <Therapies gdcancer={this.state.gdcancer} skew={this.state.skew} fdr={this.state.fdr} rscore={this.state.rscore} contexts={this.state.selectedContexts} genesB={this.state.selectedGenesB} genesA={this.state.selectedGenesA} />
             </div>
           </main>
         </div>
