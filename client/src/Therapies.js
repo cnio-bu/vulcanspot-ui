@@ -15,9 +15,9 @@ import FirstPageIcon from '@material-ui/icons/FirstPage';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
+import StarIcon from '@material-ui/icons/Star';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Chip from '@material-ui/core/Chip';
-import Tooltip from '@material-ui/core/Tooltip';
 
 const actionsStyles = theme => ({
       root: {
@@ -113,7 +113,8 @@ const styles = theme => ({
         maxWidth: 70 
       },
     chipOn: {background:"lightgreen", fontSize:'10px', width:60, height:20},
-    chipOff: {background:"lightgray", fontSize:'10px', width:60, height:20}
+    chipOff: {background:"lightgray", fontSize:'10px', width:60, height:20},
+    chipWhite: {background:"white", fontSize:'10px', width:60, height:20}
     
 });
 
@@ -247,7 +248,7 @@ class Therapies extends React.Component {
                       RNAifilter = row.evidence.RNAi.rscore >= this.state.rscore && row.evidence.RNAi.fdr <= this.state.fdr;
                   }
 
-                  return row.skewness <= this.state.skew && CRISPRfilter && RNAifilter && GDfilter && (this.state.genesB.length == 0 || this.state.genesB.includes(row.gene_b));
+                  return row.skewness <= this.state.skew && CRISPRfilter && RNAifilter && GDfilter && (this.state.genesB.length === 0 || this.state.genesB.includes(row.gene_b));
               };
               rows = rows.filter(filterRow);
               const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
@@ -260,7 +261,7 @@ class Therapies extends React.Component {
                               <TableRow style={{whiteSpace: 'nowrap'}}>
                                 <HeaderTableCellA component="th" scope="row" colSpan={3}>GENETIC ALTERATION</HeaderTableCellA>
                                 <HeaderTableCellB component="th" scope="row" colSpan={4}>CANCER GENETIC DEPENDENCY</HeaderTableCellB>
-                                <HeaderTableCellA component="th" scope="row" colSpan={3}>THERAPIES</HeaderTableCellA>
+                                <HeaderTableCellA component="th" scope="row" colSpan={4}>THERAPIES</HeaderTableCellA>
                               </TableRow>
                               <TableRow style={{whiteSpace: 'nowrap'}}>
                                 <HeaderTableCellA component="th" scope="row">gene A</HeaderTableCellA>
@@ -273,6 +274,7 @@ class Therapies extends React.Component {
                                 <HeaderTableCellA component="th" scope="row">drug</HeaderTableCellA>
                                 <HeaderTableCellA component="th" scope="row">pandrugs</HeaderTableCellA>
                                 <HeaderTableCellA component="th" scope="row">lincs</HeaderTableCellA>
+                                <HeaderTableCellA component="th" scope="row">&nbsp;</HeaderTableCellA>
                               </TableRow>
                             </TableHead>
                               <TableBody>
@@ -288,9 +290,9 @@ class Therapies extends React.Component {
                                               let nes = row.evidence[evidence].nes.toExponential(2); 
                                               let gdscore = row.evidence[evidence].rscore.toExponential(2); 
 
-                                              scores = <Chip className={row.evidence[evidence] ? classes.chipOn : classes.chipOff} style={{width:310}} label={"GD Score: "+gdscore+" FDR: "+fdr+" PVAL: "+pval+" NES: " + nes} />;
+                                              scores = <Chip className={classes.chipWhite} style={{width:310}} label={"GD Score: "+gdscore+" FDR: "+fdr+" PVAL: "+pval+" NES: " + nes} />;
                                           }else{
-                                              scores = <Chip className={row.evidence[evidence] ? classes.chipOn : classes.chipOff} style={{width:310}} label="-" />;
+                                              scores = <Chip className={classes.chipWhite} style={{width:310}} label="-" />;
                                           }
                                           return scores;
                                       };
@@ -315,19 +317,20 @@ class Therapies extends React.Component {
                                                 <TableCell>{row.drug_name}</TableCell>
                                                 <TableCell numeric>{row.sources.PANDRUGS ? row.sources.PANDRUGS.dscore.toFixed(3) : "-"}</TableCell>
                                                 <TableCell numeric>{row.sources.LINCS ? row.sources.LINCS.dscore.toFixed(3) : "-"}</TableCell>
+                                                <TableCell>{(row.sources.LINCS && rows.sources.PANDRUGS && row.sources.LINCS.dscore >= 0.9 && row.sources.PANDRUGS.dscore >= 0.6) ? <StarIcon /> : ""}</TableCell>
                                           </TableRow>
                                       );
                                 })}
                                 {emptyRows > 0 && !this.state.loading && (
                                                     <TableRow style={{ height: 48 * emptyRows }}>
-                                                      <TableCell colSpan={10} style={{textAlign: 'center'}}>No results available with current filters</TableCell>
+                                                      <TableCell colSpan={11} style={{textAlign: 'center'}}>No results available with current filters</TableCell>
                                                     </TableRow>
                                                   )}
                               </TableBody>
                               <TableFooter>
                                 <TableRow>
                                   <TablePagination
-                                    colSpan={10}
+                                    colSpan={11}
                                     count={rows.length}
                                     rowsPerPage={rowsPerPage}
                                     page={page}
