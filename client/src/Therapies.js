@@ -299,7 +299,7 @@ class Therapies extends React.Component {
 
                                       return (
                                           <TableRow key={index}>
-                                                <TableCell>{index} {row.gene_a} {index === 0 || row.gene_a !== rows[index-1].gene_a ? row.gene_a : null}</TableCell>
+                                                <TableCell>{row.gene_a}</TableCell>
                                                 <TableCell>{row.gene_a_alteration}</TableCell>
                                                 <TableCell>{row.context}</TableCell>
                                                 <TableCell>{row.gene_b}</TableCell>
