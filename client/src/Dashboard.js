@@ -116,7 +116,7 @@ class Dashboard extends React.Component {
     selectedGenesB: [],
     selectedContexts: [],
     gdcancer: false,
-    order: 'order1',
+    order: 'lethality',
     rscore: 0.0,
     fdr: 0.25,
     skew: -0.5
@@ -259,7 +259,7 @@ class Dashboard extends React.Component {
                     <ExpansionPanel>
                         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                             <Typography variant="body1" component="h3">
-                                Order (not implemented)
+                                Order
                             </Typography>
                         </ExpansionPanelSummary>
                         <ExpansionPanelDetails>
@@ -271,9 +271,9 @@ class Dashboard extends React.Component {
                                     value={this.state.order}
                                     onChange={this.handleOrderChange}
                                 >
-                                    <FormControlLabel value="order1" control={<Radio />} label="Order1" />
-                                    <FormControlLabel value="order2" control={<Radio />} label="Order2" />
-                                    <FormControlLabel value="order3" control={<Radio />} label="Order3" />
+                                    <FormControlLabel value="lethality" control={<Radio />} label="Lethality" />
+                                    <FormControlLabel value="druggability" control={<Radio />} label="Vulnerability" />
+                                    <FormControlLabel value="thervul" control={<Radio />} label="Therapeutic Vulnerability" />
                                 </RadioGroup>
                             </FormControl>
                         </ExpansionPanelDetails>
@@ -281,7 +281,7 @@ class Dashboard extends React.Component {
                 </Grid>
             </Grid>
             <div className={classes.tableContainer}>
-              <Therapies gdcancer={this.state.gdcancer} skew={this.state.skew} fdr={this.state.fdr} rscore={this.state.rscore} contexts={this.state.selectedContexts} genesB={this.state.selectedGenesB} genesA={this.state.selectedGenesA} />
+              <Therapies order={this.state.order} gdcancer={this.state.gdcancer} skew={this.state.skew} fdr={this.state.fdr} rscore={this.state.rscore} contexts={this.state.selectedContexts} genesB={this.state.selectedGenesB} genesA={this.state.selectedGenesA} />
             </div>
           </main>
         </div>

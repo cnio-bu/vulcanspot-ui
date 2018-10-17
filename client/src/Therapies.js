@@ -176,7 +176,8 @@ class Therapies extends React.Component {
               rscore: this.props.rscore,
               fdr: this.props.fdr,
               skew: this.props.skew,
-              gdcancer: this.props.gdcancer
+              gdcancer: this.props.gdcancer,
+              order: this.props.order
         };
     }
 
@@ -223,6 +224,9 @@ class Therapies extends React.Component {
         if(newProps.gdcancer !== this.props.gdcancer){
             this.setState({gdcancer:newProps.gdcancer});
         }
+        if(newProps.order !== this.props.order){
+            this.setState({order:newProps.order});
+        }
     }
 
       handleChangePage = (event, page) => {
@@ -241,16 +245,36 @@ class Therapies extends React.Component {
                   let RNAifilter = true;
                   let GDfilter = !this.state.gdcancer || (row.gene_b_driver !== 'ND' && row.gene_b_role !== 'unknown') ? true : false;
 
+                  row.nevidence = 0;
+
                   if(row.evidence.CRISPR){
                       CRISPRfilter = row.evidence.CRISPR.rscore >= this.state.rscore && row.evidence.CRISPR.fdr <= this.state.fdr;
+                      row.nevidence += 1;
                   }
                   if(row.evidence.RNAi){
                       RNAifilter = row.evidence.RNAi.rscore >= this.state.rscore && row.evidence.RNAi.fdr <= this.state.fdr;
+                      row.nevidence += 1;
                   }
 
                   return row.skewness <= this.state.skew && CRISPRfilter && RNAifilter && GDfilter && (this.state.genesB.length === 0 || this.state.genesB.includes(row.gene_b));
               };
               rows = rows.filter(filterRow);
+              rows.sort((a, b) => {
+                  let v = 0;
+                  switch(this.state.order){
+                      case 'lethality':
+                              v = b.nevidence - a.nevidence;
+                          break;
+                      case 'drugabbility':
+                              console.log("sorting by druggability");
+                          break;
+                      case 'thervul':
+                              console.log("sorting by thervul");
+                          break;
+                      default:
+                  }
+                  return v;
+              });
               const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
               return (
