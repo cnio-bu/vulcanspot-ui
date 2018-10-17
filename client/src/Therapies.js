@@ -321,7 +321,7 @@ class Therapies extends React.Component {
                                           </TableRow>
                                       );
                                 })}
-                                {emptyRows > 0 && !this.state.loading && (
+                                {this.state.rows.length === 0 && !this.state.loading && (
                                                     <TableRow style={{ height: 48 * emptyRows }}>
                                                       <TableCell colSpan={11} style={{textAlign: 'center'}}>No results available with current filters</TableCell>
                                                     </TableRow>
