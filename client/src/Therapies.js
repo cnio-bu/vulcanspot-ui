@@ -317,7 +317,7 @@ class Therapies extends React.Component {
                                                 <TableCell>{row.drug_name}</TableCell>
                                                 <TableCell numeric>{row.sources.PANDRUGS ? row.sources.PANDRUGS.dscore.toFixed(3) : "-"}</TableCell>
                                                 <TableCell numeric>{row.sources.LINCS ? row.sources.LINCS.dscore.toFixed(3) : "-"}</TableCell>
-                                                <TableCell>{(row.sources.LINCS && rows.sources.PANDRUGS && row.sources.LINCS.dscore >= 0.9 && row.sources.PANDRUGS.dscore >= 0.6) ? <StarIcon /> : ""}</TableCell>
+                                                <TableCell>{(row.sources.LINCS && row.sources.PANDRUGS && row.sources.LINCS.dscore >= 0.9 && row.sources.PANDRUGS.dscore >= 0.6) ? <StarIcon /> : ""}</TableCell>
                                           </TableRow>
                                       );
                                 })}
