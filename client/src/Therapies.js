@@ -245,35 +245,25 @@ class Therapies extends React.Component {
                   let RNAifilter = true;
                   let GDfilter = !this.state.gdcancer || (row.gene_b_driver !== 'ND' && row.gene_b_role !== 'unknown') ? true : false;
 
-                  row.nevidence = 0;
+                  row.nevidence = Object.keys(row.evidence).length;
+                  row.nsources = Object.keys(row.sources).length;
 
                   if(row.evidence.CRISPR){
                       CRISPRfilter = row.evidence.CRISPR.rscore >= this.state.rscore && row.evidence.CRISPR.fdr <= this.state.fdr;
-                      row.nevidence += 1;
                   }
                   if(row.evidence.RNAi){
                       RNAifilter = row.evidence.RNAi.rscore >= this.state.rscore && row.evidence.RNAi.fdr <= this.state.fdr;
-                      row.nevidence += 1;
                   }
 
                   return row.skewness <= this.state.skew && CRISPRfilter && RNAifilter && GDfilter && (this.state.genesB.length === 0 || this.state.genesB.includes(row.gene_b));
               };
               rows = rows.filter(filterRow);
               rows.sort((a, b) => {
-                  let v = 0;
-                  switch(this.state.order){
-                      case 'lethality':
-                              v = b.nevidence - a.nevidence;
-                          break;
-                      case 'drugabbility':
-                              console.log("sorting by druggability");
-                          break;
-                      case 'thervul':
-                              console.log("sorting by thervul");
-                          break;
-                      default:
-                  }
-                  return v;
+                  let score_p_a = a.sources.PANDRUGS ? a.sources.PANDRUGS.dscore : 0;
+                  let score_p_b = b.sources.PANDRUGS ? b.sources.PANDRUGS.dscore : 0;
+                  let score_l_a = a.sources.LINCS ? a.sources.LINCS.dscore : 0;
+                  let score_l_b = b.sources.LINCS ? b.sources.LINCS.dscore : 0;
+                  return b.druggable_a - a.druggable_a || b.nsources - a.nsources || score_p_b - score_p_a || score_l_b - score_l_a;
               });
               const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
@@ -338,10 +328,10 @@ class Therapies extends React.Component {
                                                     <br /> 
                                                     {createScores(row,"CRISPR")}
                                                 </TableCell>
-                                                <TableCell>{row.drug_name}</TableCell>
+                                                <TableCell>{row.drug_name !== 'null' ? row.drug_name : "-"}</TableCell>
                                                 <TableCell numeric>{row.sources.PANDRUGS ? row.sources.PANDRUGS.dscore.toFixed(3) : "-"}</TableCell>
                                                 <TableCell numeric>{row.sources.LINCS ? row.sources.LINCS.dscore.toFixed(3) : "-"}</TableCell>
-                                                <TableCell>{(row.sources.LINCS && row.sources.PANDRUGS && row.sources.LINCS.dscore >= 0.9 && row.sources.PANDRUGS.dscore >= 0.6) ? <StarIcon /> : ""}</TableCell>
+                                                <TableCell>{(row.sources.LINCS && row.sources.PANDRUGS && row.sources.LINCS.dscore >= 0.9 && row.sources.PANDRUGS.dscore >= 0.6) ? <StarIcon color="secondary" /> : ""}</TableCell>
                                           </TableRow>
                                       );
                                 })}

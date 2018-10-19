@@ -116,7 +116,7 @@ class Dashboard extends React.Component {
     selectedGenesB: [],
     selectedContexts: [],
     gdcancer: false,
-    order: 'lethality',
+    //order: 'lethality',
     rscore: 0.0,
     fdr: 0.25,
     skew: -0.5
@@ -157,9 +157,9 @@ class Dashboard extends React.Component {
       this.setState({ [name]: event.target.checked });
   };
 
-  handleOrderChange = event => {
-    this.setState({ order: event.target.value });
-  };
+  //handleOrderChange = event => {
+  //  this.setState({ order: event.target.value });
+  //};
 
   render() {
     const { classes } = this.props;
@@ -256,7 +256,7 @@ class Dashboard extends React.Component {
                             </Grid>
                         </ExpansionPanelDetails>
                     </ExpansionPanel>
-                    <ExpansionPanel>
+                    {/*<ExpansionPanel>
                         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                             <Typography variant="body1" component="h3">
                                 Order
@@ -278,10 +278,12 @@ class Dashboard extends React.Component {
                             </FormControl>
                         </ExpansionPanelDetails>
                     </ExpansionPanel>
+                    */}
                 </Grid>
             </Grid>
             <div className={classes.tableContainer}>
-              <Therapies order={this.state.order} gdcancer={this.state.gdcancer} skew={this.state.skew} fdr={this.state.fdr} rscore={this.state.rscore} contexts={this.state.selectedContexts} genesB={this.state.selectedGenesB} genesA={this.state.selectedGenesA} />
+                {/*<Therapies order={this.state.order} gdcancer={this.state.gdcancer} skew={this.state.skew} fdr={this.state.fdr} rscore={this.state.rscore} contexts={this.state.selectedContexts} genesB={this.state.selectedGenesB} genesA={this.state.selectedGenesA} />*/}
+                <Therapies gdcancer={this.state.gdcancer} skew={this.state.skew} fdr={this.state.fdr} rscore={this.state.rscore} contexts={this.state.selectedContexts} genesB={this.state.selectedGenesB} genesA={this.state.selectedGenesA} />
             </div>
           </main>
         </div>
