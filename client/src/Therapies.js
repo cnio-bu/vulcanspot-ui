@@ -112,9 +112,9 @@ const styles = theme => ({
       tooltipWidth:{
         maxWidth: 70 
       },
-    chipOn: {background:"lightgreen", fontSize:'10px', width:60, height:20},
-    chipOff: {background:"lightgray", fontSize:'10px', width:60, height:20},
-    chipWhite: {background:"white", fontSize:'10px', width:60, height:20}
+    chipOn: {background:"lightgreen", fontSize:'10px', width:100, height:20},
+    chipOff: {background:"lightgray", fontSize:'10px', width:100, height:20},
+    chipWhite: {background:"white", fontSize:'10px', width:100, height:20}
     
 });
 
@@ -283,8 +283,7 @@ class Therapies extends React.Component {
                                 <HeaderTableCellA component="th" scope="row">context</HeaderTableCellA>
                                 <HeaderTableCellB component="th" scope="row">gene B</HeaderTableCellB>
                                 <HeaderTableCellB component="th" scope="row">gene B role (driver)</HeaderTableCellB>
-                                <HeaderTableCellB component="th" scope="row">evidence</HeaderTableCellB>
-                                <HeaderTableCellB component="th" scope="row">scores</HeaderTableCellB>
+                                <HeaderTableCellB component="th" scope="row">evidence (score)</HeaderTableCellB>
                                 <HeaderTableCellA component="th" scope="row">drug</HeaderTableCellA>
                                 <HeaderTableCellA component="th" scope="row">pandrugs</HeaderTableCellA>
                                 <HeaderTableCellA component="th" scope="row">lincs</HeaderTableCellA>
@@ -297,18 +296,7 @@ class Therapies extends React.Component {
                                   ? <SpinnerWrapper />
                                   : rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row,index) => {
                                       let createScores = (row,evidence) => {
-                                          let scores;
-                                          if(row.evidence[evidence]){
-                                              let fdr = row.evidence[evidence].fdr.toExponential(2); 
-                                              let pval = row.evidence[evidence].pval.toExponential(2); 
-                                              let nes = row.evidence[evidence].nes.toExponential(2); 
-                                              let gdscore = row.evidence[evidence].rscore.toExponential(2); 
-
-                                              scores = <Chip className={classes.chipWhite} style={{width:310}} label={"GD Score: "+gdscore+" FDR: "+fdr+" PVAL: "+pval+" NES: " + nes} />;
-                                          }else{
-                                              scores = <Chip className={classes.chipWhite} style={{width:310}} label="-" />;
-                                          }
-                                          return scores;
+                                          return row.evidence[evidence] ? " (" + row.evidence[evidence].rscore.toExponential(2) + ")" : "";
                                       };
 
                                       return (
@@ -319,14 +307,9 @@ class Therapies extends React.Component {
                                                 <TableCell>{row.gene_b}</TableCell>
                                                 <TableCell>{row.gene_b_role.replace("unknown","-") + " ("+row.gene_b_driver+")"}</TableCell>
                                                 <TableCell style={{whiteSpace:'nowrap'}}>
-                                                    <Chip label="RNAi" className={row.evidence.RNAi ? classes.chipOn : classes.chipOff}/>
+                                                    <Chip label={"RNAi" + createScores(row,"RNAi")} className={row.evidence.RNAi ? classes.chipOn : classes.chipOff}/>
                                                     <br />
-                                                    <Chip label="CRISPR" className={row.evidence.CRISPR ? classes.chipOn : classes.chipOff}/>
-                                                </TableCell>
-                                                <TableCell>
-                                                    {createScores(row,"RNAi")}
-                                                    <br /> 
-                                                    {createScores(row,"CRISPR")}
+                                                    <Chip label={"CRISPR" + createScores(row,"CRISPR")} className={row.evidence.CRISPR ? classes.chipOn : classes.chipOff}/>
                                                 </TableCell>
                                                 <TableCell>{row.drug_name !== 'null' ? row.drug_name : "-"}</TableCell>
                                                 <TableCell numeric>{row.sources.PANDRUGS ? row.sources.PANDRUGS.dscore.toFixed(3) : "-"}</TableCell>
