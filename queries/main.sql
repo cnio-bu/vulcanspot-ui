@@ -5,6 +5,8 @@ SELECT
    c.name AS context,
    
    gb.symbol AS gene_b,
+   ga.druggable AS druggable_a,
+   gb.druggable AS druggable_b,
    gb.role AS gene_b_role,
    gb.driver AS gene_b_driver,
    ds.name AS evidence,
@@ -17,37 +19,32 @@ SELECT
    l.score as dscore,
    s.name as source
 
-FROM 
-    genes ga, 
-    genes gb, 
-    genetic_alterations a,
-    relationships r,
-    contexts c,
-    lnk_genes_drugs l,
-    datasets ds, 
-    drugs d,
-    gene_essentiality ge,
-    sources s
+FROM
+    relationships r
+        INNER JOIN genetic_alterations a
+            ON a.id = r.id_genetic_alterations
+        INNER JOIN genes ga
+            ON ga.id = a.id_genes
+        INNER JOIN genes gb
+            ON gb.id = r.id_genes_B
+        INNER JOIN datasets ds
+            ON ds.id = r.id_datasets
+        INNER JOIN contexts c
+            ON c.id = a.id_contexts
+        INNER JOIN gene_essentiality ge
+            ON ge.id_genes = gb.id AND ds.id = ge.id_datasets
+        LEFT JOIN lnk_genes_drugs l
+            ON l.id_genes = gb.id AND c.id = l.id_contexts
+            AND (
+                (l.id_sources = 1 AND l.score >= 0.6)
+            or
+                (l.id_sources = 2 AND l.score >= 0.9)
+            )
+        LEFT JOIN drugs d
+            ON d.id = l.id_drugs
+        LEFT JOIN sources s
+            ON s.id = l.id_sources
 
 WHERE true
-    AND ga.id = a.id_genes
-    AND a.id = r.id_genetic_alterations
-    AND gb.id = r.id_genes_B
-    AND a.id_contexts = c.id
-    AND c.id = l.id_contexts
-    AND gb.id = l.id_genes
-    AND ds.id = r.id_datasets
-    AND l.id_drugs = d.id
-    AND ds.id = ge.id_datasets
-    AND gb.id = ge.id_genes
-    AND l.id_sources = s.id
-    
-    
-    AND (
-            (l.id_sources = 1 AND l.score >= 0.6)
-        or  
-            (l.id_sources = 2 AND l.score >= 0.95)
-        )   
-    
     ##FILTERS##
 ;
