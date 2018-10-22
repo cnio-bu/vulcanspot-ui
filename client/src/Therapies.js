@@ -188,13 +188,48 @@ class Therapies extends React.Component {
     loadData = async () => {
         let rows = [];
         for(var i=0;i<this.state.genesA.length;i++){
-            let contexts = this.state.contexts.join(",");
-            if(contexts){
-                contexts = "?ctx=" + contexts;    
+            let ctx = this.state.contexts.join(",");
+            if(ctx){
+                ctx = "?ctx=" + ctx;    
             }
-            const res = await fetch('/genes/'+this.state.genesA[i]+'/therapies' + contexts);
+            const res = await fetch('/genes/'+this.state.genesA[i]+'/therapies' + ctx);
             const json = await res.json();
-            rows = rows.concat(json.data);
+
+            let results = json.data;
+
+                    for (var geneA in results) {
+                        if (!results.hasOwnProperty(geneA)) continue;
+                        var contexts = results[geneA];
+                        for (var context in contexts) {
+                            if (!contexts.hasOwnProperty(context)) continue;
+                            var alterations = contexts[context];
+                            for (var alteration in alterations) {
+                                if (!alterations.hasOwnProperty(alteration)) continue;
+                                var genesB = alterations[alteration];
+                                for (var geneB in genesB) {
+                                    if (!genesB.hasOwnProperty(geneB)) continue;
+                                    var therapy = genesB[geneB];
+                                    for (var drug in therapy["drugs"]) {
+                                        if (!therapy["drugs"].hasOwnProperty(drug)) continue;
+                                        var sources = therapy["drugs"][drug];
+                                        rows.push({
+                                            gene_a: geneA,
+                                            gene_a_alteration: alteration,
+                                            context: context,
+                                            gene_b: geneB,
+                                            gene_b_role: therapy.role,
+                                            gene_b_driver: therapy.driver,
+                                            evidence: therapy.evidence,
+                                            drug_name: drug,
+                                            sources: sources,
+                                            skewness: therapy.skewness
+                                        });
+                                    }
+                                }
+                            }
+                        }
+                    }
+
         }
         this.setState({ rows: rows, loading: false });
 
@@ -249,20 +284,20 @@ class Therapies extends React.Component {
                   row.nsources = Object.keys(row.sources).length;
 
                   if(row.evidence.CRISPR){
-                      CRISPRfilter = row.evidence.CRISPR.rscore >= this.state.rscore && row.evidence.CRISPR.fdr <= this.state.fdr;
+                      CRISPRfilter = row.evidence.CRISPR.score >= this.state.rscore && row.evidence.CRISPR.fdr <= this.state.fdr;
                   }
                   if(row.evidence.RNAi){
-                      RNAifilter = row.evidence.RNAi.rscore >= this.state.rscore && row.evidence.RNAi.fdr <= this.state.fdr;
+                      RNAifilter = row.evidence.RNAi.score >= this.state.rscore && row.evidence.RNAi.fdr <= this.state.fdr;
                   }
 
                   return row.skewness <= this.state.skew && CRISPRfilter && RNAifilter && GDfilter && (this.state.genesB.length === 0 || this.state.genesB.includes(row.gene_b));
               };
               rows = rows.filter(filterRow);
               rows.sort((a, b) => {
-                  let score_p_a = a.sources.PANDRUGS ? a.sources.PANDRUGS.dscore : 0;
-                  let score_p_b = b.sources.PANDRUGS ? b.sources.PANDRUGS.dscore : 0;
-                  let score_l_a = a.sources.LINCS ? a.sources.LINCS.dscore : 0;
-                  let score_l_b = b.sources.LINCS ? b.sources.LINCS.dscore : 0;
+                  let score_p_a = a.sources.PANDRUGS ? a.sources.PANDRUGS.score : 0;
+                  let score_p_b = b.sources.PANDRUGS ? b.sources.PANDRUGS.score : 0;
+                  let score_l_a = a.sources.LINCS ? a.sources.LINCS.score : 0;
+                  let score_l_b = b.sources.LINCS ? b.sources.LINCS.score : 0;
                   return b.druggable_a - a.druggable_a || b.nsources - a.nsources || score_p_b - score_p_a || score_l_b - score_l_a;
               });
               const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
@@ -274,7 +309,7 @@ class Therapies extends React.Component {
                             <TableHead>
                               <TableRow style={{whiteSpace: 'nowrap'}}>
                                 <HeaderTableCellA component="th" scope="row" colSpan={3}>GENETIC ALTERATION</HeaderTableCellA>
-                                <HeaderTableCellB component="th" scope="row" colSpan={4}>CANCER GENETIC DEPENDENCY</HeaderTableCellB>
+                                <HeaderTableCellB component="th" scope="row" colSpan={3}>CANCER GENETIC DEPENDENCY</HeaderTableCellB>
                                 <HeaderTableCellA component="th" scope="row" colSpan={4}>THERAPIES</HeaderTableCellA>
                               </TableRow>
                               <TableRow style={{whiteSpace: 'nowrap'}}>
@@ -296,7 +331,7 @@ class Therapies extends React.Component {
                                   ? <SpinnerWrapper />
                                   : rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row,index) => {
                                       let createScores = (row,evidence) => {
-                                          return row.evidence[evidence] ? " (" + row.evidence[evidence].rscore.toExponential(2) + ")" : "";
+                                          return row.evidence[evidence] ? " (" + row.evidence[evidence].score.toExponential(2) + ")" : "";
                                       };
 
                                       return (
@@ -312,9 +347,9 @@ class Therapies extends React.Component {
                                                     <Chip label={"CRISPR" + createScores(row,"CRISPR")} className={row.evidence.CRISPR ? classes.chipOn : classes.chipOff}/>
                                                 </TableCell>
                                                 <TableCell>{row.drug_name !== 'null' ? row.drug_name : "-"}</TableCell>
-                                                <TableCell numeric>{row.sources.PANDRUGS ? row.sources.PANDRUGS.dscore.toFixed(3) : "-"}</TableCell>
-                                                <TableCell numeric>{row.sources.LINCS ? row.sources.LINCS.dscore.toFixed(3) : "-"}</TableCell>
-                                                <TableCell>{(row.sources.LINCS && row.sources.PANDRUGS && row.sources.LINCS.dscore >= 0.9 && row.sources.PANDRUGS.dscore >= 0.6) ? <StarIcon color="secondary" /> : ""}</TableCell>
+                                                <TableCell numeric>{row.sources.PANDRUGS ? row.sources.PANDRUGS.score.toFixed(3) : "-"}</TableCell>
+                                                <TableCell numeric>{row.sources.LINCS ? row.sources.LINCS.score.toFixed(3) : "-"}</TableCell>
+                                                <TableCell>{(row.sources.LINCS && row.sources.PANDRUGS && row.sources.LINCS.score >= 0.9 && row.sources.PANDRUGS.score >= 0.6) ? <StarIcon color="secondary" /> : ""}</TableCell>
                                           </TableRow>
                                       );
                                 })}
