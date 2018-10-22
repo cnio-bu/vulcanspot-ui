@@ -202,7 +202,7 @@ class Therapies extends React.Component {
                         var contexts = results[geneA];
                         for (var context in contexts) {
                             if (!contexts.hasOwnProperty(context)) continue;
-                            var alterations = contexts[context];
+                            var alterations = contexts[context]['alterations'];
                             for (var alteration in alterations) {
                                 if (!alterations.hasOwnProperty(alteration)) continue;
                                 var genesB = alterations[alteration];
