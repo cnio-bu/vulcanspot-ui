@@ -26,6 +26,7 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import queryString from 'query-string';
 
 import logo from './img/logo.png';
 
@@ -119,7 +120,36 @@ class Dashboard extends React.Component {
     skew: -0.5
   };
 
+  componentDidMount() {
+      let params = queryString.parse(this.props.location.search);
+      if("genesA" in params){
+        this.setState({selectedGenesA:params.genesA.split(",")});
+      }
+      if("contexts" in params){
+        this.setState({selectedContexts:params.contexts.split(",")});
+      }
+  }
+
+  modifyQuery = (key,val) => {
+    let props = queryString.parse(this.props.location.search);
+    let q = "";
+    if(val.length > 0){
+        q += "&" + key + "=" + val.join(",")
+    }
+    Object.keys(props).forEach((k) => {
+        if(k !== key){
+            q += "&" + k + "=" + props[k]
+        }
+    });
+    q = "?" + q.substring(1, q.length);
+    this.props.history.push({
+        pathname: '/treatments',
+        search: q
+    });
+  };
+
   handleGenesA = (selectedGenesA) => {
+    this.modifyQuery("genesA",selectedGenesA);
     this.setState({ selectedGenesA: selectedGenesA });
   };
 
@@ -215,7 +245,7 @@ class Dashboard extends React.Component {
                 <Grid item xs={8}>
                     <Paper style={{padding:10}} square={true}>
                         <Typography component="div" className={classes.selectContainer}>
-                           <MultiSelector label='genes' onChange={this.handleGenesA} />
+                           <MultiSelector label='genes' items={this.state.selectedGenesA} onChange={this.handleGenesA} />
                         </Typography>
                         <Typography component="div" className={classes.selectContainer}>
                            <MultiSelector label='contexts' onChange={this.handleContexts} />

@@ -18,6 +18,7 @@ import LastPageIcon from '@material-ui/icons/LastPage';
 import StarIcon from '@material-ui/icons/Star';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Chip from '@material-ui/core/Chip';
+import LinkerMenu from './LinkerMenu';
 
 const actionsStyles = theme => ({
       root: {
@@ -128,7 +129,7 @@ function Spinner(props) {
       const { classes } = props;
       return (
             <TableRow>
-                <TableCell rowSpan={10} colSpan={10}>
+                <TableCell rowSpan={11} colSpan={11}>
                     <CircularProgress className={classes.progress} size={100} /> LOADING
                 </TableCell>
             </TableRow>
@@ -203,6 +204,7 @@ class Therapies extends React.Component {
                         for (var context in contexts) {
                             if (!contexts.hasOwnProperty(context)) continue;
                             var alterations = contexts[context]['alterations'];
+                            var drugs = contexts[context]['drugs'];
                             for (var alteration in alterations) {
                                 if (!alterations.hasOwnProperty(alteration)) continue;
                                 var genesB = alterations[alteration];
@@ -215,6 +217,7 @@ class Therapies extends React.Component {
                                         rows.push({
                                             gene_a: geneA,
                                             gene_a_alteration: alteration,
+                                            gene_a_drugs: drugs,
                                             context: context,
                                             gene_b: geneB,
                                             gene_b_role: therapy.role,
@@ -308,7 +311,7 @@ class Therapies extends React.Component {
                             <Table className={classes.table}>
                             <TableHead>
                               <TableRow style={{whiteSpace: 'nowrap'}}>
-                                <HeaderTableCellA component="th" scope="row" colSpan={3}>GENETIC ALTERATION</HeaderTableCellA>
+                                <HeaderTableCellA component="th" scope="row" colSpan={4}>GENETIC ALTERATION</HeaderTableCellA>
                                 <HeaderTableCellB component="th" scope="row" colSpan={3}>CANCER GENETIC DEPENDENCY</HeaderTableCellB>
                                 <HeaderTableCellA component="th" scope="row" colSpan={4}>THERAPIES</HeaderTableCellA>
                               </TableRow>
@@ -316,6 +319,7 @@ class Therapies extends React.Component {
                                 <HeaderTableCellA component="th" scope="row">gene A</HeaderTableCellA>
                                 <HeaderTableCellA component="th" scope="row">alteration</HeaderTableCellA>
                                 <HeaderTableCellA component="th" scope="row">context</HeaderTableCellA>
+                                <HeaderTableCellA component="th" scope="row">druggable gene A</HeaderTableCellA>
                                 <HeaderTableCellB component="th" scope="row">gene B</HeaderTableCellB>
                                 <HeaderTableCellB component="th" scope="row">gene B role (driver)</HeaderTableCellB>
                                 <HeaderTableCellB component="th" scope="row">evidence (score)</HeaderTableCellB>
@@ -339,6 +343,7 @@ class Therapies extends React.Component {
                                                 <TableCell>{row.gene_a}</TableCell>
                                                 <TableCell>{row.gene_a_alteration}</TableCell>
                                                 <TableCell>{row.context}</TableCell>
+                                                <TableCell><LinkerMenu options={row.gene_a_drugs ? row.gene_a_drugs : []} /></TableCell>
                                                 <TableCell>{row.gene_b}</TableCell>
                                                 <TableCell>{row.gene_b_role.replace("unknown","-") + " ("+row.gene_b_driver+")"}</TableCell>
                                                 <TableCell style={{whiteSpace:'nowrap'}}>

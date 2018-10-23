@@ -65,6 +65,12 @@ class MultiSelector extends React.Component {
         };
     }
 
+    componentWillReceiveProps(newProps){
+        if(newProps.items !== this.props.items){
+            this.setState({selectedItems: newProps.items});
+        }
+    }
+
   getSuggestions = hint =>{
     axios.get('/'+this.props.label+'?hint='+hint.toUpperCase()+'&limit=10')
     .then(({ data }) => {
