@@ -189,11 +189,7 @@ class Therapies extends React.Component {
     loadData = async () => {
         let rows = [];
         for(var i=0;i<this.state.genesA.length;i++){
-            let ctx = this.state.contexts.join(",");
-            if(ctx){
-                ctx = "?ctx=" + ctx;    
-            }
-            const res = await fetch('/genes/'+this.state.genesA[i]+'/therapies' + ctx);
+            const res = await fetch('/genes/'+this.state.genesA[i]+'/therapies');
             const json = await res.json();
 
             let results = json.data;
@@ -239,11 +235,14 @@ class Therapies extends React.Component {
     }
 
     componentWillReceiveProps(newProps){
-        if(newProps.genesA !== this.props.genesA || newProps.contexts !== this.props.contexts){
+        if(newProps.genesA !== this.props.genesA){ 
             this.setState({loading: true});
             this.setState({genesA: newProps.genesA});
-            this.setState({contexts: newProps.contexts});
             this.loadData();
+        }
+
+        if(newProps.contexts !== this.props.contexts){
+            this.setState({contexts: newProps.contexts});
         }
 
         if(newProps.genesB !== this.props.genesB){
@@ -293,7 +292,7 @@ class Therapies extends React.Component {
                       RNAifilter = row.evidence.RNAi.score >= this.state.rscore && row.evidence.RNAi.fdr <= this.state.fdr;
                   }
 
-                  return row.skewness <= this.state.skew && CRISPRfilter && RNAifilter && GDfilter && (this.state.genesB.length === 0 || this.state.genesB.includes(row.gene_b));
+                  return row.skewness <= this.state.skew && CRISPRfilter && RNAifilter && GDfilter && (this.state.genesB.length === 0 || this.state.genesB.includes(row.gene_b)) && (this.state.contexts.length === 0 || this.state.contexts.includes(row.context));
               };
               rows = rows.filter(filterRow);
               rows.sort((a, b) => {
