@@ -1,20 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Drawer from '@material-ui/core/Drawer';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import Badge from '@material-ui/core/Badge';
-import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import { mainListItems, secondaryListItems } from './listItems';
 import Treatments from './Treatments';
 import MultiSelector from './MultiSelector';
 import Dropdown from './Dropdown';
@@ -29,69 +16,9 @@ import Checkbox from '@material-ui/core/Checkbox';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import queryString from 'query-string';
 
-import logo from './img/logo.png';
-
-const drawerWidth = 240;
-
 const styles = theme => ({
   root: {
     display: 'flex',
-  },
-  toolbar: {
-    paddingRight: 24, // keep right padding when drawer closed
-  },
-  toolbarIcon: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: '0 8px',
-    ...theme.mixins.toolbar,
-  },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  appBarShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  menuButton: {
-    marginLeft: 12,
-    marginRight: 36,
-  },
-  menuButtonHidden: {
-    display: 'none',
-  },
-  title: {
-    flexGrow: 1,
-    paddingLeft: 10
-  },
-  drawerPaper: {
-    position: 'relative',
-    whiteSpace: 'nowrap',
-    width: drawerWidth,
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  drawerPaperClose: {
-    overflowX: 'hidden',
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    width: theme.spacing.unit * 7,
-    [theme.breakpoints.up('sm')]: {
-      width: theme.spacing.unit * 9,
-    },
   },
   appBarSpacer: theme.mixins.toolbar,
   content: {
@@ -113,7 +40,6 @@ const styles = theme => ({
 
 class Dashboard extends React.Component {
   state = {
-    open: false,
     selectedGenesA: [],
     selectedGenesB: [],
     selectedContexts: [],
@@ -123,7 +49,7 @@ class Dashboard extends React.Component {
     rscore: 0.0,
     fdr: 0.25,
     skew: -0.5
-  };
+  }
 
   componentDidMount() {
       let params = queryString.parse(this.props.location.search);
@@ -182,73 +108,14 @@ class Dashboard extends React.Component {
     this.setState({ contexts: data.contexts });
   };
 
-  handleDrawerOpen = () => {
-    this.setState({ open: true });
-  };
-
-  handleDrawerClose = () => {
-    this.setState({ open: false });
-  };
-
   handleChkChange = name => event => {
       this.setState({ [name]: event.target.checked });
   };
-
-  //handleOrderChange = event => {
-  //  this.setState({ order: event.target.value });
-  //};
 
   render() {
     const { classes } = this.props;
 
     return (
-      <React.Fragment>
-        <CssBaseline />
-        <div className={classes.root}>
-          <AppBar
-            position="absolute"
-            className={classNames(classes.appBar, this.state.open && classes.appBarShift)}
-          >
-            <Toolbar disableGutters={!this.state.open} className={classes.toolbar}>
-              <IconButton
-                color="inherit"
-                aria-label="Open drawer"
-                onClick={this.handleDrawerOpen}
-                className={classNames(
-                  classes.menuButton,
-                  this.state.open && classes.menuButtonHidden,
-                )}
-              >
-                <MenuIcon />
-              </IconButton>
-              <img alt="" src={logo} />
-              <Typography variant="title" color="inherit" noWrap className={classes.title}>
-                VulcanSpot
-              </Typography>
-              <IconButton color="inherit">
-                <Badge badgeContent={4} color="secondary">
-                  <NotificationsIcon />
-                </Badge>
-              </IconButton>
-            </Toolbar>
-          </AppBar>
-          <Drawer
-            variant="temporary"
-            classes={{
-              paper: classNames(classes.drawerPaper, !this.state.open && classes.drawerPaperClose),
-            }}
-            open={this.state.open}
-          >
-            <div className={classes.toolbarIcon}>
-              <IconButton onClick={this.handleDrawerClose}>
-                <ChevronLeftIcon />
-              </IconButton>
-            </div>
-            <Divider />
-            <List>{mainListItems}</List>
-            <Divider />
-            <List>{secondaryListItems}</List>
-          </Drawer>
           <main className={classes.content}>
             <div className={classes.appBarSpacer} />
 
@@ -301,8 +168,6 @@ class Dashboard extends React.Component {
                 <Treatments gdcancer={this.state.gdcancer} skew={this.state.skew} fdr={this.state.fdr} rscore={this.state.rscore} contexts={this.state.contexts} selectedContexts={this.state.selectedContexts} genesB={this.state.selectedGenesB} genesA={this.state.selectedGenesA} onDataChange={this.handleDataChange} />
             </div>
           </main>
-        </div>
-      </React.Fragment>
     );
   }
 }
