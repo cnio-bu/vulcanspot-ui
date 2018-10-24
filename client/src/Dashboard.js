@@ -17,6 +17,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './listItems';
 import Treatments from './Treatments';
 import MultiSelector from './MultiSelector';
+import Dropdown from './Dropdown';
 import ScoreSlider from './ScoreSlider';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -116,6 +117,7 @@ class Dashboard extends React.Component {
     selectedGenesA: [],
     selectedGenesB: [],
     selectedContexts: [],
+    contexts : [],
     gdcancer: false,
     //order: 'lethality',
     rscore: 0.0,
@@ -163,6 +165,7 @@ class Dashboard extends React.Component {
   handleContexts = (selectedContexts) => {
     this.setState({ selectedContexts: selectedContexts });
   };
+
   handleGDScore = (score) => {
     this.setState({ rscore: score });
   };
@@ -173,6 +176,10 @@ class Dashboard extends React.Component {
 
   handleSkewness = (skew) => {
     this.setState({ skew: skew });
+  };
+
+  handleDataChange = (data) => {
+    this.setState({ contexts: data.contexts });
   };
 
   handleDrawerOpen = () => {
@@ -257,7 +264,7 @@ class Dashboard extends React.Component {
                         <ExpansionPanelDetails>
                             <Grid container spacing={24}>
                                 <Grid item xs>
-                               <MultiSelector label='contexts' onChange={this.handleContexts} />
+                               <Dropdown label='contexts' items={this.state.contexts} onChange={this.handleContexts} />
                             </Grid>
                             <Grid item xs>
                                <MultiSelector label='genes' onChange={this.handleGenesB} />
@@ -291,7 +298,7 @@ class Dashboard extends React.Component {
                         </ExpansionPanelDetails>
                     </ExpansionPanel>
             <div className={classes.tableContainer}>
-                <Treatments gdcancer={this.state.gdcancer} skew={this.state.skew} fdr={this.state.fdr} rscore={this.state.rscore} contexts={this.state.selectedContexts} genesB={this.state.selectedGenesB} genesA={this.state.selectedGenesA} />
+                <Treatments gdcancer={this.state.gdcancer} skew={this.state.skew} fdr={this.state.fdr} rscore={this.state.rscore} contexts={this.state.contexts} selectedContexts={this.state.selectedContexts} genesB={this.state.selectedGenesB} genesA={this.state.selectedGenesA} onDataChange={this.handleDataChange} />
             </div>
           </main>
         </div>

@@ -170,7 +170,7 @@ class Treatments extends React.Component {
               rows: [],
               genesA: [],
               genesB: [],
-              contexts: [],
+              selectedContexts: [],
               page: 0,
               rowsPerPage: 10,
               loading: false,
@@ -188,6 +188,7 @@ class Treatments extends React.Component {
 
     loadData = async () => {
         let rows = [];
+        let stateData = {'contexts':[]};
         for(var i=0;i<this.state.genesA.length;i++){
             const res = await fetch('/genes/'+this.state.genesA[i]+'/therapies');
             const json = await res.json();
@@ -201,6 +202,7 @@ class Treatments extends React.Component {
                             if (!contexts.hasOwnProperty(context)) continue;
                             var alterations = contexts[context]['alterations'];
                             var drugs = contexts[context]['drugs'];
+                            stateData.contexts.push(context);
                             for (var alteration in alterations) {
                                 if (!alterations.hasOwnProperty(alteration)) continue;
                                 var genesB = alterations[alteration];
@@ -232,6 +234,10 @@ class Treatments extends React.Component {
         }
         this.setState({ rows: rows, loading: false });
 
+        for (const [key,value] of Object.entries(stateData)) {
+             stateData[key] = [...new Set(value)];
+        }
+        this.props.onDataChange(stateData);
     }
 
     componentWillReceiveProps(newProps){
@@ -241,8 +247,8 @@ class Treatments extends React.Component {
             this.loadData();
         }
 
-        if(newProps.contexts !== this.props.contexts){
-            this.setState({contexts: newProps.contexts});
+        if(newProps.selectedContexts !== this.props.selectedContexts){
+            this.setState({selectedContexts: newProps.selectedContexts});
         }
 
         if(newProps.genesB !== this.props.genesB){
@@ -292,7 +298,7 @@ class Treatments extends React.Component {
                       RNAifilter = row.evidence.RNAi.score >= this.state.rscore && row.evidence.RNAi.fdr <= this.state.fdr;
                   }
 
-                  return row.skewness <= this.state.skew && CRISPRfilter && RNAifilter && GDfilter && (this.state.genesB.length === 0 || this.state.genesB.includes(row.gene_b)) && (this.state.contexts.length === 0 || this.state.contexts.includes(row.context));
+                  return row.skewness <= this.state.skew && CRISPRfilter && RNAifilter && GDfilter && (this.state.genesB.length === 0 || this.state.genesB.includes(row.gene_b)) && (this.state.selectedContexts.length === 0 || this.state.selectedContexts.includes(row.context));
               };
               rows = rows.filter(filterRow);
               rows.sort((a, b) => {
