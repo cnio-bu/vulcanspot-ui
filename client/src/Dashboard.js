@@ -15,7 +15,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './listItems';
-import Therapies from './Therapies';
+import Treatments from './Treatments';
 import MultiSelector from './MultiSelector';
 import ScoreSlider from './ScoreSlider';
 import Grid from '@material-ui/core/Grid';
@@ -98,6 +98,9 @@ const styles = theme => ({
     padding: theme.spacing.unit * 3,
     height: '100vh',
     overflow: 'auto',
+  },
+  filtersPanel: {
+    padding: theme.spacing.unit * 3,
   },
   selectContainer: {
       marginBottom:20,
@@ -241,76 +244,54 @@ class Dashboard extends React.Component {
           </Drawer>
           <main className={classes.content}>
             <div className={classes.appBarSpacer} />
-            <Grid container spacing={8}>
-                <Grid item xs={8}>
+
                     <Paper style={{padding:10}} square={true}>
-                        <Typography component="div" className={classes.selectContainer}>
                            <MultiSelector label='genes' items={this.state.selectedGenesA} onChange={this.handleGenesA} />
-                        </Typography>
-                        <Typography component="div" className={classes.selectContainer}>
-                           <MultiSelector label='contexts' onChange={this.handleContexts} />
-                        </Typography>
                     </Paper>
-                </Grid>
-                <Grid item xs={4}>
                     <ExpansionPanel>
                         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                             <Typography variant="body1" component="h3">
-                                Advanced filters
+                                Filters
                             </Typography>
                         </ExpansionPanelSummary>
                         <ExpansionPanelDetails>
-                            <Grid container spacing={0}>
-                                <Grid item xs={12}>
-                                    <MultiSelector label='genes' onChange={this.handleGenesB} />
-                                    <br/>
-                                </Grid>
-                                <Grid item xs={6}>
+                            <Grid container spacing={24}>
+                                <Grid item xs>
+                               <MultiSelector label='contexts' onChange={this.handleContexts} />
+                            </Grid>
+                            <Grid item xs>
+                               <MultiSelector label='genes' onChange={this.handleGenesB} />
+                            </Grid>
+                            </Grid>
+                        </ExpansionPanelDetails>
+                        <ExpansionPanelDetails>
+                            <Grid container spacing={24}>
+                                <Grid item xs>
                                     <ScoreSlider initVal={this.state.rscore} label="Min. GD Score" onScoreChange={this.handleGDScore} />
+                                </Grid>
+                                <Grid item xs>
                                     <ScoreSlider initVal={this.state.skew} min={-7} max={7} step={0.5} label="Min. skewness" onScoreChange={this.handleSkewness} />
                                 </Grid>
-                                <Grid item xs={6}>
+                                <Grid item xs>
                                     <ScoreSlider initVal={this.state.fdr} label="Max. FDR" step={0.01} onScoreChange={this.handleFDR} />
                                 </Grid>
-                                <Grid item xs={12}>
+                            </Grid>
+                        </ExpansionPanelDetails>
+                        <ExpansionPanelDetails>
+                            <Grid container spacing={24}>
+                                <Grid item xs>
                                     <FormControlLabel
                                         control={
                                             <Checkbox checked={this.state.gdcancer} onChange={this.handleChkChange('gdcancer')} value="gdcancer" color="primary" />
                                         }
-                                        label="GDs on cancer genes"
+                                        label={<Typography variant="caption">GDs on cancer genes</Typography>}
                                     />
                                 </Grid>
                             </Grid>
                         </ExpansionPanelDetails>
                     </ExpansionPanel>
-                    {/*<ExpansionPanel>
-                        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                            <Typography variant="body1" component="h3">
-                                Order
-                            </Typography>
-                        </ExpansionPanelSummary>
-                        <ExpansionPanelDetails>
-                            <FormControl component="fieldset" className={classes.formControl}>
-                                <RadioGroup
-                                    aria-label="Gender"
-                                    name="gender1"
-                                    className={classes.group}
-                                    value={this.state.order}
-                                    onChange={this.handleOrderChange}
-                                >
-                                    <FormControlLabel value="lethality" control={<Radio />} label="Lethality" />
-                                    <FormControlLabel value="druggability" control={<Radio />} label="Vulnerability" />
-                                    <FormControlLabel value="thervul" control={<Radio />} label="Therapeutic Vulnerability" />
-                                </RadioGroup>
-                            </FormControl>
-                        </ExpansionPanelDetails>
-                    </ExpansionPanel>
-                    */}
-                </Grid>
-            </Grid>
             <div className={classes.tableContainer}>
-                {/*<Therapies order={this.state.order} gdcancer={this.state.gdcancer} skew={this.state.skew} fdr={this.state.fdr} rscore={this.state.rscore} contexts={this.state.selectedContexts} genesB={this.state.selectedGenesB} genesA={this.state.selectedGenesA} />*/}
-                <Therapies gdcancer={this.state.gdcancer} skew={this.state.skew} fdr={this.state.fdr} rscore={this.state.rscore} contexts={this.state.selectedContexts} genesB={this.state.selectedGenesB} genesA={this.state.selectedGenesA} />
+                <Treatments gdcancer={this.state.gdcancer} skew={this.state.skew} fdr={this.state.fdr} rscore={this.state.rscore} contexts={this.state.selectedContexts} genesB={this.state.selectedGenesB} genesA={this.state.selectedGenesA} />
             </div>
           </main>
         </div>

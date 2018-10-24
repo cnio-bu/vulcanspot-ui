@@ -162,7 +162,7 @@ const HeaderTableCellA = withStyles(theme => ({
             },
 }))(TableCell);
 
-class Therapies extends React.Component {
+class Treatments extends React.Component {
     constructor(props) {
         super(props);
         this.loadData = debounce(500, this.loadData);
@@ -383,8 +383,8 @@ class Therapies extends React.Component {
             }
 }
 
-Therapies.propTypes = {
+Treatments.propTypes = {
       classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Therapies);
+export default withStyles(styles)(Treatments);
