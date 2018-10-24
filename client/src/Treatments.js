@@ -323,7 +323,11 @@ class Treatments extends React.Component {
                   let score_p_b = b.sources.PANDRUGS ? b.sources.PANDRUGS.score : 0;
                   let score_l_a = a.sources.LINCS ? a.sources.LINCS.score : 0;
                   let score_l_b = b.sources.LINCS ? b.sources.LINCS.score : 0;
-                  return b.druggable_a - a.druggable_a || b.nsources - a.nsources || score_p_b - score_p_a || score_l_b - score_l_a;
+
+                  let druggable_a = a.gene_a_drugs ? 1 : 0;
+                  let druggable_b = b.gene_a_drugs ? 1 : 0;
+
+                  return druggable_b - druggable_a || b.nsources - a.nsources || score_p_b - score_p_a || score_l_b - score_l_a;
               });
               const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
