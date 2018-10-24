@@ -18,7 +18,7 @@ import LastPageIcon from '@material-ui/icons/LastPage';
 import StarIcon from '@material-ui/icons/Star';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Chip from '@material-ui/core/Chip';
-import LinkerMenu from './LinkerMenu';
+import PanDrugsList from './PanDrugsList';
 
 const actionsStyles = theme => ({
       root: {
@@ -342,7 +342,7 @@ class Treatments extends React.Component {
                                                 <TableCell>{row.gene_a}</TableCell>
                                                 <TableCell>{row.gene_a_alteration}</TableCell>
                                                 <TableCell>{row.context}</TableCell>
-                                                <TableCell><LinkerMenu options={row.gene_a_drugs ? row.gene_a_drugs : []} /></TableCell>
+                                                <TableCell><PanDrugsList gene={row.gene_a} items={row.gene_a_drugs ? row.gene_a_drugs : []} /></TableCell>
                                                 <TableCell>{row.gene_b}</TableCell>
                                                 <TableCell>{row.gene_b_role.replace("unknown","-") + " ("+row.gene_b_driver+")"}</TableCell>
                                                 <TableCell style={{whiteSpace:'nowrap'}}>
