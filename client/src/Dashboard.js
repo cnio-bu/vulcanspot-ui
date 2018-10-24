@@ -276,9 +276,9 @@ class Dashboard extends React.Component {
                                 <Grid item xs>
                                     <ScoreSlider initVal={this.state.rscore} label="Min. GD Score" onScoreChange={this.handleGDScore} />
                                 </Grid>
-                                <Grid item xs>
+                                {/*<Grid item xs>
                                     <ScoreSlider initVal={this.state.skew} min={-7} max={7} step={0.5} label="Min. skewness" onScoreChange={this.handleSkewness} />
-                                </Grid>
+                                </Grid>*/}
                                 <Grid item xs>
                                     <ScoreSlider initVal={this.state.fdr} label="Max. FDR" step={0.01} onScoreChange={this.handleFDR} />
                                 </Grid>
