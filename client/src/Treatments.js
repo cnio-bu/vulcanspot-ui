@@ -316,21 +316,21 @@ class Treatments extends React.Component {
                             <Table className={classes.table}>
                             <TableHead>
                               <TableRow style={{whiteSpace: 'nowrap'}}>
-                                <HeaderTableCellA component="th" scope="row" colSpan={4}>GENETIC ALTERATION</HeaderTableCellA>
-                                <HeaderTableCellB component="th" scope="row" colSpan={3}>CANCER GENETIC DEPENDENCY</HeaderTableCellB>
-                                <HeaderTableCellA component="th" scope="row" colSpan={4}>THERAPIES</HeaderTableCellA>
+                                <HeaderTableCellA component="th" scope="row" colSpan={4}>GENE A</HeaderTableCellA>
+                                <HeaderTableCellB component="th" scope="row" colSpan={3}>GENE B</HeaderTableCellB>
+                                <HeaderTableCellA component="th" scope="row" colSpan={4}>DRUG</HeaderTableCellA>
                               </TableRow>
                               <TableRow style={{whiteSpace: 'nowrap'}}>
-                                <HeaderTableCellA component="th" scope="row">gene A</HeaderTableCellA>
+                                <HeaderTableCellA component="th" scope="row">symbol</HeaderTableCellA>
                                 <HeaderTableCellA component="th" scope="row">alteration</HeaderTableCellA>
                                 <HeaderTableCellA component="th" scope="row">context</HeaderTableCellA>
-                                <HeaderTableCellA component="th" scope="row">druggable gene A</HeaderTableCellA>
-                                <HeaderTableCellB component="th" scope="row">gene B</HeaderTableCellB>
-                                <HeaderTableCellB component="th" scope="row">gene B role (driver)</HeaderTableCellB>
-                                <HeaderTableCellB component="th" scope="row">evidence (score)</HeaderTableCellB>
-                                <HeaderTableCellA component="th" scope="row">drug</HeaderTableCellA>
-                                <HeaderTableCellA component="th" scope="row">pandrugs</HeaderTableCellA>
-                                <HeaderTableCellA component="th" scope="row">lincs</HeaderTableCellA>
+                                <HeaderTableCellA component="th" scope="row">druggable</HeaderTableCellA>
+                                <HeaderTableCellB component="th" scope="row">symbol</HeaderTableCellB>
+                                <HeaderTableCellB component="th" scope="row">role (driver)</HeaderTableCellB>
+                                <HeaderTableCellB component="th" scope="row">dependency evidence (score)</HeaderTableCellB>
+                                <HeaderTableCellA component="th" scope="row">name</HeaderTableCellA>
+                                <HeaderTableCellA component="th" scope="row">pandrugs score</HeaderTableCellA>
+                                <HeaderTableCellA component="th" scope="row">lincs score</HeaderTableCellA>
                                 <HeaderTableCellA component="th" scope="row">&nbsp;</HeaderTableCellA>
                               </TableRow>
                             </TableHead>
