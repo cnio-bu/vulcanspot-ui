@@ -209,27 +209,40 @@ class Treatments extends React.Component {
                                 for (var geneB in genesB) {
                                     if (!genesB.hasOwnProperty(geneB)) continue;
                                     var therapy = genesB[geneB];
-                                    let row = {
-                                        gene_a: geneA,
-                                        gene_a_alteration: alteration,
-                                        gene_a_drugs: drugs,
-                                        context: context,
-                                        gene_b: geneB,
-                                        gene_b_role: therapy.role,
-                                        gene_b_driver: therapy.driver,
-                                        evidence: therapy.evidence,
-                                        skewness: therapy.skewness,
-                                        drug_name : "-",
-                                        sources: {}
-                                    };
                                     if("drugs" in therapy){
                                         for (var drug in therapy["drugs"]) {
                                             if (!therapy["drugs"].hasOwnProperty(drug)) continue;
-                                            row["sources"] = therapy["drugs"][drug]
-                                            row["drug_name"] = drug;
+                                            var sources = therapy["drugs"][drug];
+                                            rows.push({
+                                                gene_a: geneA,
+                                                gene_a_alteration: alteration,
+                                                gene_a_drugs: drugs,
+                                                context: context,
+                                                gene_b: geneB,
+                                                gene_b_role: therapy.role,
+                                                gene_b_driver: therapy.driver,
+                                                evidence: therapy.evidence,
+                                                drug_name: drug,
+                                                sources: sources,
+                                                skewness: therapy.skewness
+                                            });
                                         }
+                                    }else{
+                                        rows.push({
+                                            gene_a: geneA,
+                                            gene_a_alteration: alteration,
+                                            gene_a_drugs: drugs,
+                                            context: context,
+                                            gene_b: geneB,
+                                            gene_b_role: therapy.role,
+                                            gene_b_driver: therapy.driver,
+                                            evidence: therapy.evidence,
+                                            drug_name: "-",
+                                            sources: {},
+                                            skewness: therapy.skewness
+                                        });
+
                                     }
-                                    rows.push(row);
                                 }
                             }
                         }
