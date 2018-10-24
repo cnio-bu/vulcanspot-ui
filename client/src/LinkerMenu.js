@@ -3,6 +3,8 @@ import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import Chip from '@material-ui/core/Chip';
+import Avatar from '@material-ui/core/Avatar';
 
 import logo from './img/logo.png';
 import logo_gray from './img/logo_gray.png';
@@ -18,17 +20,17 @@ class LinkerMenu extends React.Component {
     this.setState({ anchorEl: event.currentTarget });
   };
 
-  handleClose = () => {
+  handleClose = (event) => {
+    window.open('http://www.pandrugs.org/?'+event.target.innerText, '_blank');
     this.setState({ anchorEl: null });
   };
 
   render() {
     const { anchorEl } = this.state;
     const open = Boolean(anchorEl);
-
     return (
       <div>
-        <img src={logo} onClick={this.handleClick} />
+        {Object.keys(this.props.options).length > 0 ? <Chip avatar={<Avatar alt="Yes" src={logo} />} label="Yes" onClick={this.handleClick} /> : <Chip avatar={<Avatar alt="No" src={logo_gray} />} label="No" />}
         <Menu
           id="long-menu"
           anchorEl={anchorEl}
@@ -42,7 +44,7 @@ class LinkerMenu extends React.Component {
           }}
         >
           {Object.keys(this.props.options).sort().map(option => (
-            <MenuItem key={option} onClick={this.handleClose}>
+            <MenuItem style={{fontSize:12}} key={option} onClick={this.handleClose} value={option}>
               {option}
             </MenuItem>
           ))}
