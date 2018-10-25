@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import Chip from '@material-ui/core/Chip';
@@ -7,14 +6,32 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Avatar from '@material-ui/core/Avatar';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import Typography from '@material-ui/core/Typography';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
 
 import logo from './img/logo.png';
 import logo_gray from './img/logo_gray.png';
 
+const styles = theme => ({
+    root: {
+        width: '100%',
+        maxHeight: 600,
+        marginTop: theme.spacing.unit * 3,
+        overflow: 'auto',
+    },
+    table: {
+        minWidth: 200,
+    },
+});
+
 class PanDrugsList extends React.Component {
+
       state = {
               open: false,
             };
@@ -32,6 +49,8 @@ class PanDrugsList extends React.Component {
             };
 
       render() {
+          const { classes } = this.props;
+
               return (
                         <div>
                           {Object.keys(this.props.items).length > 0 ? <Chip avatar={<Avatar alt="Yes" src={logo} />} label="Yes" onClick={this.handleClickOpen} /> : <Chip avatar={<Avatar alt="No" src={logo_gray} />} label="No" />}
@@ -43,11 +62,26 @@ class PanDrugsList extends React.Component {
                           >
                             <DialogTitle id="alert-dialog-title">{"Available drugs for "+this.props.gene}</DialogTitle>
                             <DialogContent>
-                                  <List>
-                                      {Object.keys(this.props.items).sort().map(option => (
-                                        <ListItem key={option}><Typography style={{fontSize:12}}>{option}</Typography></ListItem>
+                  <Paper className={classes.root}>
+                              <Table className={classes.table}>
+                                    <TableHead>
+                                      <TableRow>
+                                        <TableCell>drug</TableCell>
+                                        <TableCell numeric>score</TableCell>
+                                      </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                      {Object.entries(this.props.items).sort((a,b) => b[1] - a[1]).map(pair => (
+                                          <TableRow key={pair[0]}>
+                                            <TableCell component="th" scope="row">
+                                                  {pair[0]}
+                                            </TableCell>
+                                            <TableCell numeric>{pair[1]}</TableCell>
+                                          </TableRow>
                                       ))}
-                                  </List>
+                                    </TableBody>
+                                  </Table>
+                  </Paper>
                           </DialogContent>
                             <DialogActions>
                               <Button onClick={this.handleClick} color="primary">
@@ -63,4 +97,8 @@ class PanDrugsList extends React.Component {
             }
 }
 
-export default PanDrugsList;
+PanDrugsList.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(PanDrugsList);
