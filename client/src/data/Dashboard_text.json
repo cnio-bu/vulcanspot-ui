@@ -1,0 +1,54 @@
+{
+    "geneA": {
+        "column":"GENE A",
+        "tooltip": "XXX"
+    },
+    "geneB": {
+         "column": "GENE B",
+         "tooltip": "XXX"
+    },
+    "drug": {
+         "column": "DRUG",
+         "tooltip": "XXX"
+    },
+    "symbol": {
+         "column": "gene symbol",
+         "tooltip": "XXX"
+    },
+    "alteration": {
+         "column": "alteration",
+         "tooltip": "XXX"
+    },
+    "context": {
+         "column": "context",
+         "tooltip": "XXX"
+    },
+    "druggable": {
+         "column": "druggable",
+         "tooltip": "XXX"
+    },
+    "role": {
+         "column": "role (driver)",
+         "tooltip": "XXX"
+    },
+    "evidence": {
+         "column": "dependency evidence (score)",
+         "tooltip": "XXX"
+    },
+    "drug_name": {
+         "column": "drug",
+         "tooltip": "XXX"
+    },
+    "pandrugs_score": {
+         "column": "pandrugs score",
+         "tooltip": "XXX"
+    },
+    "lincs_score": {
+         "column": "lincs score",
+         "tooltip": "XXX"
+    },
+    "star": {
+         "column": "",
+         "tooltip": "XXX"
+    }
+}
