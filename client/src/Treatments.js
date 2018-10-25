@@ -190,7 +190,7 @@ class Treatments extends React.Component {
         let rows = [];
         let stateData = {'contexts':[]};
         for(var i=0;i<this.state.genesA.length;i++){
-            const res = await fetch('/genes/'+this.state.genesA[i]+'/therapies');
+            const res = await fetch('/genes/'+this.state.genesA[i]+'/treatments');
             const json = await res.json();
 
             let results = json.data;

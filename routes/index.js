@@ -12,6 +12,6 @@ router.get('/contexts', db.getContexts);
 
 router.get('/genes/:gene', db.getGene);
 
-router.get('/genes/:gene/therapies', db.getTherapies);
+router.get('/genes/:gene/treatments', db.getTreatments);
 
 module.exports = router;
