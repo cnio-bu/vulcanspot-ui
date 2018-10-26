@@ -16,6 +16,7 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import StarIcon from '@material-ui/icons/Star';
+import InfoIcon from '@material-ui/icons/Info';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Chip from '@material-ui/core/Chip';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -120,11 +121,15 @@ const styles = theme => ({
     chipOff: {background:"lightgray", fontSize:'10px', width:100, height:20},
     chipWhite: {background:"white", fontSize:'10px', width:100, height:20},
     lightTooltip: {
-    background: theme.palette.common.white,
-    color: theme.palette.text.primary,
-    boxShadow: theme.shadows[1],
-    fontSize: 11,
-  },
+        background: theme.palette.common.white,
+        color: theme.palette.text.primary,
+        boxShadow: theme.shadows[1],
+        fontSize: 11,
+    },
+    infoIcon: {
+        marginLeft: 5,
+        fontSize: 16,
+    },
     
 });
 
@@ -348,74 +353,116 @@ class Treatments extends React.Component {
                               <TableRow style={{whiteSpace: 'nowrap'}}>
                                 <HeaderTableCellA component="th" scope="row" colSpan={4}>
                                     <Tooltip title={text.geneA.tooltip}>
-                                        <span>{text.geneA.column}</span>
+                                        <span>
+                                            {text.geneA.column}
+                                            {text.geneA.tooltip ? <InfoIcon className={classes.infoIcon} /> : ""}
+                                        </span>
                                     </Tooltip>
                                 </HeaderTableCellA>
                                 <HeaderTableCellB component="th" scope="row" colSpan={3}>
                                     <Tooltip title={text.geneB.tooltip}>
-                                        <span>{text.geneB.column}</span>
+                                        <span>
+                                            {text.geneB.column}
+                                            {text.geneB.tooltip ? <InfoIcon className={classes.infoIcon} /> : ""}
+                                        </span>
                                     </Tooltip>
                                 </HeaderTableCellB>
                                 <HeaderTableCellA component="th" scope="row" colSpan={4}>
                                     <Tooltip title={text.drug.tooltip}>
-                                        <span>{text.drug.column}</span>
+                                        <span>
+                                            {text.drug.column}
+                                            {text.drug.tooltip ? <InfoIcon className={classes.infoIcon} /> : ""}
+                                        </span>
                                     </Tooltip>
                                 </HeaderTableCellA>
                               </TableRow>
                               <TableRow style={{whiteSpace: 'nowrap'}}>
                                 <HeaderTableCellA component="th" scope="row">
                                     <Tooltip title={text.symbol.tooltip}>
-                                        <span>{text.symbol.column}</span>
+                                        <span>
+                                            {text.symbol.column}
+                                            {text.symbol.tooltip ? <InfoIcon className={classes.infoIcon} /> : ""}
+                                        </span>
                                     </Tooltip>
                                 </HeaderTableCellA>
                                 <HeaderTableCellA component="th" scope="row">
                                     <Tooltip title={text.alteration.tooltip}>
-                                        <span>{text.alteration.column}</span>
+                                        <span>
+                                            {text.alteration.column}
+                                            {text.alteration.tooltip ? <InfoIcon className={classes.infoIcon} /> : ""}
+                                        </span>
                                     </Tooltip>
                                 </HeaderTableCellA>
                                 <HeaderTableCellA component="th" scope="row">
                                     <Tooltip title={text.context.tooltip}>
-                                        <span>{text.context.column}</span>
+                                        <span>
+                                            {text.context.column}
+                                            {text.context.tooltip ? <InfoIcon className={classes.infoIcon} /> : ""}
+                                        </span>
                                     </Tooltip>
                                 </HeaderTableCellA>
                                 <HeaderTableCellA component="th" scope="row">
                                     <Tooltip title={text.druggable.tooltip}>
-                                        <span>{text.druggable.column}</span>
+                                        <span>
+                                            {text.druggable.column}
+                                            {text.druggable.tooltip ? <InfoIcon className={classes.infoIcon} /> : ""}
+                                        </span>
                                     </Tooltip>
                                 </HeaderTableCellA>
                                 <HeaderTableCellB component="th" scope="row">
                                     <Tooltip title={text.symbol.tooltip}>
-                                        <span>{text.symbol.column}</span>
+                                        <span>
+                                            {text.symbol.column}
+                                            {text.symbol.tooltip ? <InfoIcon className={classes.infoIcon} /> : ""}
+                                        </span>
                                     </Tooltip>
                                 </HeaderTableCellB>
                                 <HeaderTableCellB component="th" scope="row">
                                     <Tooltip title={text.role.tooltip}>
-                                        <span>{text.role.column}</span>
+                                        <span>
+                                            {text.role.column}
+                                            {text.role.tooltip ? <InfoIcon className={classes.infoIcon} /> : ""}
+                                        </span>
                                     </Tooltip>
                                 </HeaderTableCellB>
                                 <HeaderTableCellB component="th" scope="row">
                                     <Tooltip title={text.evidence.tooltip}>
-                                        <span>{text.evidence.column}</span>
+                                        <span>
+                                            {text.evidence.column}
+                                            {text.evidence.tooltip ? <InfoIcon className={classes.infoIcon} /> : ""}
+                                        </span>
                                     </Tooltip>
                                 </HeaderTableCellB>
                                 <HeaderTableCellA component="th" scope="row">
                                     <Tooltip title={text.drug_name.tooltip}>
-                                        <span>{text.drug_name.column}</span>
+                                        <span>
+                                            {text.drug_name.column}
+                                            {text.drug_name.tooltip ? <InfoIcon className={classes.infoIcon} /> : ""}
+                                        </span>
                                     </Tooltip>
                                 </HeaderTableCellA>
                                 <HeaderTableCellA component="th" scope="row">
                                     <Tooltip title={text.pandrugs_score.tooltip}>
-                                        <span>{text.pandrugs_score.column}</span>
+                                        <span>
+                                            {text.pandrugs_score.column}
+                                            {text.pandrugs_score.tooltip ? <InfoIcon className={classes.infoIcon} /> : ""}
+                                        </span>
                                     </Tooltip>
                                 </HeaderTableCellA>
                                 <HeaderTableCellA component="th" scope="row">
                                     <Tooltip title={text.lincs_score.tooltip}>
-                                        <span>{text.lincs_score.column}</span>
+                                        <span>
+                                            {text.lincs_score.column}
+                                            {text.lincs_score.tooltip ? <InfoIcon className={classes.infoIcon} /> : ""}
+                                        </span>
                                     </Tooltip>
                                 </HeaderTableCellA>
                                 <HeaderTableCellA component="th" scope="row">
                                     <Tooltip title={text.star.tooltip}>
-                                        <span>{text.star.column}</span>
+                                        <span>
+                                            {text.star.column}
+                                            {text.star.tooltip ? <InfoIcon className={classes.infoIcon} /> : ""}
+                                        </span>
                                     </Tooltip>
                                 </HeaderTableCellA>
                               </TableRow>
