@@ -477,6 +477,73 @@ class Treatments extends React.Component {
                                           return <div><span style={{fontWeight:'bold'}}>{evidence}</span><span>{row.evidence[evidence] ? " (" + row.evidence[evidence].score.toExponential(2) + ")" : ""}</span></div>;
                                       };
 
+                                      let geneBRoleDriver = (row) => {
+                                            let role_color = null;
+                                            let role_label = null;
+                                            let driver_color = null;
+                                            let driver_label = null;
+                                            let role_tooltip = null;
+                                            let driver_tooltip = null;
+
+                                            let showRole = false;
+                                            let showDriver = false;
+
+                                            switch(row.gene_b_role){
+                                                case 'oncogene':
+                                                    role_color = 'red';
+                                                    role_label = 'ONC';
+                                                    role_tooltip = 'oncogene';
+                                                    showRole = true;
+                                                    break;
+                                                case 'oncogene/TSG':
+                                                    role_color = 'orange';
+                                                    role_label = 'ONC/TSG';
+                                                    role_tooltip = 'oncogene/TSG';
+                                                    showRole = true;
+                                                    break;
+                                                case 'TSG':
+                                                    role_color = 'lightblue';
+                                                    role_label = 'TSG';
+                                                    role_tooltip = 'TSG';
+                                                    showRole = true;
+                                                    break;
+                                                default:
+                                                    break;
+                                            }
+                                            switch(row.gene_b_driver){
+                                                case 'High Confidence Driver':
+                                                    driver_color = 'green';
+                                                    driver_label = 'HCD';
+                                                    driver_tooltip = 'High Confidence Driver';
+                                                    showDriver = true;
+                                                    break;
+                                                case 'Candidate driver':
+                                                    driver_color = 'lightgreen';
+                                                    driver_label = 'LCD';
+                                                    driver_tooltip = 'Low Confidence Driver';
+                                                    showDriver = true;
+                                                    break;
+                                                default:
+                                                    break;
+                                            }
+
+                                            let role = null;
+                                            if(showRole){
+                                                role = <Tooltip title={role_tooltip}><Chip variant="outlined" style={{color:role_color, fontSize:'10px', width:55, height:20}} label={role_label} /></Tooltip>
+                                            }
+                                            let driver = null;
+                                            if(showDriver){
+                                                driver = <Tooltip title={driver_tooltip}><Chip variant="outlined" style={{color:driver_color, fontSize:'10px', width:55, height:20}} label={driver_label} /></Tooltip>
+                                            }
+                                            
+                                            return (
+                                                <div>
+                                                    {role}
+                                                    {driver}
+                                                </div>
+                                            );
+                                      };
+
                                       return (
                                           <TableRow key={index}>
                                                 <TableCell>{row.gene_a}</TableCell>
@@ -484,8 +551,8 @@ class Treatments extends React.Component {
                                                 <TableCell>{row.context}</TableCell>
                                                 <TableCell><PanDrugsList gene={row.gene_a} items={row.gene_a_drugs ? row.gene_a_drugs : []} /></TableCell>
                                                 <TableCell>{row.gene_b}</TableCell>
-                                                <TableCell>{row.gene_b_role.replace("unknown","-") + " ("+row.gene_b_driver+")"}</TableCell>
-                                                <TableCell style={{whiteSpace:'nowrap'}}>
+                                                <TableCell>{geneBRoleDriver(row)}</TableCell>
+                                                <TableCell>
                                                   <Chip label={createScores(row,"RNAi")} className={row.evidence.RNAi ? classes.chipOn : classes.chipOff}/>
                                                     <br />
                                                     <Chip label={createScores(row,"CRISPR")} className={row.evidence.CRISPR ? classes.chipOn : classes.chipOff}/>
