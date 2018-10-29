@@ -20,6 +20,7 @@ import InfoIcon from '@material-ui/icons/Info';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Chip from '@material-ui/core/Chip';
 import Tooltip from '@material-ui/core/Tooltip';
+import Typography from '@material-ui/core/Typography';
 import PanDrugsList from './PanDrugsList';
 
 import text from './data/Dashboard_text.json';
@@ -473,7 +474,7 @@ class Treatments extends React.Component {
                                   ? <SpinnerWrapper />
                                   : rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row,index) => {
                                       let createScores = (row,evidence) => {
-                                          return row.evidence[evidence] ? " (" + row.evidence[evidence].score.toExponential(2) + ")" : "";
+                                          return <div><span style={{fontWeight:'bold'}}>{evidence}</span><span>{row.evidence[evidence] ? " (" + row.evidence[evidence].score.toExponential(2) + ")" : ""}</span></div>;
                                       };
 
                                       return (
@@ -485,9 +486,9 @@ class Treatments extends React.Component {
                                                 <TableCell>{row.gene_b}</TableCell>
                                                 <TableCell>{row.gene_b_role.replace("unknown","-") + " ("+row.gene_b_driver+")"}</TableCell>
                                                 <TableCell style={{whiteSpace:'nowrap'}}>
-                                                    <Chip label={"RNAi" + createScores(row,"RNAi")} className={row.evidence.RNAi ? classes.chipOn : classes.chipOff}/>
+                                                  <Chip label={createScores(row,"RNAi")} className={row.evidence.RNAi ? classes.chipOn : classes.chipOff}/>
                                                     <br />
-                                                    <Chip label={"CRISPR" + createScores(row,"CRISPR")} className={row.evidence.CRISPR ? classes.chipOn : classes.chipOff}/>
+                                                    <Chip label={createScores(row,"CRISPR")} className={row.evidence.CRISPR ? classes.chipOn : classes.chipOff}/>
                                                 </TableCell>
                                                 <TableCell>{row.drug_name !== 'null' ? row.drug_name : "-"}</TableCell>
                                                 <TableCell numeric>{row.sources.PANDRUGS ? row.sources.PANDRUGS.score.toFixed(3) : "-"}</TableCell>
