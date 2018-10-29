@@ -20,7 +20,6 @@ import InfoIcon from '@material-ui/icons/Info';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Chip from '@material-ui/core/Chip';
 import Tooltip from '@material-ui/core/Tooltip';
-import Typography from '@material-ui/core/Typography';
 import PanDrugsList from './PanDrugsList';
 
 import text from './data/Dashboard_text.json';
@@ -108,6 +107,7 @@ const styles = theme => ({
       root: {
               width: '100%',
               marginTop: theme.spacing.unit * 3,
+              marginBottom: theme.spacing.unit * 10,
             },
       table: {
               minWidth: 500,

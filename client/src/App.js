@@ -15,13 +15,13 @@ import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
-import Badge from '@material-ui/core/Badge';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './listItems';
 
 import logo from './img/logo.png';
+import bulogo from './img/bu_cnio.logo.png';
+import cniologo from './img/cnio.logo.png';
 
 const drawerWidth = 240;
 
@@ -93,7 +93,15 @@ const styles = theme => ({
     padding: theme.spacing.unit * 3,
     height: '100vh',
     overflow: 'auto',
-  }
+  },
+  logo: {
+      paddingLeft:10,
+      paddingRight:10,
+  },
+  appBarBottom: {
+    top: 'auto',
+    bottom: 0,
+  },
 });
 
 class App extends Component {
@@ -132,14 +140,9 @@ class App extends Component {
                 <MenuIcon />
               </IconButton>
               <img alt="" src={logo} />
-              <Typography variant="h6" color="inherit" noWrap className={classes.title}>
+              <Typography variant="h4" color="inherit" noWrap className={classes.title}>
                 VulcanSpot
               </Typography>
-              <IconButton color="inherit">
-                <Badge badgeContent={4} color="secondary">
-                  <NotificationsIcon />
-                </Badge>
-              </IconButton>
             </Toolbar>
           </AppBar>
           <Drawer
@@ -158,11 +161,28 @@ class App extends Component {
             <List>{mainListItems}</List>
             <Divider />
             <List>{secondaryListItems}</List>
+            <div style={{paddingLeft:10}}>
+                <Typography variant="caption">
+                    VulcanSpot v1.0.0b
+                    <br />
+                    Release date: 01/01/1900
+                </Typography>
+            </div>
           </Drawer>
         <Route exact path="/" component={Dashboard}/>
         <Route path="/treatments" component={Dashboard}/>
         <Route path="/help" component={Help}/>
         <Route path="/contact" component={Contact}/>
+
+          <AppBar position="fixed" color="tertiary" className={classes.appBarBottom}>
+            <Toolbar className={classes.toolbar}>
+                        <a href="http://bioinformatics.cnio.es" target="_blank" className={classes.logo} rel="noopener noreferrer"><img alt="Bioinformatics Unit" src={bulogo} style={{height:50}}/></a>
+                        <a href="http://www.cnio.es" target="_blank" className={classes.logo} rel="noopener noreferrer"><img src={cniologo} alt="CNIO" style={{height:30}}/></a>
+                        <Typography variant='caption'>
+                            Disclaimer: VulcanSpot is intended for research purposes exclusively. It should not be used for medical or professional advice.
+                        </Typography>
+            </Toolbar>
+          </AppBar>
         </div>
       </React.Fragment>
     );
