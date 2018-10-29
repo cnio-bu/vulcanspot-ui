@@ -1,54 +1,54 @@
 {
     "geneA": {
         "column":"GENE A",
-        "tooltip": "XXX"
+        "tooltip": "Genes that harbour a genetic alteration."
     },
     "geneB": {
          "column": "GENE B",
-         "tooltip": "XXX"
+         "tooltip": "Genes that feature molecular dependencies to a Gene A, which could be exploited therapeutically."
     },
     "drug": {
          "column": "DRUG",
-         "tooltip": "XXX"
+         "tooltip": "Computational drug prescription amongst gene dependencies."
     },
     "symbol": {
          "column": "gene symbol",
-         "tooltip": "XXX"
+         "tooltip": ""
     },
     "alteration": {
          "column": "alteration",
-         "tooltip": "XXX"
+         "tooltip": "Type of genetic alteration. GoF:Gain-of-Function, LoF=Loss-of-Function."
     },
     "context": {
          "column": "context",
-         "tooltip": "XXX"
+         "tooltip": "Cancer lineage where the genetic alteration occurs."
     },
     "druggable": {
          "column": "druggable",
-         "tooltip": "XXX"
+         "tooltip": "Indicates whether there are drugs that can be applied to Gene A directly."
     },
     "role": {
-         "column": "role (driver)",
-         "tooltip": "XXX"
+         "column": "role/driver",
+         "tooltip": "Role in cancer"
     },
     "evidence": {
          "column": "dependency evidence (score)",
-         "tooltip": "XXX"
+         "tooltip": "Platform with which the dependency was detected. Score: lethality for the interaction between the genetic alteration and the depletion of Gene B."
     },
     "drug_name": {
          "column": "drug",
-         "tooltip": "XXX"
+         "tooltip": "Pharmacological common name"
     },
     "pandrugs_score": {
          "column": "pandrugs score",
-         "tooltip": "XXX"
+         "tooltip": "Score of GeneB-drug interaction according to PanDrugs. Scale: 0 to 1. Higher values indicate stronger interactions."
     },
     "lincs_score": {
          "column": "lincs score",
-         "tooltip": "XXX"
+         "tooltip": "Score of GeneB-drug interaction according to the KDCP approach. Scale: 0 to 1. Higher values indicate stronger interactions."
     },
     "star": {
-         "column": "",
-         "tooltip": ""
+         "column": "star",
+         "tooltip": "Present when GeneB-drug interactions are deemed significant by both sources."
     }
 }
