@@ -72,7 +72,7 @@ class MultiSelector extends React.Component {
     }
 
   getSuggestions = hint =>{
-    axios.get('/'+this.props.label+'?hint='+hint.toUpperCase()+'&limit=10')
+    axios.get('/'+this.props.apiPath+'?hint='+hint.toUpperCase()+'&limit=10')
     .then(({ data }) => {
         this.setState({
           suggestions: data.data

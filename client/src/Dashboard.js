@@ -120,7 +120,7 @@ class Dashboard extends React.Component {
             <div className={classes.appBarSpacer} />
 
                     <Paper style={{padding:10}} square={true}>
-                           <MultiSelector label='genes' items={this.state.selectedGenesA} onChange={this.handleGenesA} />
+                           <MultiSelector apiPath='genes' label='genes A' items={this.state.selectedGenesA} onChange={this.handleGenesA} />
                     </Paper>
                     <ExpansionPanel>
                         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
@@ -134,7 +134,7 @@ class Dashboard extends React.Component {
                                <Dropdown label='contexts' items={this.state.contexts} onChange={this.handleContexts} />
                             </Grid>
                             <Grid item xs>
-                               <MultiSelector label='genes' onChange={this.handleGenesB} />
+                               <MultiSelector apiPath='genes' label='genes B' onChange={this.handleGenesB} />
                             </Grid>
                             </Grid>
                         </ExpansionPanelDetails>
