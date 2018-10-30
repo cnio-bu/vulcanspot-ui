@@ -502,7 +502,7 @@ class Treatments extends React.Component {
                                                     showRole = true;
                                                     break;
                                                 case 'TSG':
-                                                    role_color = 'lightblue';
+                                                    role_color = 'blue';
                                                     role_label = 'TSG';
                                                     role_tooltip = 'TSG';
                                                     showRole = true;

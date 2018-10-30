@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import Dashboard from './Dashboard';
 import Help from './Help';
-import Contact from './Contact';
+import About from './About';
 
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -17,7 +17,7 @@ import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import { mainListItems, secondaryListItems } from './listItems';
+import ListItems from './ListItems';
 
 import logo from './img/logo.png';
 import bulogo from './img/bu_cnio.logo.png';
@@ -140,8 +140,11 @@ class App extends Component {
                 <MenuIcon />
               </IconButton>
               <img alt="" src={logo} />
-              <Typography variant="h4" color="inherit" noWrap className={classes.title}>
-                VulcanSpot
+              <Typography variant="h4" color="inherit" noWrap>
+                &nbsp;VulcanSpot
+              </Typography>
+              <Typography variant="h6" color="inherit" noWrap>
+                &nbsp; - A method for detecting and targetting cancer genetic dependencies.
               </Typography>
             </Toolbar>
           </AppBar>
@@ -158,9 +161,8 @@ class App extends Component {
               </IconButton>
             </div>
             <Divider />
-            <List>{mainListItems}</List>
+            <List><ListItems onSelect={this.handleDrawerClose}/></List>
             <Divider />
-            <List>{secondaryListItems}</List>
             <div style={{paddingLeft:10}}>
                 <Typography variant="caption">
                     VulcanSpot v1.0.0b
@@ -172,12 +174,12 @@ class App extends Component {
         <Route exact path="/" component={Dashboard}/>
         <Route path="/treatments" component={Dashboard}/>
         <Route path="/help" component={Help}/>
-        <Route path="/contact" component={Contact}/>
+        <Route path="/about" component={About}/>
 
           <AppBar position="fixed" color="tertiary" className={classes.appBarBottom}>
             <Toolbar className={classes.toolbar}>
                         <a href="http://bioinformatics.cnio.es" target="_blank" className={classes.logo} rel="noopener noreferrer"><img alt="Bioinformatics Unit" src={bulogo} style={{height:50}}/></a>
-                        <a href="http://www.cnio.es" target="_blank" className={classes.logo} rel="noopener noreferrer"><img src={cniologo} alt="CNIO" style={{height:30}}/></a>
+                        <a href="http://www.cnio.es/ing" target="_blank" className={classes.logo} rel="noopener noreferrer"><img src={cniologo} alt="CNIO" style={{height:30}}/></a>
                         <Typography variant='caption'>
                             Disclaimer: VulcanSpot is intended for research purposes exclusively. It should not be used for medical or professional advice.
                         </Typography>
