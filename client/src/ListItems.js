@@ -26,7 +26,7 @@ export default class ListItems extends React.Component {
               <ListItemIcon>
                 <HelpIcon />
               </ListItemIcon>
-              <Link to="/about"><ListItemText primary="Help" /></Link>
+              <Link to="/help"><ListItemText primary="Help" /></Link>
             </ListItem>
         </Link>
         <Link to="/about">
