@@ -15,7 +15,6 @@ import FirstPageIcon from '@material-ui/icons/FirstPage';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
-import StarIcon from '@material-ui/icons/Star';
 import InfoIcon from '@material-ui/icons/Info';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Chip from '@material-ui/core/Chip';
@@ -23,6 +22,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import PanDrugsList from './PanDrugsList';
 
 import text from './data/Dashboard_text.json';
+import bullseye from './img/bullseye.png';
 
 const actionsStyles = theme => ({
       root: {
@@ -111,6 +111,7 @@ const styles = theme => ({
             },
       table: {
               minWidth: 500,
+                fontSize: 30
             },
       tableWrapper: {
               overflowX: 'auto',
@@ -498,13 +499,13 @@ class Treatments extends React.Component {
                                                 case 'oncogene/TSG':
                                                     role_color = 'orange';
                                                     role_label = 'ONC/TSG';
-                                                    role_tooltip = 'oncogene/TSG';
+                                                    role_tooltip = 'oncogene/tumor suppresor gene';
                                                     showRole = true;
                                                     break;
                                                 case 'TSG':
                                                     role_color = 'blue';
                                                     role_label = 'TSG';
-                                                    role_tooltip = 'TSG';
+                                                    role_tooltip = 'tumor suppresor gene';
                                                     showRole = true;
                                                     break;
                                                 default:
@@ -560,7 +561,7 @@ class Treatments extends React.Component {
                                                 <TableCell>{row.drug_name !== 'null' ? row.drug_name : "-"}</TableCell>
                                                 <TableCell numeric>{row.sources.PANDRUGS ? row.sources.PANDRUGS.score.toFixed(3) : "-"}</TableCell>
                                                 <TableCell numeric>{row.sources.LINCS ? row.sources.LINCS.score.toFixed(3) : "-"}</TableCell>
-                                                <TableCell>{(row.sources.LINCS && row.sources.PANDRUGS && row.sources.LINCS.score >= 0.9 && row.sources.PANDRUGS.score >= 0.6) ? <StarIcon color="secondary" /> : ""}</TableCell>
+                                                <TableCell>{(row.sources.LINCS && row.sources.PANDRUGS && row.sources.LINCS.score >= 0.9 && row.sources.PANDRUGS.score >= 0.6) ? <img src={bullseye} alt="" /> : ""}</TableCell>
                                           </TableRow>
                                       );
                                 })}

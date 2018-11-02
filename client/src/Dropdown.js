@@ -211,7 +211,7 @@ class Dropdown extends React.Component {
                               classes={classes}
                               styles={selectStyles}
                               textFieldProps={{
-                                                label: 'Label',
+                                                label: this.props.label,
                                                     InputLabelProps: {
                                                                         shrink: true,
                                                                           },
