@@ -12,6 +12,7 @@ import Chip from '@material-ui/core/Chip';
 import MenuItem from '@material-ui/core/MenuItem';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { emphasize } from '@material-ui/core/styles/colorManipulator';
+const { List } = require('immutable');
 
 
 const styles = theme => ({
@@ -174,21 +175,29 @@ class Dropdown extends React.Component {
             };
 
       componentWillReceiveProps(newProps){
-          if(newProps.items !== this.props.items){
+          if(!List(newProps.items).equals(List(this.props.items))){
               this.setState({suggestions: newProps.items.map(suggestion => ({
                                                         value: suggestion,
                                                           label: suggestion,
                                                         }))
               });
           }
+          if(!List(newProps.selectedItems).equals(List(this.props.selectedItems))){
+              this.handleChange(newProps.selectedItems.map(item => ({
+                                                        value: item,
+                                                          label: item,
+                                                        }))
+              );
+          }
       }
 
       handleChange = selectedItems => {
         this.setState({
           selectedItems
+        }, () => {
+            this.props.onChange(this.state.selectedItems.map(item=>item.value));
         });
 
-        this.props.onChange(selectedItems.map(item=>item.value));
       };
 
       render() {
@@ -218,7 +227,7 @@ class Dropdown extends React.Component {
                                                   }}
                               options={this.state.suggestions}
                               components={components}
-                              value={this.state.multi}
+                              value={this.state.selectedItems}
                               onChange={this.handleChange}
                               placeholder="Select contexts"
                               isMulti

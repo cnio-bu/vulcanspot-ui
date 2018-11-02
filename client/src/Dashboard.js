@@ -129,8 +129,8 @@ loadExample = n => {
             gdcancer = false;
             break;
         case 2:
-            genesA = ['ABL2'];
-            contexts = ['SKIN','PANCANCER'];
+            genesA = ['TP53'];
+            contexts = ['BREAST'];
             genesB = [];
             gdscore = 0.1;
             fdr = 0.20;

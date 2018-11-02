@@ -9,6 +9,7 @@ import Paper from '@material-ui/core/Paper';
 import MenuItem from '@material-ui/core/MenuItem';
 import Chip from '@material-ui/core/Chip';
 import axios from 'axios';
+const { List } = require('immutable');
 
 function renderInput(inputProps) {
   const { InputProps, classes, ref, ...other } = inputProps;
@@ -66,7 +67,7 @@ class MultiSelector extends React.Component {
     }
 
     componentWillReceiveProps(newProps){
-        if(newProps.items !== this.props.items){
+        if(!List(newProps.items).equals(List(this.props.items))){
             this.setState({selectedItems: newProps.items});
         }
     }

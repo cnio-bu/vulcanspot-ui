@@ -20,9 +20,10 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Chip from '@material-ui/core/Chip';
 import Tooltip from '@material-ui/core/Tooltip';
 import PanDrugsList from './PanDrugsList';
-
 import text from './data/Dashboard_text.json';
 import bullseye from './img/bullseye.png';
+
+const { List } = require('immutable');
 
 const actionsStyles = theme => ({
       root: {
@@ -273,18 +274,22 @@ class Treatments extends React.Component {
         this.props.onDataChange(stateData);
     }
 
+    listEquals = (l1,l2) => {
+        return List(l1).equals(List(l2)); 
+    }
+
     componentWillReceiveProps(newProps){
-        if(newProps.genesA !== this.props.genesA){ 
+        if(!this.listEquals(newProps.genesA,this.props.genesA)){ 
             this.setState({loading: true});
             this.setState({genesA: newProps.genesA});
             this.loadData();
         }
 
-        if(newProps.selectedContexts !== this.props.selectedContexts){
+        if(!this.listEquals(newProps.selectedContexts,this.props.selectedContexts)){
             this.setState({selectedContexts: newProps.selectedContexts});
         }
 
-        if(newProps.genesB !== this.props.genesB){
+        if(!this.listEquals(newProps.genesB,this.props.genesB)){
             this.setState({genesB:newProps.genesB});
         }
 
