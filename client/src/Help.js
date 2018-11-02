@@ -37,13 +37,6 @@ class Help extends React.Component {
                     <Paper style={{padding:10}} square={true}>
 <ol>
 <li><a href="#FAQs">FAQs</a></li>
-<ol>
-<li><a href="#what-is-VS">What is VulcanSpot?</a></li>
-<li><a href="#how-to-cite">How do I cite VulscanSpot?</a></li>
-<li><a href="#commercial-purposes">May I use VulcanSpot for commercial purposes?</a></li>
-</ol>
-</ol>
-<ol start="2">
 <li>
 <p><a href="#query-options">Query Options</a></p>
 </li>
@@ -68,18 +61,18 @@ class Help extends React.Component {
 <p>VulcanSpot is intended for research purposes and academic use exclusively.<br/>
 If you are interested in a collaboration, please contact Dr. Fátima Al-Shahrour (<a href="mailto:falshahrour@cnio.es">falshahrour@cnio.es</a>).</p>
 <h2><a id="2_Main_Query_Optionsa_namequeryoptionsa_35"></a>2. Main Query Options<a name="query-options"></a></h2>
-<p>In order to query the database and obtain a <strong>list of genetic alterations associated to therapeutic vulnerabilities</strong>, users must provide the HUGO Gene Symbols of a gene or genes with a match in the database. Input genes are defined as <strong>Gene(s) A</strong> and correspond to candidate genes with a genetic alteration.</p>
+<p>In order to query the database and obtain a <strong>list of genetic alterations associated to therapeutic vulnerabilities</strong>, users must provide the HUGO Gene Symbols of a gene or genes with a matched dependency in the database. Input genes are defined as <strong>Gene(s) A</strong> and correspond to candidate genes with a genetic alteration.</p>
 <p>Results can then be filtered, depending on the tissue of interest, selecting an option in the <strong>Contexts</strong> field. By default, all cancer types are selected.</p>
 <h2><a id="3_Advanced_Optionsa_nameadvancedfiltersa_40"></a>3. Advanced Options<a name="advanced-filters"></a></h2>
 <p>User queries can be adjusted using the panel of advanced options:<br/><center> <img alt="" style={{height:200}} src={options} /></center></p>
 <ul>
-<li><strong>Gene B</strong>: Allows you to easily filter your query using candidate Gene B or set of candidates of interest when available.</li>
+<li><strong>Gene B</strong>: Allows you to easily filter your query using a candidate Gene B or a set of candidates of interest when available.</li>
 <li><strong>Minimum GD score</strong>: Sets up a minimum Genetic Dependency (GD) score to retrieve selectively more lethal dependencies. Default is set to 0.00, our recommendation is to set this value to 0.20.</li>
 <li><strong>Maximum FDR</strong>: The maximum False Discovery Rate setting allows us to avoid False Positives. Default value set to 0.25.</li>
 <li><strong>GDs on cancer genes</strong>: Select this option in case you are interested in therapeutic vulnerabilites related to Cancer Genes only.</li>
 </ul>
 <h2><a id="4_Output_Summary_Tablea_nameoutputsummarytablea_51"></a>4. Output Summary Table<a name="output-summary-table"></a></h2>
-<p>VulcanSpot main output consists on a <strong>prioritized list of drugs targeting GDs</strong> detected in the user's gene list. By default VulcanSpot shows the top-10 drug-GDs relationships together with gene and drug information and functional annotation. Users can expand the main output and download full results table.</p>
+<p>VulcanSpot main output consists on a <strong>prioritized list of drugs targeting GDs</strong> detected in the user's gene list. By default VulcanSpot shows the top-10 drug-GDs relationships together with gene and drug information and functional annotation. Users can expand the main output and download the full results table.</p>
 <p>The output is divided in the main three sections described below:</p>
 <ul>
 <li><strong>Genetic alteration</strong>: Genotype-Context alterations for which gene dependencies were found.
@@ -117,7 +110,7 @@ If you are interested in a collaboration, please contact Dr. Fátima Al-Shahrour
 </li>
 </ul>
 <p>VulcanSpot main output offers a ranking of prioritized drugs to target statistically significant GDs (FDR&lt;0.25). The ranking score is ordered <em>decreasingly</em> following the rational criteria:<br/>
-<center><img alt="" width="500" height="500" src={table} /></center></p>
+<center><img alt="" width="500" height="583" src={table} /></center></p>
 <ol>
 <li>Both gene A and gene B are druggable and meet DScore ≥ 0.6 and KDCP score ≥ 0.9.</li>
 <li>Gene B is druggable meeting both DScore ≥ 0.6 and KDCP score ≥ 0.9. Gene A is undruggable.</li>
