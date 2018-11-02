@@ -7,6 +7,8 @@ import MultiSelector from './MultiSelector';
 import Dropdown from './Dropdown';
 import ScoreSlider from './ScoreSlider';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
+import Tooltip from '@material-ui/core/Tooltip';
 import Paper from '@material-ui/core/Paper';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
@@ -48,7 +50,8 @@ class Dashboard extends React.Component {
     //order: 'lethality',
     rscore: 0.0,
     fdr: 0.25,
-    skew: -0.5
+    skew: -0.5,
+    expandedFilters: false
   }
 
   componentDidMount() {
@@ -112,6 +115,49 @@ class Dashboard extends React.Component {
       this.setState({ [name]: event.target.checked });
   };
 
+loadExample = n => {
+    this.setState({expandedFilters: true});
+    let genesA, contexts, genesB, gdscore, fdr, gdcancer;
+
+    switch(n){
+        case 1:
+            genesA = ['TP53','BCL2'];
+            contexts = ['PANCANCER'];
+            genesB = ['BCL2','CDK6'];
+            gdscore = 0;
+            fdr = 0.25;
+            gdcancer = false;
+            break;
+        case 2:
+            genesA = ['ABL2'];
+            contexts = ['SKIN','PANCANCER'];
+            genesB = [];
+            gdscore = 0.1;
+            fdr = 0.20;
+            gdcancer = true;
+            break;
+        case 3:
+            genesA = ['BCL2'];
+            contexts = [];
+            genesB = ['SUZ12'];
+            gdscore = 0;
+            fdr = 0.25;
+            gdcancer = false;
+            break;
+        default:
+            break
+    }
+
+    this.setState({
+        selectedGenesA: genesA,
+        selectedGenesB: genesB,
+        selectedContexts: contexts,
+        gdcancer: gdcancer,
+        rscore: gdscore,
+        fdr: fdr
+    });
+};
+
   render() {
     const { classes } = this.props;
 
@@ -119,10 +165,19 @@ class Dashboard extends React.Component {
           <main className={classes.content}>
             <div className={classes.appBarSpacer} />
 
-                    <Paper style={{padding:10}} square={true}>
-                           <MultiSelector apiPath='genes' label='genes A' items={this.state.selectedGenesA} onChange={this.handleGenesA} />
+                    <Paper style={{textAlign:'right',padding:10}} square={true}>
+                           <MultiSelector apiPath='genes?class=A' label='genes A' items={this.state.selectedGenesA} onChange={this.handleGenesA} />
+                            <Tooltip title='Description for example 1'>
+                               <Button mini aria-label="example1" className={classes.button} onClick={()=>this.loadExample(1)}>Example 1</Button>
+                            </Tooltip>
+                            <Tooltip title='Description for example 2'>
+                           <Button mini aria-label="example2" className={classes.button} onClick={()=>this.loadExample(2)}>Example 2</Button>
+                            </Tooltip>
+                            <Tooltip title='Description for example 3'>
+                           <Button mini aria-label="example3" className={classes.button} onClick={()=>this.loadExample(3)}>Example 3</Button>
+                            </Tooltip>
                     </Paper>
-                    <ExpansionPanel>
+                    <ExpansionPanel expanded={this.state.expandFilters}>
                         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                             <Typography variant="body1" component="h3">
                                 Filters
@@ -131,23 +186,23 @@ class Dashboard extends React.Component {
                         <ExpansionPanelDetails>
                             <Grid container spacing={24}>
                                 <Grid item xs>
-                               <Dropdown label='contexts' items={this.state.contexts} onChange={this.handleContexts} />
+                               <Dropdown label='contexts' items={this.state.contexts} selectedItems={this.state.selectedContexts} onChange={this.handleContexts} />
                             </Grid>
                             <Grid item xs>
-                               <MultiSelector apiPath='genes' label='genes B' onChange={this.handleGenesB} />
+                               <MultiSelector apiPath='genes?class=B' label='genes B' items={this.state.selectedGenesB} onChange={this.handleGenesB} />
                             </Grid>
                             </Grid>
                         </ExpansionPanelDetails>
                         <ExpansionPanelDetails>
                             <Grid container spacing={24}>
                                 <Grid item xs>
-                                    <ScoreSlider initVal={this.state.rscore} label="Min. GD Score" onScoreChange={this.handleGDScore} />
+                                    <ScoreSlider val={this.state.rscore} label="Min. GD Score" onScoreChange={this.handleGDScore} />
                                 </Grid>
                                 {/*<Grid item xs>
-                                    <ScoreSlider initVal={this.state.skew} min={-7} max={7} step={0.5} label="Min. skewness" onScoreChange={this.handleSkewness} />
+                                    <ScoreSlider val={this.state.skew} min={-7} max={7} step={0.5} label="Min. skewness" onScoreChange={this.handleSkewness} />
                                 </Grid>*/}
                                 <Grid item xs>
-                                    <ScoreSlider initVal={this.state.fdr} label="Max. FDR" step={0.01} max={0.25} onScoreChange={this.handleFDR} />
+                                    <ScoreSlider val={this.state.fdr} label="Max. FDR" step={0.01} max={0.25} onScoreChange={this.handleFDR} />
                                 </Grid>
                             </Grid>
                         </ExpansionPanelDetails>

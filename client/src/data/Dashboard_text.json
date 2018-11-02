@@ -1,54 +1,54 @@
 {
     "geneA": {
         "column":"GENE A",
-        "tooltip": "Genes that harbour a genetic alteration."
+        "tooltip": "Genes harbouring a genetic alteration."
     },
     "geneB": {
          "column": "GENE B",
-         "tooltip": "Genes that feature molecular dependencies to a Gene A, which could be exploited therapeutically."
+         "tooltip": "Genes that feature genetic dependency with Gene A."
     },
     "drug": {
          "column": "DRUG",
-         "tooltip": "Computational drug prescription amongst gene dependencies."
+         "tooltip": "In silico drug prescription for genetic dependencies."
     },
     "symbol": {
-         "column": "gene symbol",
-         "tooltip": ""
+         "column": "Gene Symbol",
+         "tooltip": "HUGO gene symbol"
     },
     "alteration": {
-         "column": "alteration",
-         "tooltip": "Type of genetic alteration. GoF:Gain-of-Function, LoF=Loss-of-Function."
+         "column": "Gene Alteration",
+         "tooltip": "Type of genetic alteration. || GoF:Gain-of-Function, LoF=Loss-of-Function."
     },
     "context": {
-         "column": "context",
-         "tooltip": "Cancer lineage where the genetic alteration occurs."
+         "column": "Context",
+         "tooltip": "Tumor type where the Gene A alteration occurs."
     },
     "druggable": {
-         "column": "druggable",
-         "tooltip": "Indicates whether there are drugs that can be applied to Gene A directly."
+         "column": "Druggable gene",
+         "tooltip": "Indicates whether gene A is a drug target"
     },
     "role": {
-         "column": "role/driver",
-         "tooltip": "Role in cancer"
+         "column": "Role in Cancer",
+         "tooltip": "ONC: Oncogene | TSG: Tumor Supressor Gene | HCD: High Confidence Driver | LCD: Low Confidence Driver"
     },
     "evidence": {
-         "column": "dependency evidence (score)",
-         "tooltip": "Platform with which the dependency was detected. Score: lethality for the interaction between the genetic alteration and the depletion of Gene B."
+         "column": "GD evidence (score)",
+         "tooltip": "Experimental platform where the genetic dependency (GD) was detected (in green). || Score: lethality for the interaction between the genetic alteration and the depletion of Gene B. The lower score the more lethality evidence."
     },
     "drug_name": {
-         "column": "drug",
-         "tooltip": "Pharmacological common name"
+         "column": "Drug",
+         "tooltip": "Drug common name"
     },
     "pandrugs_score": {
-         "column": "pandrugs score",
-         "tooltip": "Score of GeneB-drug interaction according to PanDrugs. Scale: 0 to 1. Higher values indicate stronger interactions."
+         "column": "PanDrugs score",
+         "tooltip": "Score of GeneB-drug interaction according to PanDrugs DScore || Scale: 0 to 1. Higher values indicate stronger interactions."
     },
     "lincs_score": {
-         "column": "lincs score",
-         "tooltip": "Score of GeneB-drug interaction according to the KDCP approach. Scale: 0 to 1. Higher values indicate stronger interactions."
+         "column": "LINCS score",
+         "tooltip": "Score of GeneB-drug interaction according to the KDCP approach || Scale: 0 to 1. Higher values indicate stronger interactions."
     },
     "star": {
-         "column": "star",
-         "tooltip": "Present when GeneB-drug interactions are deemed significant by both sources."
+         "column": "Best result",
+         "tooltip": "The star highlights GeneB-drug interactions surpassing both PanDrugs and LINCS scores thresholds (PanDrugs>0.7 and LINCS>0.9)."
     }
 }

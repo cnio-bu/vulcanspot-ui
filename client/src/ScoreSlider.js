@@ -10,13 +10,19 @@ class ScoreSlider extends React.Component {
     };
 
     state = {
-        value: this.checkProp(this.props.initVal,0.4)
+        value: this.checkProp(this.props.val,0.4)
     };
 
     handleChange = (event, value) => {
         this.setState({ value: value });
         this.props.onScoreChange(value);
     };
+
+    componentWillReceiveProps(newProps){
+        if(newProps.val !== this.props.val){
+            this.setState({value: newProps.val});
+        }
+    }
 
     render() {
         const { classes } = this.props;

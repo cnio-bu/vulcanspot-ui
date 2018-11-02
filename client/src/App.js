@@ -18,6 +18,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ListItems from './ListItems';
+import Api from './Api';
 
 import logo from './img/logo.png';
 import bulogo from './img/bu_cnio.logo.png';
@@ -101,6 +102,7 @@ const styles = theme => ({
   appBarBottom: {
     top: 'auto',
     bottom: 0,
+    backgroundColor: 'white'
   },
 });
 
@@ -144,7 +146,7 @@ class App extends Component {
                 &nbsp;VulcanSpot
               </Typography>
               <Typography variant="h6" color="inherit" noWrap>
-                &nbsp; - A method for detecting and targetting cancer genetic dependencies.
+                &nbsp; - A method for detecting and targeting cancer genetic dependencies.
               </Typography>
             </Toolbar>
           </AppBar>
@@ -175,8 +177,9 @@ class App extends Component {
         <Route path="/treatments" component={Dashboard}/>
         <Route path="/help" component={Help}/>
         <Route path="/about" component={About}/>
+        <Route path="/api" component={Api}/>
 
-          <AppBar position="fixed" color="tertiary" className={classes.appBarBottom}>
+          <AppBar position="fixed" className={classes.appBarBottom}>
             <Toolbar className={classes.toolbar}>
                         <a href="http://bioinformatics.cnio.es" target="_blank" className={classes.logo} rel="noopener noreferrer"><img alt="Bioinformatics Unit" src={bulogo} style={{height:50}}/></a>
                         <a href="http://www.cnio.es/ing" target="_blank" className={classes.logo} rel="noopener noreferrer"><img src={cniologo} alt="CNIO" style={{height:30}}/></a>

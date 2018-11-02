@@ -31,24 +31,24 @@ class Help extends React.Component {
         return (
             <main className={classes.content}>
                 <div className={classes.appBarSpacer} />
-                <Paper style={{padding:10}} square={true}>
                     <Typography component='p' variant='h4' style={{textAlign:'center'}}>
                         Vulcanspot Help 
                     </Typography>
                     <br/ >
                     <br/ >
-                    <Chip
-                    avatar={<Avatar alt="" src={logo} />}
-                    className={classes.titleChip}
-                    label="VulcanSpot, a method implemented to detect and target cancer genetic dependencies."
-                    />
-                    <Typography component='p'>
-                        VulcanSpot integrates genome-wide information provided by large-scale screening experiments
-                        to detect genetic vulnerabilities associated to tumours. The method proposes prioritized drugs
-                        to target cancer-specific gene dependencies using a weighted scoring system based on well known
-                        drug-gene relationships and drug repositioning strategies.
-                    </Typography>
-                </Paper>
+                    <Paper style={{padding:10}} square={true}>
+                        <Chip
+                        avatar={<Avatar alt="" src={logo} />}
+                        className={classes.titleChip}
+                        label="VulcanSpot, a method implemented to detect and target cancer genetic dependencies."
+                        />
+                        <Typography component='p'>
+                            VulcanSpot integrates genome-wide information provided by large-scale screening experiments
+                            to detect genetic vulnerabilities associated to tumours. The method proposes prioritized drugs
+                            to target cancer-specific gene dependencies using a weighted scoring system based on well known
+                            drug-gene relationships and drug repositioning strategies.
+                        </Typography>
+                    </Paper>
             </main>
         );
     }

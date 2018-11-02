@@ -29,6 +29,14 @@ export default class ListItems extends React.Component {
               <Link to="/help"><ListItemText primary="Help" /></Link>
             </ListItem>
         </Link>
+        <Link to="/api">
+            <ListItem button onClick={this.props.onSelect}>
+              <ListItemIcon>
+                <HelpIcon />
+              </ListItemIcon>
+              <Link to="/api"><ListItemText primary="API" /></Link>
+            </ListItem>
+        </Link>
         <Link to="/about">
         <ListItem button onClick={this.props.onSelect}>
           <ListItemIcon>
