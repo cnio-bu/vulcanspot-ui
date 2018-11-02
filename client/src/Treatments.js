@@ -554,7 +554,7 @@ class Treatments extends React.Component {
                                           <TableRow key={index}>
                                                 <TableCell>{row.gene_a}</TableCell>
                                                 <TableCell>{row.gene_a_alteration}</TableCell>
-                                                <TableCell>{row.context}</TableCell>
+                                                <Tooltip title={row.context}><TableCell>{row.context.length <= 10 ? row.context : row.context.substr(0,9) + "..."}</TableCell></Tooltip>
                                                 <TableCell><PanDrugsList gene={row.gene_a} items={row.gene_a_drugs ? row.gene_a_drugs : []} /></TableCell>
                                                 <TableCell>{row.gene_b}</TableCell>
                                                 <TableCell>{geneBRoleDriver(row)}</TableCell>
@@ -563,7 +563,7 @@ class Treatments extends React.Component {
                                                     <br />
                                                     <Chip label={createScores(row,"CRISPR")} className={row.evidence.CRISPR ? classes.chipOn : classes.chipOff}/>
                                                 </TableCell>
-                                                <TableCell>{row.drug_name !== 'null' ? row.drug_name : "-"}</TableCell>
+                                                <Tooltip title={row.drug_name.toLowerCase()}><TableCell>{row.drug_name.length <= 12 ? row.drug_name.toLowerCase() : row.drug_name.toLowerCase().substr(0,10) + "..."}</TableCell></Tooltip>
                                                 <TableCell numeric>{row.sources.PANDRUGS ? row.sources.PANDRUGS.score.toFixed(3) : "-"}</TableCell>
                                                 <TableCell numeric>{row.sources.LINCS ? row.sources.LINCS.score.toFixed(3) : "-"}</TableCell>
                                                 <TableCell>{(row.sources.LINCS && row.sources.PANDRUGS && row.sources.LINCS.score >= 0.9 && row.sources.PANDRUGS.score >= 0.6) ? <img src={bullseye} alt="" /> : ""}</TableCell>
