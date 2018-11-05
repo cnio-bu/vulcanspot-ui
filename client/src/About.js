@@ -29,12 +29,12 @@ class Contact extends React.Component {
           <main className={classes.content}>
             <div className={classes.appBarSpacer} />
                     <Typography component='p' variant='h4' style={{textAlign:'center'}}>
-                        About VulcanSpot
+                        About vulcanSpot
                     </Typography>
                     <br/><br/>
                     <Paper style={{padding:10}} square={true}>
                         <Typography component='p'>
-                            VulcanSpot was developed by the <a href='http://bioinformatics.cnio.es' target='_blank' rel="noopener noreferrer">Bioinformatics Unit</a> at the <a href='http://www.cnio.es/ing' target='_blank' rel="noopener noreferrer">Spanish National Cancer Research Centre (CNIO)</a>
+                            vulcanSpot was developed by the <a href='http://bioinformatics.cnio.es' target='_blank' rel="noopener noreferrer">Bioinformatics Unit</a> at the <a href='http://www.cnio.es/ing' target='_blank' rel="noopener noreferrer">Spanish National Cancer Research Centre (CNIO)</a>
                         </Typography>
                         <br/>
                         <Typography component='p' variant='caption'>

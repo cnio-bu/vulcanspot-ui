@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
+import { Route,Link } from 'react-router-dom';
 import Dashboard from './Dashboard';
 import Help from './Help';
 import About from './About';
@@ -20,7 +20,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ListItems from './ListItems';
 import Api from './Api';
 
-import logo from './img/logo.png';
+import logo from './img/vulcan.logo.png';
 import bulogo from './img/bu_cnio.logo.png';
 import cniologo from './img/cnio.logo.png';
 
@@ -141,11 +141,10 @@ class App extends Component {
               >
                 <MenuIcon />
               </IconButton>
-              <img alt="" src={logo} />
-              <Typography variant="h4" color="inherit" noWrap>
-                &nbsp;VulcanSpot
-              </Typography>
-              <Typography variant="h6" color="inherit" noWrap>
+              <Link to="/">
+              <img alt="" style={{height:55}} src={logo} />
+              </Link>
+              <Typography variant="h7" color="inherit" noWrap>
                 &nbsp; - A method for detecting and targeting cancer genetic dependencies.
               </Typography>
             </Toolbar>
@@ -167,7 +166,7 @@ class App extends Component {
             <Divider />
             <div style={{paddingLeft:10}}>
                 <Typography variant="caption">
-                    VulcanSpot v1.0.0b
+                    vulcanSpot v1.0.0b
                     <br />
                     Release date: 01/01/1900
                 </Typography>
@@ -184,7 +183,7 @@ class App extends Component {
                         <a href="http://bioinformatics.cnio.es" target="_blank" className={classes.logo} rel="noopener noreferrer"><img alt="Bioinformatics Unit" src={bulogo} style={{height:50}}/></a>
                         <a href="http://www.cnio.es/ing" target="_blank" className={classes.logo} rel="noopener noreferrer"><img src={cniologo} alt="CNIO" style={{height:30}}/></a>
                         <Typography variant='caption'>
-                            Disclaimer: VulcanSpot is intended for research purposes exclusively. It should not be used for medical or professional advice.
+                            Disclaimer: vulcanSpot is intended for research purposes exclusively. It should not be used for medical or professional advice.
                         </Typography>
             </Toolbar>
           </AppBar>
