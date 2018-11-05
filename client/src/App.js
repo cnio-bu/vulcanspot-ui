@@ -142,7 +142,7 @@ class App extends Component {
                 <MenuIcon />
               </IconButton>
               <Link to="/">
-              <img alt="" style={{height:55}} src={logo} />
+              <img alt="" style={{height:55, outline: 'none'}} src={logo} />
               </Link>
               <Typography variant="h7" color="inherit" noWrap>
                 &nbsp; - A method for detecting and targeting cancer genetic dependencies.
