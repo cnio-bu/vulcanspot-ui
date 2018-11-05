@@ -16,7 +16,7 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import queryString from 'query-string';
+import qs from 'qs';
 
 const styles = theme => ({
   root: {
@@ -55,7 +55,7 @@ class Dashboard extends React.Component {
   }
 
   componentDidMount() {
-      let params = queryString.parse(this.props.location.search);
+      let params = qs.parse(this.props.location.search);
       if("genesA" in params){
         this.setState({selectedGenesA:params.genesA.split(",")});
       }
@@ -65,7 +65,7 @@ class Dashboard extends React.Component {
   }
 
   modifyQuery = (key,val) => {
-    let props = queryString.parse(this.props.location.search);
+    let props = qs.parse(this.props.location.search);
     let q = "";
     if(val.length > 0){
         q += "&" + key + "=" + val.join(",")

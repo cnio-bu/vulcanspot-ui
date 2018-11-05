@@ -43,7 +43,7 @@ class Contact extends React.Component {
                             <a href="http://bioinformatics.cnio.es" target="_blank" className={classes.logo} rel="noopener noreferrer"><img alt="Bioinformatics Unit" src={bulogo} style={{height:50}}/></a>
                             CNIO Bioinformatics Unit
                             <br />
-                            <a href="https://twitter.com/bu_cnio" target="_blank"><img style={{height:20}} alt="" src={twitter} />@BU_CNIO</a>
+                            <a rel="noopener noreferrer" href="https://twitter.com/bu_cnio" target="_blank"><img style={{height:20}} alt="" src={twitter} />@BU_CNIO</a>
                             <br/><br/>
                             <Divider />
                             <br />
