@@ -563,7 +563,13 @@ class Treatments extends React.Component {
                                                     <br />
                                                     <Chip label={createScores(row,"CRISPR")} className={row.evidence.CRISPR ? classes.chipOn : classes.chipOff}/>
                                                 </TableCell>
-                                                <Tooltip title={row.drug_name.toLowerCase()}><TableCell>{row.drug_name.length <= 12 ? row.drug_name.toLowerCase() : row.drug_name.toLowerCase().substr(0,10) + "..."}</TableCell></Tooltip>
+                                                <Tooltip title={row.drug_name.toLowerCase()}>
+                                                    <TableCell>
+                                                         <a rel="noopener noreferrer" href={"https://www.ncbi.nlm.nih.gov/pccompound?term=" + row.drug_name} target="_blank">
+                                                            {row.drug_name.length <= 12 ? row.drug_name.toLowerCase() : row.drug_name.toLowerCase().substr(0,10) + "..."}
+                                                        </a>
+                                                    </TableCell>
+                                                </Tooltip>
                                                 <TableCell numeric>{row.sources.PANDRUGS ? row.sources.PANDRUGS.score.toFixed(3) : "-"}</TableCell>
                                                 <TableCell numeric>{row.sources.LINCS ? row.sources.LINCS.score.toFixed(3) : "-"}</TableCell>
                                                 <TableCell>{(row.sources.LINCS && row.sources.PANDRUGS && row.sources.LINCS.score >= 0.9 && row.sources.PANDRUGS.score >= 0.6) ? <img src={bullseye} alt="" /> : ""}</TableCell>
