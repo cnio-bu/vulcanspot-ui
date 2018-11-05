@@ -5,6 +5,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import options from './img/advanced-options.png';
 import table from './img/ranking-summary-table.png';
+import main from './img/main.jpg';
 import Divider from'@material-ui/core/Divider';
 
 
@@ -54,10 +55,8 @@ class Help extends React.Component {
 <p><strong>1.1 What is vulcanSpot?</strong></p>
 <p>vulcanSpot is a web tool that integrates genome-wide information provided by large-scale screening experiments to detect Genetic Vulnerabilities in Cancer.</p>
 <p>The method proposes prioritized drugs to target these cancer-specific gene dependencies using a weighted scoring system based on well known drug-gene relationships and drug repositioning strategies.</p>
-<p><strong>1.2. How do I cite VulscanSpot?</strong></p>
-<p>When citing our application, please refer to our publication:<br/>
-[PMID and link]</p>
-<p><strong>1.3 May I use vulcanSpot for commercial purposes?</strong></p>
+<center> <img width="500" height="889" src={main} alt="" /> </center>
+<p><strong>1.2 May I use vulcanSpot for commercial purposes?</strong></p>
 <p>vulcanSpot is intended for research purposes and academic use exclusively.<br/>
 If you are interested in a collaboration, please contact Dr. Fátima Al-Shahrour (<a href="mailto:falshahrour@cnio.es">falshahrour@cnio.es</a>).</p>
 <h2><a id="2_Main_Query_Optionsa_namequeryoptionsa_35"></a>2. Main Query Options<a name="query-options"></a></h2>

@@ -1,6 +1,6 @@
 {
-  "short_name": "VulcanSpot",
-  "name": "VulcanSpot",
+  "short_name": "vulcanSpot",
+  "name": "vulcanSpot",
   "start_url": "./index.html",
   "display": "standalone",
   "theme_color": "#000000",
