@@ -11,6 +11,7 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
 import FirstPageIcon from '@material-ui/icons/FirstPage';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
@@ -556,11 +557,11 @@ class Treatments extends React.Component {
 
                                             switch(alt){
                                                 case 'GoF':
-                                                    color = 'red';
+                                                    color = '#FA141B';
                                                     tooltip = 'Gain of Function';
                                                     break;
                                                 case 'LoF':
-                                                    color = 'blue';
+                                                    color = '#4491C3';
                                                     tooltip = 'Loss of Function';
                                                     break;
                                                 default:
@@ -569,7 +570,7 @@ class Treatments extends React.Component {
 
                                             
                                             return (
-                                                <Tooltip title={tooltip}><Chip variant="outlined" style={{color:color, fontSize:'10px', width:55, height:20}} label={alt} /></Tooltip>
+                                                <Tooltip title={tooltip}><Chip style={{background:color, width:55, height:20}} label={<Typography style={{fontWeight:'bold', color:'white', fontSize:'10px',}}>{alt}</Typography>} /></Tooltip>
                                             );
                                       };
 
