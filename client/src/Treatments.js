@@ -552,11 +552,11 @@ class Treatments extends React.Component {
 
                                       return (
                                           <TableRow key={index}>
-                                                <TableCell>{row.gene_a}</TableCell>
+                                                <TableCell><a rel="noopener noreferrer" href={"https://www.ncbi.nlm.nih.gov/gene?term=" + row.gene_a} target="_blank">{row.gene_a}</a></TableCell>
                                                 <TableCell>{row.gene_a_alteration}</TableCell>
                                                 <Tooltip title={row.context}><TableCell>{row.context.length <= 10 ? row.context : row.context.substr(0,9) + "..."}</TableCell></Tooltip>
                                                 <TableCell><PanDrugsList gene={row.gene_a} items={row.gene_a_drugs ? row.gene_a_drugs : []} /></TableCell>
-                                                <TableCell>{row.gene_b}</TableCell>
+                                                <TableCell><a rel="noopener noreferrer" href={"https://depmap.org/portal/gene/" + row.gene_b} target="_blank">{row.gene_b}</a></TableCell>
                                                 <TableCell>{geneBRoleDriver(row)}</TableCell>
                                                 <TableCell>
                                                   <Chip label={createScores(row,"RNAi")} className={row.evidence.RNAi ? classes.chipOn : classes.chipOff}/>
