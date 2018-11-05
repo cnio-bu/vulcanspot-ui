@@ -121,20 +121,20 @@ loadExample = n => {
 
     switch(n){
         case 1:
-            genesA = ['TP53','BCL2'];
-            contexts = ['PANCANCER'];
-            genesB = ['BCL2','CDK6'];
+            genesA = ['ERBB2','PIK3CA'];
+            contexts = ['BREAST'];
+            genesB = [];
             gdscore = 0;
             fdr = 0.25;
             gdcancer = false;
             break;
         case 2:
-            genesA = ['TP53'];
-            contexts = ['BREAST'];
+            genesA = ['BRAF'];
+            contexts = ['SKIN'];
             genesB = [];
-            gdscore = 0.1;
-            fdr = 0.20;
-            gdcancer = true;
+            gdscore = 0;
+            fdr = 0.25;
+            gdcancer = false;
             break;
         case 3:
             genesA = ['BCL2'];
@@ -167,15 +167,15 @@ loadExample = n => {
 
                     <Paper style={{textAlign:'right',padding:10}} square={true}>
                            <MultiSelector apiPath='genes?class=A' label='genes A' items={this.state.selectedGenesA} onChange={this.handleGenesA} />
-                            <Tooltip title='Description for example 1'>
+                            <Tooltip title='HER2+ breast cancer treatment'>
                                <Button mini aria-label="example1" className={classes.button} onClick={()=>this.loadExample(1)}>Example 1</Button>
                             </Tooltip>
-                            <Tooltip title='Description for example 2'>
+                            <Tooltip title='BRAF-mutant melanoma treatment'>
                            <Button mini aria-label="example2" className={classes.button} onClick={()=>this.loadExample(2)}>Example 2</Button>
                             </Tooltip>
-                            <Tooltip title='Description for example 3'>
+                            {/* <Tooltip title='Description for example 3'>
                            <Button mini aria-label="example3" className={classes.button} onClick={()=>this.loadExample(3)}>Example 3</Button>
-                            </Tooltip>
+                            </Tooltip>*/}
                     </Paper>
                     <ExpansionPanel expanded={this.state.expandFilters}>
                         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
