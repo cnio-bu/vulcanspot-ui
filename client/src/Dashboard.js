@@ -55,7 +55,7 @@ class Dashboard extends React.Component {
   }
 
   componentDidMount() {
-      let params = qs.parse(this.props.location.search);
+      let params = qs.parse(this.props.location.search, { ignoreQueryPrefix: true });
       if("genesA" in params){
         this.setState({selectedGenesA:params.genesA.split(",")});
       }
