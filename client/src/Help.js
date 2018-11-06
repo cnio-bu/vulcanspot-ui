@@ -6,6 +6,8 @@ import Typography from '@material-ui/core/Typography';
 import options from './img/advanced-options.png';
 import table from './img/ranking-summary-table.png';
 import main from './img/main.png';
+import results from './img/results_table.png';
+import druggable from './img/druggable_gene.png';
 import Divider from'@material-ui/core/Divider';
 
 
@@ -65,8 +67,8 @@ If you are interested in a collaboration, please contact Dr. Fátima Al-Shahrour
 <h2><a id="3_Advanced_Optionsa_nameadvancedfiltersa_40"></a>3. Advanced Options<a name="advanced-filters"></a></h2>
 <p>User queries can be adjusted using the panel of advanced options:<br/><center> <img alt="" style={{height:200}} src={options} /></center></p>
 <ul>
-<li><strong>Gene B</strong>: Allows you to easily filter your query using a candidate Gene B or a set of candidates of interest when available.</li>
-<li><strong>Minimum GD score</strong>: Sets up a minimum Genetic Dependency (GD) score to retrieve selectively more lethal dependencies. Default is set to 0.00, our recommendation is to set this value to 0.20.</li>
+<li><strong>Gene B</strong>: Allows you to easily filter your query results using a candidate Gene B or a set of candidates of interest when available.</li>
+<li><strong>Minimum GD score</strong>: Minimum Genetic Dependency (GD) score to retrieve selectively more lethal dependencies. Default is set to 0.00, our recommendation is to set this value to 0.20.</li>
 <li><strong>Maximum FDR</strong>: The maximum False Discovery Rate setting allows us to avoid False Positives. Default value set to 0.25.</li>
 <li><strong>GDs on cancer genes</strong>: Select this option in case you are interested in therapeutic vulnerabilites related to Cancer Genes only.</li>
 </ul>
@@ -74,8 +76,10 @@ If you are interested in a collaboration, please contact Dr. Fátima Al-Shahrour
 <p>
 
 vulcanSpot's main output consists on a <strong>prioritized list of drugs targeting GDs</strong> detected in the user's gene list (FDR&lt;0.25). By default vulcanSpot shows the top-10 drug-GDs relationships together with gene and drug information and functional annotation. Users can expand the final output and download the full results table.
-
 </p>
+
+<center><img width="1160" height="500" src={results} /> </center>
+
 <p>The output is divided in the main three sections described below:</p>
 <ul>
 <li><strong>Genetic alteration</strong>: Genotype-Context alterations for which gene dependencies were found.
@@ -83,23 +87,18 @@ vulcanSpot's main output consists on a <strong>prioritized list of drugs targeti
 <li>Gene A: gene which harbors a genetic alteration.</li>
 <li>Alteration: Type of Genetic Alteration. GoF corresponds to Gain-of-Function and LoF to Loss-of-Function alterations.</li>
 <li>Context: Cancer lineage where the alteration takes place.</li>
+<li>Druggable gene: druggability status for Gene A. If druggable, a list of available drugs for Gene A can be displayed by clicking on the pill</li>
 </ul>
+<br />
+ <center> <img width="928" height="400" src={druggable} /> </center>
 </li>
 </ul>
 <ul>
 <li><strong>Cancer genetic dependency</strong>: Potential molecular dependencies to be exploited therapeutically.
 <ul>
 <li>Gene B: Essential gene when Gene A is altered.</li>
-<li>Gene B role (driver): Role in Cancer.</li>
-<li>Evidence: Platform where the dependency was detected. The differential color stands for the significance of the dependency in each of the available studies (CRISPR and RNAi). Green corresponds to a significant result, whereas grey corresponds to a not significant result in that particular study.</li>
-<li>Score:
-<ul>
-<li>GD score: states the significance of the GD between the Gene A (gene with a genetic alteration) and the depletion of Gene B.</li>
-<li>NES: Normalized Enrichment Score derived from the Kolmogorov–Smirnov test. This procedure tests whether there is a significant enrichment of the genotype-context specific cell line with the essentiality of a given gene. The statistical analysis detects GDs for both lineage-specific or PanCancer scenarios.</li>
-<li>P-value: P-value derived from the Kolmogorov-Smirnov test.</li>
-<li>FDR: False discovery rate, P-values are corrected using the Benjamini–Hochberg procedure.</li>
-</ul>
-</li>
+<li>Role in Cancer: Gene B driver role.</li>
+<li>GD evidence (score): states the significance of the GD between the Gene A (gene with a genetic alteration) and the depletion of Gene B.</li>
 </ul>
 </li>
 </ul>

@@ -7,6 +7,7 @@ import Divider from '@material-ui/core/Divider';
 import bulogo from './img/bu_cnio.logo.png';
 import cniologo from './img/cnio.logo.png';
 import twitter from './img/twitter.png';
+import gpl3 from './img/gpl3.png';
 
 const styles = theme => ({
   root: {
@@ -33,11 +34,11 @@ class Contact extends React.Component {
                     </Typography>
                     <br/><br/>
                     <Paper style={{padding:10}} square={true}>
-                        <Typography component='p'>
+                        <Typography component='p' variant='h8'>
                             vulcanSpot was developed by the <a href='http://bioinformatics.cnio.es' target='_blank' rel="noopener noreferrer">Bioinformatics Unit</a> at the <a href='http://www.cnio.es/ing' target='_blank' rel="noopener noreferrer">Spanish National Cancer Research Centre (CNIO)</a>
                         </Typography>
                         <br/>
-                        <Typography component='p' variant='caption'>
+                        <Typography component='p'>
                             <Divider />
                             <br />
                             <a href="http://bioinformatics.cnio.es" target="_blank" className={classes.logo} rel="noopener noreferrer"><img alt="Bioinformatics Unit" src={bulogo} style={{height:50}}/></a>
@@ -52,8 +53,17 @@ class Contact extends React.Component {
                             Centro Nacional de Investigaciones Oncológicas
                             <br/>
                             C/ Melchor Fernández Almagro, 3. 28029 Madrid
+                            <br />
+                            <a rel="noopener noreferrer" href="https://twitter.com/CNIO_Cancer" target="_blank"><img style={{height:20}} alt="" src={twitter} />@CNIO_Cancer</a>
                             <br/>
                             <br/>
+                            <Divider />
+                            <br />
+                                vulcanSpot is free software, licenced under the GPLv3. Source code is available <a href="https://gitlab.com/bu_cnio/vulcanspot" target="_blank" rel="noopener noreferrer">here</a>.
+                                <br />
+                                <a href="https://www.gnu.org/licenses/gpl-3.0.en.html" target="_blank" className={classes.logo} rel="noopener noreferrer"><img src={gpl3} alt="GPLv3"/></a>
+                            <br />
+                            <br />
                             <Divider />
                         </Typography>
                     </Paper>
