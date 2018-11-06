@@ -17,14 +17,14 @@
     },
     "alteration": {
          "column": "Gene Alteration",
-         "tooltip": "Type of genetic alteration. || GoF: Gain-of-Function, LoF: Loss-of-Function."
+         "tooltip": "Type of genetic alteration. || GoF:Gain-of-Function, LoF=Loss-of-Function."
     },
     "context": {
          "column": "Context",
          "tooltip": "Tumor type where the Gene A alteration occurs."
     },
     "druggable": {
-         "column": "Druggable gene",
+         "column": "Druggable Gene",
          "tooltip": "Indicates whether gene A is a drug target"
     },
     "role": {
@@ -32,7 +32,7 @@
          "tooltip": "ONC: Oncogene | TSG: Tumor Supressor Gene | HCD: High Confidence Driver | LCD: Low Confidence Driver"
     },
     "evidence": {
-         "column": "GD evidence (score)",
+         "column": "GD Evidence (score)",
          "tooltip": "Experimental platform where the genetic dependency (GD) was detected (in green). || Score: lethality for the interaction between the genetic alteration and the depletion of Gene B. The lower score the more lethality evidence."
     },
     "drug_name": {
@@ -40,15 +40,15 @@
          "tooltip": "Drug common name"
     },
     "pandrugs_score": {
-         "column": "PanDrugs score",
+         "column": "PanDrugs Score",
          "tooltip": "Score of GeneB-drug interaction according to PanDrugs DScore || Scale: 0 to 1. Higher values indicate stronger interactions."
     },
     "lincs_score": {
-         "column": "LINCS score",
+         "column": "LINCS Score",
          "tooltip": "Score of GeneB-drug interaction according to the KDCP approach || Scale: 0 to 1. Higher values indicate stronger interactions."
     },
     "star": {
-         "column": "Best result",
-         "tooltip": "The star highlights GeneB-drug interactions surpassing both PanDrugs and LINCS scores thresholds (PanDrugs>0.7 and LINCS>0.9)."
+         "column": "Best Result",
+         "tooltip": "The dartboard highlights GeneB-drug interactions surpassing both PanDrugs and LINCS scores thresholds (PanDrugs>0.7 and LINCS>0.9)."
     }
 }
