@@ -7,7 +7,6 @@ import Divider from '@material-ui/core/Divider';
 import bulogo from './img/bu_cnio.logo.png';
 import cniologo from './img/cnio.logo.png';
 import twitter from './img/twitter.png';
-import gpl3 from './img/gpl3.png';
 
 const styles = theme => ({
   root: {
@@ -59,9 +58,13 @@ class Contact extends React.Component {
                             <br/>
                             <Divider />
                             <br />
-                                vulcanSpot is free software, licenced under the GPLv3. Source code is available <a href="https://gitlab.com/bu_cnio/vulcanspot" target="_blank" rel="noopener noreferrer">here</a>.
+                                LICENSE
                                 <br />
-                                <a href="https://www.gnu.org/licenses/gpl-3.0.en.html" target="_blank" className={classes.logo} rel="noopener noreferrer"><img src={gpl3} alt="GPLv3"/></a>
+                                <br />
+                                vulcanSpot is free for academic use. Source code is available <a href="https://gitlab.com/bu_cnio/vulcanspot" target="_blank" rel="noopener noreferrer">here</a>.
+                                <br />
+                                <br />
+                                For commercial applications please contact Dr. Fátima Al-Shahrour [falshahrour (at) cnio.es]
                             <br />
                             <br />
                             <Divider />
