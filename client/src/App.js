@@ -144,7 +144,7 @@ class App extends Component {
               <Link to="/">
               <img alt="" style={{height:55, outline: 'none'}} src={logo} />
               </Link>
-              <Typography variant="h7" color="inherit" noWrap>
+              <Typography variant="subtitle1" color="inherit" noWrap>
                 &nbsp; - A method for detecting and targeting cancer genetic dependencies.
               </Typography>
             </Toolbar>

@@ -134,6 +134,9 @@ const styles = theme => ({
         marginLeft: 5,
         fontSize: 16,
     },
+    download: {
+        textAlign: 'right',
+    },
     
 });
 
@@ -205,6 +208,7 @@ class Treatments extends React.Component {
     }
 
     loadData = async () => {
+        let allResults = {};
         let rows = [];
         let stateData = {'contexts':[]};
         for(var i=0;i<this.state.genesA.length;i++){
@@ -215,6 +219,7 @@ class Treatments extends React.Component {
 
                     for (var geneA in results) {
                         if (!results.hasOwnProperty(geneA)) continue;
+                        allResults[geneA] = results[geneA];
                         var contexts = results[geneA];
                         for (var context in contexts) {
                             if (!contexts.hasOwnProperty(context)) continue;
@@ -267,7 +272,8 @@ class Treatments extends React.Component {
                     }
 
         }
-        this.setState({ rows: rows, loading: false });
+        this.setState({ rows: rows, loading: false, results: allResults });
+        console.log(this.state.results);
 
         for (const [key,value] of Object.entries(stateData)) {
              stateData[key] = [...new Set(value)];
@@ -355,6 +361,9 @@ class Treatments extends React.Component {
 
               return (
                         <Paper className={classes.root}>
+                          <div className={classes.download}>
+                            Download: <a download={"results-"+ +new Date()+".json"} href={"data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.state.results))}>JSON</a>
+                          </div>
                           <div className={classes.tableWrapper}>
                             <Table className={classes.table}>
                             <TableHead>
