@@ -44,7 +44,7 @@
          "tooltip": "Score of GeneB-drug interaction according to PanDrugs DScore || Scale: 0 to 1. Higher values indicate stronger interactions."
     },
     "lincs_score": {
-         "column": "LINCS Score",
+         "column": "LINCS+PPi Score",
          "tooltip": "Score of GeneB-drug interaction according to the KDCP approach || Scale: 0 to 1. Higher values indicate stronger interactions."
     },
     "star": {
