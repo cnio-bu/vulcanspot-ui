@@ -136,6 +136,7 @@ const styles = theme => ({
     },
     download: {
         textAlign: 'right',
+        fontSize: 14 
     },
     
 });
@@ -360,9 +361,12 @@ class Treatments extends React.Component {
 
               return (
                         <Paper className={classes.root}>
+                        {this.state.rows.length > 0 ?
                           <div className={classes.download}>
                             Download: <a download={"results-"+ +new Date()+".json"} href={"data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.state.results))}>JSON</a>
                           </div>
+                          : null
+                        }
                           <div className={classes.tableWrapper}>
                             <Table className={classes.table}>
                             <TableHead>
