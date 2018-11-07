@@ -128,12 +128,22 @@ vulcanSpot's final ranking of prioritized drugs is ordered *decreasingly* accord
                             This is a list of available REST endpoints:
                         </Typography>
                         <br/>
+
                         <Divider className={classes.divider}/>
                         <Typography component='p' variant='h6'>
                             {baseUrl}/genes 
                         </Typography>
                         <Typography component='p' variant='body1'>
                             Lists all genes in vulcanSpot
+                        </Typography>
+                        <Divider className={classes.divider}/>
+                        <Typography component='p' variant='h6'>
+                            {baseUrl}/genes?class=A
+                            <br />
+                            {baseUrl}/genes?class=B
+                        </Typography>
+                        <Typography component='p' variant='body1'>
+                            Lists all genes for a certain class
                         </Typography>
 
                         <Divider className={classes.divider} />
