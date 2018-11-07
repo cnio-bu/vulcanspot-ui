@@ -273,7 +273,6 @@ class Treatments extends React.Component {
 
         }
         this.setState({ rows: rows, loading: false, results: allResults });
-        console.log(this.state.results);
 
         for (const [key,value] of Object.entries(stateData)) {
              stateData[key] = [...new Set(value)];
