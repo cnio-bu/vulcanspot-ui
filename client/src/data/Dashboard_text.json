@@ -1,15 +1,12 @@
 {
     "geneA": {
-        "column":"GENE A",
-        "tooltip": "Genes harbouring a genetic alteration."
+        "column":"GENE A (Genes harbouring a genetic alteration)"
     },
     "geneB": {
-         "column": "GENE B",
-         "tooltip": "Genes that feature genetic dependency with Gene A."
+         "column": "GENE B (Genes that feature genetic dependency with Gene A)"
     },
     "drug": {
-         "column": "DRUG",
-         "tooltip": "In silico drug prescription for genetic dependencies."
+         "column": "DRUG (In silico drug prescription for genetic dependencies)"
     },
     "symbol": {
          "column": "Gene Symbol",
