@@ -23,6 +23,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import PanDrugsList from './PanDrugsList';
 import text from './data/Dashboard_text.json';
 import bullseye from './img/bullseye.png';
+import ResultsBar from './ResultsBar';
 
 const { List } = require('immutable');
 
@@ -361,6 +362,7 @@ class Treatments extends React.Component {
 
               return (
                         <Paper className={classes.root}>
+                        <ResultsBar />
                         {this.state.rows.length > 0 ?
                           <div className={classes.download}>
                             Download: <a download={"results-"+ +new Date()+".json"} href={"data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.state.results))}>JSON</a>
