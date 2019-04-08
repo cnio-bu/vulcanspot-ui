@@ -358,14 +358,25 @@ class Treatments extends React.Component {
 
                   return druggable_b - druggable_a || b.nsources - a.nsources || score_p_b - score_p_a || score_l_b - score_l_a;
               });
+              let topRes = 0;
+              for (var r in rows) {
+                  r = rows[r];
+                  if((r.sources.PANDRUGS && r.sources.PANDRUGS.score >= 0.6) && (r.sources.LINCS && r.sources.LINCS.score >= 0.9)){
+                    topRes += 1;
+                  }
+              }
+
+
               const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
               return (
                         <Paper className={classes.root}>
-                        <ResultsBar />
                         {this.state.rows.length > 0 ?
+                          <div>
+                            {this.state.loading ? null : <ResultsBar all={rows.length} top={topRes} />}
                           <div className={classes.download}>
                             Download: <a download={"results-"+ +new Date()+".json"} href={"data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.state.results))}>JSON</a>
+                          </div>
                           </div>
                           : null
                         }
@@ -374,7 +385,7 @@ class Treatments extends React.Component {
                             <TableHead>
                               <TableRow style={{whiteSpace: 'nowrap'}}>
                                 <HeaderTableCellA component="th" scope="row" colSpan={4}>
-                                    <Tooltip title={text.geneA.tooltip}>
+                                    <Tooltip title={text.geneA.tooltip || ""}>
                                         <span>
                                             {text.geneA.column}
                                             {text.geneA.tooltip ? <InfoIcon className={classes.infoIcon} /> : ""}
@@ -382,7 +393,7 @@ class Treatments extends React.Component {
                                     </Tooltip>
                                 </HeaderTableCellA>
                                 <HeaderTableCellB component="th" scope="row" colSpan={3}>
-                                    <Tooltip title={text.geneB.tooltip}>
+                                    <Tooltip title={text.geneB.tooltip || ""}>
                                         <span>
                                             {text.geneB.column}
                                             {text.geneB.tooltip ? <InfoIcon className={classes.infoIcon} /> : ""}
@@ -390,7 +401,7 @@ class Treatments extends React.Component {
                                     </Tooltip>
                                 </HeaderTableCellB>
                                 <HeaderTableCellA component="th" scope="row" colSpan={4}>
-                                    <Tooltip title={text.drug.tooltip}>
+                                    <Tooltip title={text.drug.tooltip || ""}>
                                         <span>
                                             {text.drug.column}
                                             {text.drug.tooltip ? <InfoIcon className={classes.infoIcon} /> : ""}
@@ -400,7 +411,7 @@ class Treatments extends React.Component {
                               </TableRow>
                               <TableRow style={{whiteSpace: 'nowrap'}}>
                                 <HeaderTableCellA component="th" scope="row">
-                                    <Tooltip title={text.symbol.tooltip}>
+                                    <Tooltip title={text.symbol.tooltip || ""}>
                                         <span>
                                             {text.symbol.column}
                                             {text.symbol.tooltip ? <InfoIcon className={classes.infoIcon} /> : ""}
@@ -408,7 +419,7 @@ class Treatments extends React.Component {
                                     </Tooltip>
                                 </HeaderTableCellA>
                                 <HeaderTableCellA component="th" scope="row">
-                                    <Tooltip title={text.alteration.tooltip}>
+                                    <Tooltip title={text.alteration.tooltip || ""}>
                                         <span>
                                             {text.alteration.column}
                                             {text.alteration.tooltip ? <InfoIcon className={classes.infoIcon} /> : ""}
@@ -416,7 +427,7 @@ class Treatments extends React.Component {
                                     </Tooltip>
                                 </HeaderTableCellA>
                                 <HeaderTableCellA component="th" scope="row">
-                                    <Tooltip title={text.context.tooltip}>
+                                    <Tooltip title={text.context.tooltip || ""}>
                                         <span>
                                             {text.context.column}
                                             {text.context.tooltip ? <InfoIcon className={classes.infoIcon} /> : ""}
@@ -424,7 +435,7 @@ class Treatments extends React.Component {
                                     </Tooltip>
                                 </HeaderTableCellA>
                                 <HeaderTableCellA component="th" scope="row">
-                                    <Tooltip title={text.druggable.tooltip}>
+                                    <Tooltip title={text.druggable.tooltip || ""}>
                                         <span>
                                             {text.druggable.column}
                                             {text.druggable.tooltip ? <InfoIcon className={classes.infoIcon} /> : ""}
@@ -432,7 +443,7 @@ class Treatments extends React.Component {
                                     </Tooltip>
                                 </HeaderTableCellA>
                                 <HeaderTableCellB component="th" scope="row">
-                                    <Tooltip title={text.symbol.tooltip}>
+                                    <Tooltip title={text.symbol.tooltip || ""}>
                                         <span>
                                             {text.symbol.column}
                                             {text.symbol.tooltip ? <InfoIcon className={classes.infoIcon} /> : ""}
@@ -440,7 +451,7 @@ class Treatments extends React.Component {
                                     </Tooltip>
                                 </HeaderTableCellB>
                                 <HeaderTableCellB component="th" scope="row">
-                                    <Tooltip title={text.role.tooltip}>
+                                    <Tooltip title={text.role.tooltip || ""}>
                                         <span>
                                             {text.role.column}
                                             {text.role.tooltip ? <InfoIcon className={classes.infoIcon} /> : ""}
@@ -448,7 +459,7 @@ class Treatments extends React.Component {
                                     </Tooltip>
                                 </HeaderTableCellB>
                                 <HeaderTableCellB component="th" scope="row">
-                                    <Tooltip title={text.evidence.tooltip}>
+                                    <Tooltip title={text.evidence.tooltip || ""}>
                                         <span>
                                             {text.evidence.column}
                                             {text.evidence.tooltip ? <InfoIcon className={classes.infoIcon} /> : ""}
@@ -456,7 +467,7 @@ class Treatments extends React.Component {
                                     </Tooltip>
                                 </HeaderTableCellB>
                                 <HeaderTableCellA component="th" scope="row">
-                                    <Tooltip title={text.drug_name.tooltip}>
+                                    <Tooltip title={text.drug_name.tooltip || ""}>
                                         <span>
                                             {text.drug_name.column}
                                             {text.drug_name.tooltip ? <InfoIcon className={classes.infoIcon} /> : ""}
@@ -464,7 +475,7 @@ class Treatments extends React.Component {
                                     </Tooltip>
                                 </HeaderTableCellA>
                                 <HeaderTableCellA component="th" scope="row">
-                                    <Tooltip title={text.pandrugs_score.tooltip}>
+                                    <Tooltip title={text.pandrugs_score.tooltip || ""}>
                                         <span>
                                             {text.pandrugs_score.column}
                                             {text.pandrugs_score.tooltip ? <InfoIcon className={classes.infoIcon} /> : ""}
@@ -472,7 +483,7 @@ class Treatments extends React.Component {
                                     </Tooltip>
                                 </HeaderTableCellA>
                                 <HeaderTableCellA component="th" scope="row">
-                                    <Tooltip title={text.lincs_score.tooltip}>
+                                    <Tooltip title={text.lincs_score.tooltip || ""}>
                                         <span>
                                             {text.lincs_score.column}
                                             {text.lincs_score.tooltip ? <InfoIcon className={classes.infoIcon} /> : ""}
@@ -480,7 +491,7 @@ class Treatments extends React.Component {
                                     </Tooltip>
                                 </HeaderTableCellA>
                                 <HeaderTableCellA component="th" scope="row">
-                                    <Tooltip title={text.star.tooltip}>
+                                    <Tooltip title={text.star.tooltip || ""}>
                                         <span>
                                             {text.star.column}
                                             {text.star.tooltip ? <InfoIcon className={classes.infoIcon} /> : ""}
@@ -550,11 +561,11 @@ class Treatments extends React.Component {
 
                                             let role = null;
                                             if(showRole){
-                                                role = <Tooltip title={role_tooltip}><Chip variant="outlined" style={{color:role_color, fontSize:'10px', width:55, height:20}} label={role_label} /></Tooltip>
+                                                role = <Tooltip title={role_tooltip || ""}><Chip variant="outlined" style={{color:role_color, fontSize:'10px', width:55, height:20}} label={role_label} /></Tooltip>
                                             }
                                             let driver = null;
                                             if(showDriver){
-                                                driver = <Tooltip title={driver_tooltip}><Chip variant="outlined" style={{color:driver_color, fontSize:'10px', width:55, height:20}} label={driver_label} /></Tooltip>
+                                                driver = <Tooltip title={driver_tooltip || ""}><Chip variant="outlined" style={{color:driver_color, fontSize:'10px', width:55, height:20}} label={driver_label} /></Tooltip>
                                             }
                                             
                                             return (
@@ -584,7 +595,7 @@ class Treatments extends React.Component {
 
                                             
                                             return (
-                                                <Tooltip title={tooltip}><Chip style={{background:color, width:55, height:20}} label={<Typography style={{fontWeight:'bold', color:'white', fontSize:'10px',}}>{alt}</Typography>} /></Tooltip>
+                                                <Tooltip title={tooltip || ""}><Chip style={{background:color, width:55, height:20}} label={<Typography style={{fontWeight:'bold', color:'white', fontSize:'10px',}}>{alt}</Typography>} /></Tooltip>
                                             );
                                       };
 

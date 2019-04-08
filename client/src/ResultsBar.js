@@ -4,10 +4,20 @@ import { HorizontalBar } from 'react-chartjs-2';
 
 class ResultsBar extends React.Component {
     state = {
+        all: this.props.all,
+        top: this.props.top
     };
+
+    componentWillReceiveProps(newProps){
+        if(newProps.all !== this.props.all || newProps.top !== this.props.top){
+            this.setState({all: newProps.all});
+            this.setState({top: newProps.top});
+        }
+    }
 
     render(){
        const options = {
+           layout:{padding:{left:0,right:0}},
            maintainAspectRatio:false,
            tooltips:{
                mode:'nearest',  
@@ -19,12 +29,15 @@ class ResultsBar extends React.Component {
                     gridLines:{
                         display:false,
                     },
+                    ticks:{
+                        max: this.state.all
+                    }
                 }],
                 yAxes: [{
                     stacked: true,
                     gridLines:{
                         display:false,
-                    },
+                    }
                 }]
             }
         }
@@ -33,12 +46,12 @@ class ResultsBar extends React.Component {
           datasets:[
               {
                 label: 'GD',
-                data :[70]
+                data :[this.state.all - this.state.top]
               },
               {
                 label: 'top GD',
                 backgroundColor: 'lightgreen',
-                data :[30]
+                data :[this.state.top]
               }
           ],
           labels:['Query results']
