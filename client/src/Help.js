@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -174,6 +175,7 @@ vulcanSpot's final ranking of prioritized drugs is ordered *decreasingly* accord
     <br/>
     <br/>
             </main>
+            /* jshint ignore:end*/
         );
     }
 }
