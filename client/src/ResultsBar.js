@@ -1,40 +1,44 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { HorizontalBar } from 'react-chartjs-2';
 
 
 class ResultsBar extends React.Component {
     state = {
-        all: this.props.all,
-        top: this.props.top
+        values: this.props.values
     };
 
     componentWillReceiveProps(newProps){
-        if(newProps.all !== this.props.all || newProps.top !== this.props.top){
-            this.setState({all: newProps.all});
-            this.setState({top: newProps.top});
+        if(newProps.values !== this.props.values){
+            this.setState({values: newProps.values});
         }
     }
 
     render(){
+       let values = [this.state.values.genesa,this.state.values.genesb,this.state.values.best,this.state.values.bestDrugs,this.state.values.totalDrugs];
        const options = {
+           title:{
+                display:true,
+               text: 'Results summary'
+           },
+           legend:{
+                display: false
+           },
            layout:{padding:{left:0,right:0}},
            maintainAspectRatio:false,
            tooltips:{
-               mode:'nearest',  
-               caretPadding: 30 
            },
            scales: {
                 xAxes: [{
-                    stacked: true,
                     gridLines:{
                         display:false,
                     },
                     ticks:{
-                        max: this.state.all
+                        max: Math.max(...values),
+                        min: 0
                     }
                 }],
                 yAxes: [{
-                    stacked: true,
                     gridLines:{
                         display:false,
                     }
@@ -45,20 +49,23 @@ class ResultsBar extends React.Component {
         let data ={
           datasets:[
               {
-                label: 'GD',
-                data :[this.state.all - this.state.top]
-              },
-              {
-                label: 'top GD',
                 backgroundColor: 'lightgreen',
-                data :[this.state.top]
+                data: values
               }
           ],
-          labels:['Query results']
+          labels:['Genes A', 'Genes B','Best results','Unique drugs in best results','Unique drugs in all results']
         }
 
-      return  <div style={{width: '100%',height:'100px'}}><HorizontalBar data={data} options={options} /></div>
+      return  <div style={{width: '100%',height:'300'}}><HorizontalBar data={data} options={options} /></div>
     }
+}
+
+ResultsBar.propTypes = {
+    values: PropTypes.shape({
+        genesb: PropTypes.number,
+        best: PropTypes.number,
+        bestDrugs: PropTypes.number
+    })
 }
 
 export default ResultsBar;

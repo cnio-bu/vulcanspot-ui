@@ -358,14 +358,30 @@ class Treatments extends React.Component {
 
                   return druggable_b - druggable_a || b.nsources - a.nsources || score_p_b - score_p_a || score_l_b - score_l_a;
               });
-              let topRes = 0;
+
+              let values = {
+                  "genesa":[],
+                  "genesb": [],
+                  "best": 0,
+                  "bestDrugs": [],
+                  "totalDrugs": [] 
+              }
+
               for (var r in rows) {
                   r = rows[r];
                   if((r.sources.PANDRUGS && r.sources.PANDRUGS.score >= 0.6) && (r.sources.LINCS && r.sources.LINCS.score >= 0.9)){
-                    topRes += 1;
+                    values.best += 1;
+                    values.bestDrugs.push(r.drug_name);
                   }
+                  values.totalDrugs.push(r.drug_name);
+                  values.genesa.push(r.gene_a);
+                  values.genesb.push(r.gene_b);
               }
 
+              values.bestDrugs = [...new Set(values.bestDrugs)].length;
+              values.totalDrugs = [...new Set(values.totalDrugs)].length;
+              values.genesa = [...new Set(values.genesa)].length;
+              values.genesb = [...new Set(values.genesb)].length;
 
               const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
@@ -373,7 +389,7 @@ class Treatments extends React.Component {
                         <Paper className={classes.root}>
                         {this.state.rows.length > 0 ?
                           <div>
-                            {this.state.loading ? null : <ResultsBar all={rows.length} top={topRes} />}
+                            {this.state.loading ? null : <ResultsBar values={values} />}
                           <div className={classes.download}>
                             Download: <a download={"results-"+ +new Date()+".json"} href={"data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.state.results))}>JSON</a>
                           </div>
