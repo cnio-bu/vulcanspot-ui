@@ -3,7 +3,7 @@
         "column":"GENE A (Genes harbouring a genetic alteration)"
     },
     "geneB": {
-         "column": "GENE B (Genes that feature genetic dependency with Gene A)"
+         "column": "GENE B (Genes that feature genetic dependency on Gene A)"
     },
     "drug": {
          "column": "DRUG (In silico drug prescription for genetic dependencies)"
