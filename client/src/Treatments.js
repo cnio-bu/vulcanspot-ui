@@ -24,7 +24,10 @@ import Tooltip from '@material-ui/core/Tooltip';
 import PanDrugsList from './PanDrugsList';
 import text from './data/Dashboard_text.json';
 import bullseye from './img/bullseye.png';
-import ResultsBar from './ResultsBar';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 const { List } = require('immutable');
 
@@ -113,9 +116,18 @@ const styles = theme => ({
               marginTop: theme.spacing.unit * 3,
               marginBottom: theme.spacing.unit * 10,
             },
+      heading: {
+    fontSize: theme.typography.pxToRem(15),
+    fontWeight: 'bold'
+  },
+    sumValue:{
+        fontSize:15
+    },
       table: {
               minWidth: 500,
-                fontSize: 30
+            },
+      tableRowNarrow: {
+                height:0,
             },
       tableWrapper: {
               overflowX: 'auto',
@@ -366,7 +378,9 @@ class Treatments extends React.Component {
                   "genesb": [],
                   "best": 0,
                   "bestDrugs": [],
-                  "totalDrugs": [] 
+                  "totalDrugs": [],
+                  "validated":0,
+                  "validatedDrugs":[]
               }
 
               for (var r in rows) {
@@ -375,6 +389,10 @@ class Treatments extends React.Component {
                     values.best += 1;
                     values.bestDrugs.push(r.drug_name);
                   }
+                  if(r.sources.validated){
+                    values.validated += 1;
+                    values.validatedDrugs.push(r.drug_name);
+                  }
                   values.totalDrugs.push(r.drug_name);
                   values.genesa.push(r.gene_a);
                   values.genesb.push(r.gene_b);
@@ -382,16 +400,56 @@ class Treatments extends React.Component {
 
               values.bestDrugs = [...new Set(values.bestDrugs)].length;
               values.totalDrugs = [...new Set(values.totalDrugs)].length;
+              values.validatedDrugs = [...new Set(values.validatedDrugs)].length;
               values.genesa = [...new Set(values.genesa)].length;
               values.genesb = [...new Set(values.genesb)].length;
 
               const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
               return (
+                        <div>
+                        {this.state.rows.length > 0 ?
+                            <div>
+                            <br/>
+                            <ExpansionPanel defaultExpanded={true}>
+                                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                                  <Typography className={classes.heading}>Summary of results</Typography>
+                                </ExpansionPanelSummary>
+                                <ExpansionPanelDetails>
+                                    <Table>
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell colSpan={2}>Results</TableCell>
+                                                <TableCell colSpan={2}>Genes</TableCell>
+                                                <TableCell colSpan={2}>Drugs</TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            <TableRow className={classes.tableRowNarrow}>
+                                                <TableCell>Total:</TableCell><TableCell>{rows.length}</TableCell>
+                                                <TableCell>Genes A:</TableCell><TableCell>{values.genesa}</TableCell>
+                                                <TableCell>Total:</TableCell><TableCell>{values.totalDrugs}</TableCell>
+                                            </TableRow>
+                                            <TableRow className={classes.tableRowNarrow}>
+                                                <TableCell>Best:</TableCell><TableCell>{values.best}</TableCell>
+                                                <TableCell>Genes B:</TableCell><TableCell>{values.genesb}</TableCell>
+                                                <TableCell>In best results:</TableCell><TableCell>{values.bestDrugs}</TableCell>
+                                            </TableRow>
+                                            <TableRow className={classes.tableRowNarrow}>
+                                                <TableCell>Validated:</TableCell><TableCell>{values.validated}</TableCell>
+                                                <TableCell></TableCell><TableCell></TableCell>
+                                                <TableCell>In validated results:</TableCell><TableCell>{values.validatedDrugs}</TableCell>
+                                            </TableRow>
+                                        </TableBody>
+                                    </Table>
+                                </ExpansionPanelDetails>
+                              </ExpansionPanel>
+                            </div>
+                            :null
+                        }
                         <Paper className={classes.root}>
                         {this.state.rows.length > 0 ?
                           <div>
-                            {this.state.loading ? null : <ResultsBar values={values} />}
                           <div className={classes.download}>
                             Download: <a download={"results-"+ +new Date()+".json"} href={"data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.state.results))}>JSON</a>
                           </div>
@@ -674,6 +732,7 @@ class Treatments extends React.Component {
                             </Table>
                           </div>
                         </Paper>
+                        </div>
                       );
             }
 }
