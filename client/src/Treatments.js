@@ -419,26 +419,26 @@ class Treatments extends React.Component {
                                     <Table>
                                         <TableHead>
                                             <TableRow>
-                                                <TableCell colSpan={2}>Results</TableCell>
-                                                <TableCell colSpan={2}>Genes</TableCell>
-                                                <TableCell colSpan={2}>Drugs</TableCell>
+                                                <TableCell colSpan={2}><Typography style={{fontWeight:'bold'}}>Results</Typography></TableCell>
+                                                <TableCell colSpan={2}><Typography style={{fontWeight:'bold'}}>Gene Dependencies</Typography></TableCell>
+                                                <TableCell colSpan={2}><Typography style={{fontWeight:'bold'}}>Drugs</Typography></TableCell>
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
                                             <TableRow className={classes.tableRowNarrow}>
-                                                <TableCell>Total:</TableCell><TableCell>{rows.length}</TableCell>
-                                                <TableCell>Genes A:</TableCell><TableCell>{values.genesa}</TableCell>
-                                                <TableCell>Total:</TableCell><TableCell>{values.totalDrugs}</TableCell>
+                                                <TableCell>Total Results:</TableCell><TableCell style={{fontWeight:'bold'}}>{rows.length}</TableCell>
+                                                <TableCell>Genes A:</TableCell><TableCell style={{fontWeight:'bold'}}>{values.genesa}</TableCell>
+                                                <TableCell>Total Drugs:</TableCell><TableCell style={{fontWeight:'bold'}}>{values.totalDrugs}</TableCell>
                                             </TableRow>
                                             <TableRow className={classes.tableRowNarrow}>
-                                                <TableCell>Best:</TableCell><TableCell>{values.best}</TableCell>
-                                                <TableCell>Genes B:</TableCell><TableCell>{values.genesb}</TableCell>
-                                                <TableCell>In best results:</TableCell><TableCell>{values.bestDrugs}</TableCell>
+                                                <TableCell>Best Results:</TableCell><TableCell style={{fontWeight:'bold'}}>{values.best}</TableCell>
+                                                <TableCell>Genes B:</TableCell><TableCell style={{fontWeight:'bold'}}>{values.genesb}</TableCell>
+                                                <TableCell>Best results:</TableCell><TableCell style={{fontWeight:'bold'}}>{values.bestDrugs}</TableCell>
                                             </TableRow>
                                             <TableRow className={classes.tableRowNarrow}>
-                                                <TableCell>Validated:</TableCell><TableCell>{values.validated}</TableCell>
+                                                <TableCell>Experimentally Validated Results:</TableCell><TableCell style={{fontWeight:'bold'}}>{values.validated}</TableCell>
                                                 <TableCell></TableCell><TableCell></TableCell>
-                                                <TableCell>In validated results:</TableCell><TableCell>{values.validatedDrugs}</TableCell>
+                                                <TableCell>Experimentally Validated Results:</TableCell><TableCell style={{fontWeight:'bold'}}>{values.validatedDrugs}</TableCell>
                                             </TableRow>
                                         </TableBody>
                                     </Table>
@@ -462,7 +462,7 @@ class Treatments extends React.Component {
                               <TableRow style={{whiteSpace: 'nowrap'}}>
                                 <HeaderTableCellA component="th" scope="row" colSpan={4}>
                                     <Tooltip title={text.geneA.tooltip || ""}>
-                                        <span>
+                                        <span style={{fontWeight:'bold', fontSize:15}}>
                                             {text.geneA.column}
                                             {text.geneA.tooltip ? <InfoIcon className={classes.infoIcon} /> : ""}
                                         </span>
@@ -470,7 +470,7 @@ class Treatments extends React.Component {
                                 </HeaderTableCellA>
                                 <HeaderTableCellB component="th" scope="row" colSpan={3}>
                                     <Tooltip title={text.geneB.tooltip || ""}>
-                                        <span>
+                                        <span style={{fontWeight:'bold', fontSize:15}}>
                                             {text.geneB.column}
                                             {text.geneB.tooltip ? <InfoIcon className={classes.infoIcon} /> : ""}
                                         </span>
@@ -478,7 +478,7 @@ class Treatments extends React.Component {
                                 </HeaderTableCellB>
                                 <HeaderTableCellA component="th" scope="row" colSpan={5}>
                                     <Tooltip title={text.drug.tooltip || ""}>
-                                        <span>
+                                        <span style={{fontWeight:'bold', fontSize:15}}>
                                             {text.drug.column}
                                             {text.drug.tooltip ? <InfoIcon className={classes.infoIcon} /> : ""}
                                         </span>

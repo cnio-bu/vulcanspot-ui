@@ -50,6 +50,6 @@
     },
     "validated": {
          "column": "Validated",
-         "tooltip": "Validated result..."
+         "tooltip": "Experimentally validated drug response using cell lines drug sensitivity data (IC50) from CTRP and/or GDSC."
     }
 }
