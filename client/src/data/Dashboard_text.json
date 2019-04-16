@@ -47,5 +47,9 @@
     "star": {
          "column": "Best Result",
          "tooltip": "The dartboard highlights GeneB-drug interactions surpassing both PanDrugs and LINCS scores thresholds (PanDrugs>0.7 and LINCS>0.9)."
+    },
+    "validated": {
+         "column": "Validated",
+         "tooltip": "Validated result..."
     }
 }

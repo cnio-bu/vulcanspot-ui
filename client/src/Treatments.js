@@ -17,6 +17,7 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import InfoIcon from '@material-ui/icons/Info';
+import CheckCircleOutline from '@material-ui/icons/CheckCircleOutline';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Chip from '@material-ui/core/Chip';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -249,7 +250,8 @@ class Treatments extends React.Component {
                                                 evidence: therapy.evidence,
                                                 drug_name: drug,
                                                 sources: sources,
-                                                skewness: therapy.skewness
+                                                skewness: therapy.skewness,
+                                                validated: drug.validated
                                             });
                                         }
                                     }else{
@@ -416,7 +418,7 @@ class Treatments extends React.Component {
                                         </span>
                                     </Tooltip>
                                 </HeaderTableCellB>
-                                <HeaderTableCellA component="th" scope="row" colSpan={4}>
+                                <HeaderTableCellA component="th" scope="row" colSpan={5}>
                                     <Tooltip title={text.drug.tooltip || ""}>
                                         <span>
                                             {text.drug.column}
@@ -511,6 +513,14 @@ class Treatments extends React.Component {
                                         <span>
                                             {text.star.column}
                                             {text.star.tooltip ? <InfoIcon className={classes.infoIcon} /> : ""}
+                                        </span>
+                                    </Tooltip>
+                                </HeaderTableCellA>
+                                <HeaderTableCellA component="th" scope="row">
+                                    <Tooltip title={text.validated.tooltip || ""}>
+                                        <span>
+                                            {text.validated.column}
+                                            {text.validated.tooltip ? <InfoIcon className={classes.infoIcon} /> : ""}
                                         </span>
                                     </Tooltip>
                                 </HeaderTableCellA>
@@ -638,6 +648,7 @@ class Treatments extends React.Component {
                                                 <TableCell numeric>{row.sources.PANDRUGS ? row.sources.PANDRUGS.score.toFixed(3) : "-"}</TableCell>
                                                 <TableCell numeric>{row.sources.LINCS ? row.sources.LINCS.score.toFixed(3) : "-"}</TableCell>
                                                 <TableCell>{(row.sources.LINCS && row.sources.PANDRUGS && row.sources.LINCS.score >= 0.9 && row.sources.PANDRUGS.score >= 0.6) ? <img src={bullseye} alt="" /> : ""}</TableCell>
+                                                <TableCell>{row.sources.validated ?  <CheckCircleOutline color="secondary"/> : ""}</TableCell>
                                           </TableRow>
                                       );
                                 })}

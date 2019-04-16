@@ -17,7 +17,9 @@ SELECT
    r.nes,
    ge.skewness,
    l.score as dscore,
-   s.name as source
+   s.name as source,
+   va.fdr as vfdra,
+   vb.fdr as vfdrb
 
 FROM
     relationships r
@@ -44,6 +46,18 @@ FROM
             ON d.id = l.id_drugs
         LEFT JOIN sources s
             ON s.id = l.id_sources
+        LEFT JOIN validations va
+            ON ga.id = va.id_genes
+            AND c.id = va.id_contexts
+            AND d.id = va.id_drugs
+            AND s.id = va.id_sources
+            AND va.geneab = 'a'
+        LEFT JOIN validations vb
+            ON ga.id = vb.id_genes
+            AND c.id = vb.id_contexts
+            AND d.id = vb.id_drugs
+            AND s.id = vb.id_sources
+            AND vb.geneab = 'b'
 
 WHERE true
     ##FILTERS##
