@@ -29,8 +29,8 @@
          "tooltip": "ONC: Oncogene | TSG: Tumor Supressor Gene | HCD: High Confidence Driver | LCD: Low Confidence Driver"
     },
     "evidence": {
-         "column": "GD Evidence (score)",
-         "tooltip": "Experimental platform where the genetic dependency (GD) was detected (in green). || Score: lethality for the interaction between the genetic alteration and the depletion of Gene B. The lower score the more lethality evidence."
+         "column": "Experimental platform (GD score)",
+         "tooltip": "Experimental platform where the Genetic Dependency (GD) was detected (RNAi or CRISPR). Green: indicates a significant association (FDR < 0.25). Grey: indicates no significance. | GD Score: magnitude of the lethality genotype-context GD as compared to the background (cell lines without the alteration). The higher the score, the more lethal is the GD."
     },
     "drug_name": {
          "column": "Drug",

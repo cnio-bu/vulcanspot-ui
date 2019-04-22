@@ -370,7 +370,10 @@ class Treatments extends React.Component {
                   let druggable_a = a.gene_a_drugs ? 1 : 0;
                   let druggable_b = b.gene_a_drugs ? 1 : 0;
 
-                  return druggable_b - druggable_a || b.nsources - a.nsources || score_p_b - score_p_a || score_l_b - score_l_a;
+                  let validated_a = a.sources.validated ? 1 : 0;
+                  let validated_b = b.sources.validated ? 1 : 0;
+
+                  return druggable_b - druggable_a || b.nsources - a.nsources || validated_b - validated_a  || score_p_b - score_p_a || score_l_b - score_l_a;
               });
 
               let values = {
