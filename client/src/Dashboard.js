@@ -121,7 +121,7 @@ loadExample = n => {
 
     switch(n){
         case 1:
-            genesA = ['ERBB2','PIK3CA'];
+            genesA = ['ERBB2'];
             contexts = ['BREAST'];
             genesB = [];
             gdscore = 0;
