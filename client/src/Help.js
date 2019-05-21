@@ -144,6 +144,23 @@ If you are interested in a collaboration, please, contact Dr. Fátima Al-Shahrou
 <li>Both gene A and gene B are undruggable.</li>
 </ol>
 
+Furthermore, a description of vulcanSpot's total number of features for statistical testing in Gene Dependencies (GDs) is provided in the following table. Note that for all the genetic alterations there was enough sample size to perform the statistical test.
+
+<br/>
+<br/>
+
+<table border="1" cellspacing="0">
+<tr>
+    <th>Dataset</th><th>Context-specific genetic alterations</th><th>Potential dependency on GenesB</th><th>Total comparisons</th>
+</tr>
+<tr>
+    <td>RNAi</td><td>6,124</td><td>3,367</td><td>15,605,722</td>
+</tr>
+<tr>
+    <td>CRISPR</td><td>3,155</td><td>4,862</td><td>15,339,409</td>
+</tr>
+</table>
+
 <h2>5. Use cases<a name="use-cases"></a></h2>
 
 <p><strong>1. ERBB2 in Breast cancer</strong></p>
