@@ -699,7 +699,7 @@ class Treatments extends React.Component {
                                       return (
                                           <TableRow key={index}>
                                                 <TableCell><a rel="noopener noreferrer" href={"https://www.ncbi.nlm.nih.gov/gene?term=" + row.gene_a} target="_blank">{row.gene_a}</a></TableCell>
-                                                <TableCell>{alteration(row.gene_a_alteration)} ({row.gene_a_alteration_freq})</TableCell>
+                                                <TableCell>{alteration(row.gene_a_alteration)}</TableCell>
                                                 <TableCell>{row.gene_a_alteration_freq}</TableCell>
                                                 <Tooltip title={row.context}><TableCell>{row.context.length <= 10 ? row.context : row.context.substr(0,9) + "..."}</TableCell></Tooltip>
                                                 <TableCell><PanDrugsList gene={row.gene_a} items={row.gene_a_drugs ? row.gene_a_drugs : []} /></TableCell>
