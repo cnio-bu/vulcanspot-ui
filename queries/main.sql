@@ -12,6 +12,7 @@ SELECT
    ds.name AS evidence,
    r.score as rscore,
    d.name AS drug_name,
+   a.freq,
    r.fdr,
    r.pval,
    r.nes,

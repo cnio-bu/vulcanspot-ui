@@ -16,6 +16,10 @@
          "column": "Gene Alteration",
          "tooltip": "Type of genetic alteration. || GoF:Gain-of-Function, LoF=Loss-of-Function."
     },
+    "frequency": {
+         "column": "Frequency",
+         "tooltip": "Frequency of the genetic alteration."
+    },
     "context": {
          "column": "Context",
          "tooltip": "Tumor type where the Gene A alteration occurs."

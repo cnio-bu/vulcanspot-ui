@@ -254,6 +254,7 @@ class Treatments extends React.Component {
                                             rows.push({
                                                 gene_a: geneA,
                                                 gene_a_alteration: alteration,
+                                                gene_a_alteration_freq: therapy.frequency,
                                                 gene_a_drugs: drugs,
                                                 context: context,
                                                 gene_b: geneB,
@@ -270,6 +271,7 @@ class Treatments extends React.Component {
                                         rows.push({
                                             gene_a: geneA,
                                             gene_a_alteration: alteration,
+                                            gene_a_alteration_freq: therapy.frequency,
                                             gene_a_drugs: drugs,
                                             context: context,
                                             gene_b: geneB,
@@ -463,7 +465,7 @@ class Treatments extends React.Component {
                             <Table className={classes.table}>
                             <TableHead>
                               <TableRow style={{whiteSpace: 'nowrap'}}>
-                                <HeaderTableCellA component="th" scope="row" colSpan={4}>
+                                <HeaderTableCellA component="th" scope="row" colSpan={5}>
                                     <Tooltip title={text.geneA.tooltip || ""}>
                                         <span style={{fontWeight:'bold', fontSize:15}}>
                                             {text.geneA.column}
@@ -502,6 +504,14 @@ class Treatments extends React.Component {
                                         <span>
                                             {text.alteration.column}
                                             {text.alteration.tooltip ? <InfoIcon className={classes.infoIcon} /> : ""}
+                                        </span>
+                                    </Tooltip>
+                                </HeaderTableCellA>
+                                <HeaderTableCellA component="th" scope="row">
+                                    <Tooltip title={text.frequency.tooltip || ""}>
+                                        <span>
+                                            {text.frequency.column}
+                                            {text.frequency.tooltip ? <InfoIcon className={classes.infoIcon} /> : ""}
                                         </span>
                                     </Tooltip>
                                 </HeaderTableCellA>
@@ -689,7 +699,8 @@ class Treatments extends React.Component {
                                       return (
                                           <TableRow key={index}>
                                                 <TableCell><a rel="noopener noreferrer" href={"https://www.ncbi.nlm.nih.gov/gene?term=" + row.gene_a} target="_blank">{row.gene_a}</a></TableCell>
-                                                <TableCell>{alteration(row.gene_a_alteration)}</TableCell>
+                                                <TableCell>{alteration(row.gene_a_alteration)} ({row.gene_a_alteration_freq})</TableCell>
+                                                <TableCell>{row.gene_a_alteration_freq}</TableCell>
                                                 <Tooltip title={row.context}><TableCell>{row.context.length <= 10 ? row.context : row.context.substr(0,9) + "..."}</TableCell></Tooltip>
                                                 <TableCell><PanDrugsList gene={row.gene_a} items={row.gene_a_drugs ? row.gene_a_drugs : []} /></TableCell>
                                                 <TableCell><a rel="noopener noreferrer" href={"https://depmap.org/portal/gene/" + row.gene_b} target="_blank">{row.gene_b}</a></TableCell>
