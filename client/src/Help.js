@@ -69,7 +69,39 @@ class Help extends React.Component {
 <p>When citing our application, please refer to our publication:
 [PMID and link]</p>
 
-<p><strong>1.3 Could I use <em>vulcanSpot</em> for commercial purposes?</strong></p>
+<p><strong>1.3 How large is the universe of genes in the database?</strong></p>
+
+The first release of vulcanSpot considers a feature universe of 36,078 human genes, from which 19,692 genes were altered in at least one cancer cell line from the CCLE.
+
+<p><strong>1.4 What is the total number of features tested for the identification of Gene Dependencies (GDs) within this universe (Step 1)?</strong></p>
+
+<center>
+<table border="1" cellspacing="0">
+<tr>
+    <th>Dataset</th><th>Context-specific genetic alterations</th><th>Potential dependency on GenesB</th><th>Total comparisons</th>
+</tr>
+<tr>
+    <td>RNAi</td><td>6,124</td><td>3,367</td><td>15,605,722</td>
+</tr>
+<tr>
+    <td>CRISPR</td><td>3,155</td><td>4,862</td><td>15,339,409</td>
+</tr>
+</table>
+</center>
+
+<br/>
+
+Note that for all the genetic alterations there was enough sample size to perform the statistical test. See supplementary material from the manuscript for detailed information.
+
+<p><strong>1.5 Are nominal p-values corrected for multiple testing?</strong></p>
+
+Nominal p-values for a given context-specific genetic alteration are adjusted using the Benjamini & Hochberg method (FDR). Default settings consider genotype-context GDs with FDR &lt; 0.25 (after multiple testing correction) significant, but the assumption of stricter FDR thresholds is encouraged to avoid false positives along the results (e.g. FDR &lt; 0.05 using the Filter tool).
+
+<p><strong>1.6 What is the average number of gene dependencies (GDs) per gene?</strong></p>
+
+After filtering criteria and statistical testing, only 639 genes of these genes (genes A) were associated to GDs, with 170 GDs on average per gene A. Notably, already known cancer genes represent the 19.1% (122 out of 639) of all genes A and were associated to a greater number of GDs (364.07 on average) as compared to the non-described genes in cancer.
+
+<p><strong>1.7 Could I use <em>vulcanSpot</em> for commercial purposes?</strong></p>
 
 <p><em>vulcanSpot</em> is intended for research purposes and academic use exclusively.
 If you are interested in a collaboration, please, contact Dr. Fátima Al-Shahrour (falshahrour@cnio.es).</p>
@@ -143,23 +175,6 @@ If you are interested in a collaboration, please, contact Dr. Fátima Al-Shahrou
 <li>Gene B is druggable meeting either DScore ≥ 0.6 or KDCP score ≥ 0.9. Gene A is undruggable.</li>
 <li>Both gene A and gene B are undruggable.</li>
 </ol>
-
-Furthermore, a description of vulcanSpot's total number of features for statistical testing in Gene Dependencies (GDs) is provided in the following table. Note that for all the genetic alterations there was enough sample size to perform the statistical test.
-
-<br/>
-<br/>
-
-<table border="1" cellspacing="0">
-<tr>
-    <th>Dataset</th><th>Context-specific genetic alterations</th><th>Potential dependency on GenesB</th><th>Total comparisons</th>
-</tr>
-<tr>
-    <td>RNAi</td><td>6,124</td><td>3,367</td><td>15,605,722</td>
-</tr>
-<tr>
-    <td>CRISPR</td><td>3,155</td><td>4,862</td><td>15,339,409</td>
-</tr>
-</table>
 
 <h2>5. Use cases<a name="use-cases"></a></h2>
 
