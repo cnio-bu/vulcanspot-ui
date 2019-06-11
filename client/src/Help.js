@@ -229,6 +229,13 @@ But those results are not the only interesting ones, it's been shown that BRAFV6
                         <Typography component='p' variant='body1'>
                             Lists all genes for a certain class
                         </Typography>
+                        <Divider className={classes.divider}/>
+                        <Typography component='p' variant='h6'>
+                            {baseUrl}/genes?context=SKIN
+                        </Typography>
+                        <Typography component='p' variant='body1'>
+                            Lists all genes for a certain context (NOTE: only applicable to Genes A)
+                        </Typography>
 
                         <Divider className={classes.divider} />
                         <Typography component='p' variant='h6'>
