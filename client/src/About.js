@@ -58,13 +58,23 @@ class Contact extends React.Component {
                             <br/>
                             <Divider />
                             <br />
-                                LICENSE
+                                <strong>LICENSE</strong>
                                 <br />
                                 <br />
                                 vulcanSpot is free for academic use. Source code is available <a href="https://gitlab.com/bu_cnio/vulcanspot" target="_blank" rel="noopener noreferrer">here</a>.
                                 <br />
                                 <br />
                                 For commercial applications please contact Dr. Fátima Al-Shahrour [falshahrour (at) cnio.es]
+                            <br />
+                            <br />
+                            <Divider />
+                            <br />
+                                <strong>CITING VULCANSPOT</strong>
+                                <br />
+                                <br />
+                                Perales-Patón, J., Di Domenico, T., Fustero-Torre, C., Piñeiro-Yáñez, E., Carretero-Puche, C., Tejero, H., Valencia, A., Gómez-López, G., and Al-Shahrour, F. vulcanSpot: a tool to prioritize therapeutic vulnerabilities in cancer. Bioinformatics, btz465, <a href="https://doi.org/10.1093/bioinformatics/btz465">https://doi.org/10.1093/bioinformatics/btz465</a>
+                                <br />
+                                <br />
                             <br />
                             <br />
                             <Divider />
