@@ -23,6 +23,7 @@ import Api from './Api';
 import logo from './img/vulcan.logo.png';
 import bulogo from './img/bu_cnio.logo.png';
 import cniologo from './img/cnio.logo.png';
+import inbelixirlogo from './img/inbelixir.logo.png';
 
 const drawerWidth = 240;
 
@@ -180,8 +181,9 @@ class App extends Component {
 
           <AppBar position="fixed" className={classes.appBarBottom}>
             <Toolbar className={classes.toolbar}>
-                        <a href="http://bioinformatics.cnio.es" target="_blank" className={classes.logo} rel="noopener noreferrer"><img alt="Bioinformatics Unit" src={bulogo} style={{height:50}}/></a>
-                        <a href="http://www.cnio.es/ing" target="_blank" className={classes.logo} rel="noopener noreferrer"><img src={cniologo} alt="CNIO" style={{height:30}}/></a>
+                        <a href="http://bioinformatics.cnio.es/" target="_blank" className={classes.logo} rel="noopener noreferrer"><img alt="Bioinformatics Unit" src={bulogo} style={{height:50}}/></a>
+                        <a href="http://www.cnio.es/ing/" target="_blank" className={classes.logo} rel="noopener noreferrer"><img src={cniologo} alt="CNIO" style={{height:30}}/></a>
+                        <a href="https://inb-elixir.es/" target="_blank" className={classes.logo} rel="noopener noreferrer"><img src={inbelixirlogo} alt="INB/Elixir-ES" style={{height:30}}/></a>
                         <Typography variant='caption'>
                             Disclaimer: vulcanSpot is intended for research purposes exclusively. It should not be used for medical or professional advice.
                         </Typography>
