@@ -168,8 +168,6 @@ class App extends Component {
             <div style={{paddingLeft:10}}>
                 <Typography variant="caption">
                     vulcanSpot v1.0.0b
-                    <br />
-                    Release date: 01/01/1900
                 </Typography>
             </div>
           </Drawer>
