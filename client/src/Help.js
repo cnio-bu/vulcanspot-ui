@@ -18,7 +18,7 @@ import img_example2 from './img/example-2-braf-skin.png';
 import img_braf from './img/braf-results-full.png';
 
 
-const baseUrl = 'http://vulcanspot.org/api'
+const baseUrl = 'http://api.vulcanspot.org'
 const styles = theme => ({
     root: {
         display: 'flex',
