@@ -1,0 +1,288 @@
+var promise = require('bluebird');
+var fs = require('fs');
+
+var options = {
+    // Initialization Options
+    promiseLib: promise
+};
+
+var pgp = require('pg-promise')(options);
+var cs = {
+    host: 'localhost',
+    port: 5432,
+    database: 'vulcanspot_round2',
+    user: 'vulcan',
+    password: 'vulcanspot2018'
+}
+var db = pgp(cs);
+
+/*
+gene_a "TP53"
+gene_a_alteration "LoF"
+context "HAEMATOPOIETIC_AND_LYMPHOID_TISSUE"
+gene_b "ALAS1"
+gene_b_role "unknown"
+gene_b_driver "ND"
+evidence "CRISPR"
+rscore 0.245976
+drug_name "PYRIDOXAL PHOSPHATE"
+fdr 0.0119565
+skewness -1.27305
+dscore 0.6
+source "PANDRUGS"
+
+
+TP53:
+    PANCANCER:
+        LoF:
+            ALAS1:
+                role: "unknown"
+                driver: "ND"
+                skewness: '-6'
+                evidence:
+                    CRISPR: rscore,pval,nes,fdr
+                    RNAi: rscore,pval,nes,fdr
+                drugs:
+                    drug_name:
+                        PANDRUGS: score
+                        LINCS: score
+*/
+
+function getTreatments(req, res, next) {
+    fs.readFile('queries/main.sql', 'utf8', function(err, q) {
+        if (err) throw err;
+        var filters = '';
+
+        var gene = req.params.gene;
+
+        filters += " AND ga.symbol = '" + gene + "'";
+
+        if (req.query.ctx) {
+            let contexts = req.query.ctx.replace(",", "','");
+            filters += " AND c.name IN ('" + contexts + "')";
+        }
+
+        q = q.replace("##FILTERS##", filters)
+
+        db.any(q)
+            .then(function(data) {
+                let results = {};
+                let results_flat = [];
+                let promises = [];
+
+                data.forEach(function(item) {
+                    let therapy = {
+                        "evidence": {
+                            [item.evidence]: {
+                                score: item.rscore,
+                                pval: item.pval,
+                                nes: item.nes,
+                                fdr: item.fdr
+                            }
+                        },
+                        "role": item.gene_b_role,
+                        "driver": item.gene_b_driver,
+                        "skewness": item.skewness,
+                        "frequency": item.freq,
+                    }
+                    if(item.drug_name){
+                        therapy["drugs"]= {
+                            [item.drug_name]: {
+                                'validated': (item.vfdra || item.vfdrb) ? true : false,
+                                [item.source]: {
+                                    score: item.dscore
+                                }
+                            }
+                        }
+                    }
+                    q2 = `
+                        SELECT
+                            g.symbol as gene ,c.name as context, d.name as drug, l.score
+                        FROM
+                            lnk_genes_drugs l,
+                            drugs d,
+                            genes g,
+                            contexts c
+
+                        WHERE true
+                            AND l.id_drugs = d.id
+                            AND l.id_genes = g.id
+                            AND l.id_contexts = c.id
+                            AND id_sources = 1
+
+                            AND g.symbol = '#GENE#'
+                            AND c.name = '#CONTEXT#'
+                    `
+
+
+                    if (item.gene_a in results) {
+                        if (item.context in results[item.gene_a]) {
+                            if (item.gene_a_alteration in results[item.gene_a][item.context]['alterations']) {
+                                if (item.gene_b in results[item.gene_a][item.context]['alterations'][item.gene_a_alteration]) {
+                                    results[item.gene_a][item.context]['alterations'][item.gene_a_alteration][item.gene_b]["evidence"][item.evidence] = {
+                                        score: item.rscore,
+                                        pval: item.pval,
+                                        nes: item.nes,
+                                        fdr: item.fdr
+                                    };
+                                    if("drugs" in results[item.gene_a][item.context]['alterations'][item.gene_a_alteration][item.gene_b]){
+                                        if (item.drug_name in results[item.gene_a][item.context]['alterations'][item.gene_a_alteration][item.gene_b]["drugs"]) {
+                                            results[item.gene_a][item.context]['alterations'][item.gene_a_alteration][item.gene_b]["drugs"][item.drug_name][item.source] = { score: item.dscore };
+                                            results[item.gene_a][item.context]['alterations'][item.gene_a_alteration][item.gene_b]["drugs"]['validated'] = (item.vfdra || item.vfdrb) ? true : false;
+                                        } else {
+                                            results[item.gene_a][item.context]['alterations'][item.gene_a_alteration][item.gene_b]["drugs"][item.drug_name] = { [item.source]: { score: item.dscore }, 'validated': (item.vfdra || item.vfdrb) ? true : false };
+                                        }
+                                    }
+                                } else {
+                                    results[item.gene_a][item.context]['alterations'][item.gene_a_alteration][item.gene_b] = therapy;
+                                }
+                            } else {
+                                results[item.gene_a][item.context]['alterations'][item.gene_a_alteration] = { [item.gene_b]: therapy }
+                            }
+                        } else {
+                            results[item.gene_a][item.context] = {'alterations' : { [item.gene_a_alteration]: { [item.gene_b]: therapy } } }
+                            promises.push(db.any(q2.replace("#GENE#", item.gene_a).replace("#CONTEXT#", item.context)));
+                        }
+                    } else {
+                        results[item.gene_a] = { [item.context]: { 'alterations': { [item.gene_a_alteration]: { [item.gene_b]: therapy } } } }
+                        promises.push(db.any(q2.replace("#GENE#", item.gene_a).replace("#CONTEXT#", item.context)));
+                    }
+                });
+
+                Promise.all(promises).then(data => {
+                    data.forEach(result => {
+                        result.forEach(item => {
+                            try {
+                                results[item.gene][item.context]["drugs"][item.drug] = item.score;
+                            } catch (e) {
+                                try{
+                                    results[item.gene][item.context]["drugs"] = { [item.drug]: item.score };
+                                } catch(e) {
+                                    results[item.gene] = {[item.context] : {"drugs": { [item.drug]: item.score }}};
+                                }
+                            }
+                        });
+                    });
+
+                    res.status(200)
+                        .json({
+                            status: 'success',
+                            data: results
+                        });
+                })
+                .catch(function(err) {
+                    return next(err);
+                });
+            });
+    });
+}
+
+function getAllDrugs(req, res, next) {
+    db.any('select * from drugs')
+        .then(function(data) {
+            res.status(200)
+                .json({
+                    status: 'success',
+                    data: data,
+                    message: 'Retrieved ALL drugs'
+                });
+        })
+        .catch(function(err) {
+            return next(err);
+        });
+}
+
+function getGenes(req, res, next) {
+    if( req.query.class == 'B'){
+        q = 'select DISTINCT g.id, g.symbol as key, g.name as value from genes g, relationships r where g.id = r.id_genes_B';
+    }else{
+        q1 = 'select DISTINCT g.id,g.symbol as key, g.name as value from genes g, genetic_alterations a, relationships r';
+        q2 = ' where g.id = a.id_genes and a.id = r.id_genetic_alterations';
+        if(req.query.context){
+            q1 += ', contexts c';
+            q2 += " and c.id = a.id_contexts and LOWER(c.name) =LOWER('"+req.query.context+"')";
+        }
+        q = q1 + q2;
+    }
+    if (req.query.hint) {
+        q += " and symbol like '" + req.query.hint + "%'"
+    }
+    q += ' ORDER BY g.symbol';
+    if (req.query.limit) {
+        q += " LIMIT " + req.query.limit
+    }
+
+    db.any(q)
+        .then(function(data) {
+            res.status(200)
+                .json({
+                    status: 'success',
+                    data: data
+                });
+        })
+        .catch(function(err) {
+            return next(err);
+        });
+}
+
+function getContexts(req, res, next) {
+    q = 'select id, name as key, name as value from contexts';
+    if (req.query.hint) {
+        q += " where name like '" + req.query.hint + "%'"
+    }
+    if (req.query.limit) {
+        q += " LIMIT " + req.query.limit
+    }
+
+    db.any(q)
+        .then(function(data) {
+            res.status(200)
+                .json({
+                    status: 'success',
+                    data: data
+                });
+        })
+        .catch(function(err) {
+            return next(err);
+        });
+}
+
+function getGene(req, res, next) {
+    var gene = req.params.gene;
+    db.any("select * from genes where symbol = '" + gene + "'")
+        .then(function(data) {
+            res.status(200)
+                .json({
+                    status: 'success',
+                    data: data
+                });
+        })
+        .catch(function(err) {
+            return next(err);
+        });
+}
+
+function getAllValidations(req, res, next) {
+    q = 'select * from validations';
+
+    db.any(q)
+        .then(function(data) {
+            res.status(200)
+                .json({
+                    status: 'success',
+                    data: data
+                });
+        })
+        .catch(function(err) {
+            return next(err);
+        });
+}
+
+module.exports = {
+    getAllValidations: getAllValidations,
+    getAllDrugs: getAllDrugs,
+    getGenes: getGenes,
+    getContexts: getContexts,
+    getGene: getGene,
+    getTreatments: getTreatments,
+};
